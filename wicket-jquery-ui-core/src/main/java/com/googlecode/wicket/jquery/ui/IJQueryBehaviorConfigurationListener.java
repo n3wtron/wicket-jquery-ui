@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.ajax;
-
-import org.apache.wicket.ajax.AjaxRequestTarget;
-
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
+package com.googlecode.wicket.jquery.ui;
 
 /**
- *
- * @param <T> the type of {@link JQueryEvent}
- *
+ * TODO javadoc
  * @author Sebastien Briquet - sebfz1
+ *
  */
-public interface IJQueryAjaxAware
+public interface IJQueryBehaviorConfigurationListener
 {
-	void onAjax(AjaxRequestTarget target, JQueryEvent event);
+	/**
+	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
+	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
+	 *
+	 * @param behavior the {@link JQueryBehavior}
+	 */
+	void onConfigure(JQueryBehavior behavior);
 }

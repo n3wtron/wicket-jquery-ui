@@ -16,18 +16,12 @@
  */
 package com.googlecode.wicket.jquery.ui.interaction.resizable;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.CallbackParameter;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.JQueryPanel;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 
 /**
  * Provides a jQuery UI resizable {@link JQueryPanel}.<br/>
@@ -37,12 +31,9 @@ import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
  * @author Sebastien Briquet - sebfz1
  *
  */
-public abstract class ResizablePanel extends JQueryPanel
+public abstract class ResizablePanel extends JQueryPanel implements IResizableListener
 {
 	private static final long serialVersionUID = 1L;
-
-	private JQueryAjaxBehavior onResizeStartBehavior;
-	private JQueryAjaxBehavior onResizeStopBehavior;
 
 	/**
 	 * Constructor
@@ -84,26 +75,15 @@ public abstract class ResizablePanel extends JQueryPanel
 		super(id, model, options);
 	}
 
-
-	// Properties //
-	/**
-	 * Indicates whether the 'start' event is enabled.<br />
-	 * If true, the {@link #onResizeStart(AjaxRequestTarget, int, int, int, int)} event will be triggered.
-	 *
-	 * @return false by default
-	 */
-	protected boolean isResizeStartEventEnabled()
+	// IResizableListener //
+	@Override
+	public boolean isResizeStartEventEnabled()
 	{
 		return false;
 	}
 
-	/**
-	 * Indicates whether the 'stop' event is enabled.<br />
-	 * If true, the {@link #onResizeStop(AjaxRequestTarget, int, int, int, int)} event will be triggered.
-	 *
-	 * @return false by default
-	 */
-	protected boolean isResizeStopEventEnabled()
+	@Override
+	public boolean isResizeStopEventEnabled()
 	{
 		return false;
 	}
@@ -114,72 +94,22 @@ public abstract class ResizablePanel extends JQueryPanel
 	{
 		super.onInitialize();
 
-		this.add(this.onResizeStartBehavior = this.newOnResizeStartBehavior());
-		this.add(this.onResizeStopBehavior = this.newOnResizeStopBehavior());
-
 		this.add(JQueryWidget.newWidgetBehavior(this));
 	}
 
-	/**
-	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
-	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
-	 *
-	 * @param behavior the {@link JQueryBehavior}
-	 */
-	protected void onConfigure(JQueryBehavior behavior)
+	@Override
+	public void onConfigure(JQueryBehavior behavior)
 	{
 		//sets options here
 	}
 
 	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		super.onEvent(event);
-
-		if (event.getPayload() instanceof ResizeEvent)
-		{
-			ResizeEvent payload = (ResizeEvent) event.getPayload();
-			AjaxRequestTarget target = payload.getTarget();
-
-			if (payload instanceof ResizeStartEvent)
-			{
-				this.onResizeStart(target, payload.getTop(), payload.getLeft(), payload.getWidth(), payload.getHeight());
-			}
-
-			if (payload instanceof ResizeStopEvent)
-			{
-				this.onResizeStop(target, payload.getTop(), payload.getLeft(), payload.getWidth(), payload.getHeight());
-			}
-		}
-	}
-
-	/**
-	 * Triggered when the resize event starts
-	 *
-	 * @param target the {@link AjaxRequestTarget}
-	 * @param top the position's top value
-	 * @param left the position's left value
-	 * @param width the size's width value
-	 * @param height the size's height value
-	 *
-	 * @see #isResizeStartEventEnabled()
-	 */
-	protected void onResizeStart(AjaxRequestTarget target, int top, int left, int width, int height)
+	public void onResizeStart(AjaxRequestTarget target, int top, int left, int width, int height)
 	{
 	}
 
-	/**
-	 * Triggered when the resize event stops
-	 *
-	 * @param target the {@link AjaxRequestTarget}
-	 * @param top the position's top value
-	 * @param left the position's left value
-	 * @param width the size's width value
-	 * @param height the size's height value
-	 *
-	 * @see #isResizeStopEventEnabled()
-	 */
-	protected void onResizeStop(AjaxRequestTarget target, int top, int left, int width, int height)
+	@Override
+	public void onResizeStop(AjaxRequestTarget target, int top, int left, int width, int height)
 	{
 	}
 
@@ -192,178 +122,34 @@ public abstract class ResizablePanel extends JQueryPanel
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onConfigure(Component component)
+			public void onConfigure(JQueryBehavior behavior)
 			{
-				ResizablePanel.this.onConfigure(this);
+				ResizablePanel.this.onConfigure(behavior);
+			}
 
-				if (ResizablePanel.this.isResizeStartEventEnabled())
-				{
-					this.setOption("start", ResizablePanel.this.onResizeStartBehavior.getCallbackFunction());
-				}
+			@Override
+			public boolean isResizeStartEventEnabled()
+			{
+				return ResizablePanel.this.isResizeStartEventEnabled();
+			}
 
-				if (ResizablePanel.this.isResizeStopEventEnabled())
-				{
-					this.setOption("stop", ResizablePanel.this.onResizeStopBehavior.getCallbackFunction());
-				}
+			@Override
+			public boolean isResizeStopEventEnabled()
+			{
+				return ResizablePanel.this.isResizeStopEventEnabled();
+			}
+
+			@Override
+			public void onResizeStart(AjaxRequestTarget target, int top, int left, int width, int height)
+			{
+				ResizablePanel.this.onResizeStart(target, top, left, width, height);
+			}
+
+			@Override
+			public void onResizeStop(AjaxRequestTarget target, int top, int left, int width, int height)
+			{
+				ResizablePanel.this.onResizeStop(target, top, left, width, height);
 			}
 		};
-	}
-
-
-	// Factories //
-	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'start' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
-	 */
-	private JQueryAjaxBehavior newOnResizeStartBehavior()
-	{
-		return new JQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] {
-						CallbackParameter.context("event"),
-						CallbackParameter.context("ui"),
-						CallbackParameter.resolved("top", "ui.position.top"),
-						CallbackParameter.resolved("left", "ui.position.left"),
-						CallbackParameter.resolved("width", "ui.size.width"),
-						CallbackParameter.resolved("height", "ui.size.height"),
-				};
-			}
-
-			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new ResizeStartEvent(target);
-			}
-		};
-	}
-
-	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'stop' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
-	 */
-	private JQueryAjaxBehavior newOnResizeStopBehavior()
-	{
-		return new JQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] {
-						CallbackParameter.context("event"),
-						CallbackParameter.context("ui"),
-						CallbackParameter.resolved("top", "ui.position.top"),
-						CallbackParameter.resolved("left", "ui.position.left"),
-						CallbackParameter.resolved("width", "ui.size.width"),
-						CallbackParameter.resolved("height", "ui.size.height"),
-				};
-			}
-
-			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new ResizeStopEvent(target);
-			}
-		};
-	}
-
-
-	// Event Objects //
-	/**
-	 * Provides a base class for resize event object
-	 */
-	private class ResizeEvent extends JQueryEvent
-	{
-		private final int top;
-		private final int left;
-		private final int width;
-		private final int height;
-
-		/**
-		 * Constructor.
-		 * @param target the {@link AjaxRequestTarget}
-		 */
-		public ResizeEvent(AjaxRequestTarget target)
-		{
-			super(target);
-
-			this.top = RequestCycleUtils.getQueryParameterValue("top").toInt(-1);
-			this.left = RequestCycleUtils.getQueryParameterValue("left").toInt(-1);
-			this.width = RequestCycleUtils.getQueryParameterValue("width").toInt(-1);
-			this.height = RequestCycleUtils.getQueryParameterValue("height").toInt(-1);
-		}
-
-		/**
-		 * Gets the position's top value
-		 * @return the position's top value
-		 */
-		public int getTop()
-		{
-			return this.top;
-		}
-
-		/**
-		 * Gets the position's left value
-		 * @return the position's left value
-		 */
-		public int getLeft()
-		{
-			return this.left;
-		}
-
-		/**
-		 * Gets the size's width value
-		 * @return the size's width value
-		 */
-		public int getWidth()
-		{
-			return this.width;
-		}
-
-		/**
-		 * Gets the size's height value
-		 * @return the size's height value
-		 */
-		public int getHeight()
-		{
-			return this.height;
-		}
-	}
-
-	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'start' callback
-	 */
-	protected class ResizeStartEvent extends ResizeEvent
-	{
-
-		/**
-		 * Constructor.
-		 * @param target the {@link AjaxRequestTarget}
-		 */
-		public ResizeStartEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
-	}
-
-	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'stop' callback
-	 */
-	protected class ResizeStopEvent extends ResizeEvent
-	{
-		/**
-		 * Constructor.
-		 * @param target the {@link AjaxRequestTarget}
-		 */
-		public ResizeStopEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
 	}
 }

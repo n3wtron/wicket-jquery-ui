@@ -29,6 +29,7 @@ import org.apache.wicket.util.time.Duration;
 import com.googlecode.wicket.jquery.ui.JQueryEvent;
 
 /**
+ * TODO: change javadoc
  * Base class for implementing AJAX GET calls on JQuery components<br />
  * The 'source' constructor argument is the {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.<br/>
  * <pre>
@@ -111,8 +112,11 @@ public abstract class JQueryAjaxBehavior extends AbstractDefaultAjaxBehavior
 {
 	private static final long serialVersionUID = 1L;
 
-	private final Component source;
+	private final Component source; //to be removed
+	private IJQueryAjaxAware source2; //to be marked as final
+
 	private final Duration duration;
+
 
 	/**
 	 * Constructor
@@ -121,6 +125,17 @@ public abstract class JQueryAjaxBehavior extends AbstractDefaultAjaxBehavior
 	public JQueryAjaxBehavior(Component source)
 	{
 		this(source, Duration.NONE);
+	}
+
+	/**
+	 * Constructor
+	 * @param source TODO javadoc
+	 */
+	public JQueryAjaxBehavior(IJQueryAjaxAware source)
+	{
+		this(null, Duration.NONE); //TODO change
+
+		this.source2 = source;
 	}
 
 	/**
@@ -137,7 +152,17 @@ public abstract class JQueryAjaxBehavior extends AbstractDefaultAjaxBehavior
 	@Override
 	protected void respond(AjaxRequestTarget target)
 	{
-		this.source.send(this.getSink(), this.getBroadcast(), this.newEvent(target));
+		//Old design: broadcasting to the component (kept for backward compatibility)
+		if (this.source != null)
+		{
+			this.source.send(this.getSink(), this.getBroadcast(), this.newEvent(target));
+		}
+
+		//New design: invoking a callback of the AjaxBehavior itself
+		if (this.source2 != null)
+		{
+			this.source2.onAjax(target, this.newEvent(target));
+		}
 	}
 
 	/**

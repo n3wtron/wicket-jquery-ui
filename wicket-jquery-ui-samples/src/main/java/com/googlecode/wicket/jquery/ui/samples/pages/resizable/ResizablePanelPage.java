@@ -1,9 +1,11 @@
 package com.googlecode.wicket.jquery.ui.samples.pages.resizable;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.ui.form.button.AjaxButton;
 import com.googlecode.wicket.jquery.ui.interaction.resizable.ResizablePanel;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 
@@ -17,6 +19,9 @@ public class ResizablePanelPage extends AbstractResizablePage
 		final FeedbackPanel feedback = new JQueryFeedbackPanel("feedback");
 		this.add(feedback);
 
+		final Form<?> form = new Form<Void>("form");
+		this.add(form);
+
 		// ResizablePanel //
 		Options options = new Options();
 		options.set("minWidth", 200);
@@ -24,12 +29,12 @@ public class ResizablePanelPage extends AbstractResizablePage
 		options.set("minHeight", 100);
 		options.set("maxHeight", 300);
 
-		this.add(new MyResizablePanel("resizable", options) {
+		final ResizablePanel panel = new MyResizablePanel("resizable", options) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onResizeStart(AjaxRequestTarget target, int top, int left, int width, int height)
+			public void onResizeStart(AjaxRequestTarget target, int top, int left, int width, int height)
 			{
 				this.info(String.format("resize started - position: [%d, %d], size: [%d, %d]", left, top, width, height));
 
@@ -37,11 +42,27 @@ public class ResizablePanelPage extends AbstractResizablePage
 			}
 
 			@Override
-			protected void onResizeStop(AjaxRequestTarget target, int top, int left, int width, int height)
+			public void onResizeStop(AjaxRequestTarget target, int top, int left, int width, int height)
 			{
 				this.info(String.format("resize stoped - position: [%d, %d], size: [%d, %d]", left, top, width, height));
 
 				target.add(feedback);
+			}
+		};
+
+		form.add(panel);
+
+		// Button //
+		form.add(new AjaxButton("refresh") {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+			{
+				super.onSubmit(target, form);
+
+				target.add(panel); //used to test the re-rendering
 			}
 		});
 	}
@@ -56,13 +77,13 @@ public class ResizablePanelPage extends AbstractResizablePage
 		}
 
 		@Override
-		protected boolean isResizeStartEventEnabled()
+		public boolean isResizeStartEventEnabled()
 		{
 			return true;
 		}
 
 		@Override
-		protected boolean isResizeStopEventEnabled()
+		public boolean isResizeStopEventEnabled()
 		{
 			return true;
 		}
