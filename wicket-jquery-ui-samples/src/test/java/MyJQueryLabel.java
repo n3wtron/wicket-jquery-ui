@@ -6,15 +6,15 @@ import org.apache.wicket.markup.html.basic.Label;
 
 import com.googlecode.wicket.jquery.ui.IJQueryWidget;
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 
 public class MyJQueryLabel extends Label implements IJQueryWidget
 {
 	private static final long serialVersionUID = 1L;
 
 	// Mainly used to cast to the exact type
-	class MyEvent extends JQueryEvent
+	class MyEvent extends OldJQueryEvent
 	{
 		public MyEvent(AjaxRequestTarget target)
 		{
@@ -22,7 +22,7 @@ public class MyJQueryLabel extends Label implements IJQueryWidget
 		}
 	}
 
-	private JQueryAjaxBehavior onJQueryEventBehavior;
+	private OldJQueryAjaxBehavior onJQueryEventBehavior;
 
 	public MyJQueryLabel(String id)
 	{
@@ -32,7 +32,7 @@ public class MyJQueryLabel extends Label implements IJQueryWidget
 
 	private void init()
 	{
-		this.onJQueryEventBehavior = new JQueryAjaxBehavior(this) {
+		this.onJQueryEventBehavior = new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class MyJQueryLabel extends Label implements IJQueryWidget
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new MyEvent(target);
 			}

@@ -14,39 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.ajax;
+package com.googlecode.wicket.jquery.ui.old;
+
+import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes.Method;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 
 /**
- * Base class for implementing AJAX POST on JQuery Form (submit)<br/>
+ * Base class for implementing AJAX POST calls on JQuery {@link Component}<br/>
+ * The difference with {@link JQueryAjaxFormBehavior} is that this behavior post a {@link FormComponent} so the receiver of the event can get the component back.
  *
  * @author Sebastien Briquet - sebfz1
- * @deprecated will probably be never used as it post the whole form. It means that source is interested by receiving several {@link FormComponent}<code>s</code>
  *
  */
-@Deprecated
-public abstract class JQueryAjaxFormBehavior extends JQueryAjaxBehavior
+public abstract class OldJQueryAjaxPostBehavior extends OldJQueryAjaxBehavior
 {
 	private static final long serialVersionUID = 1L;
-
-	private final Form<?> form;
+	private final FormComponent<?>[] components;
 
 	/**
-	 *
-	 * @param source {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.
-	 * @param form the {@link Form} to post. If null, the behavior fallback to an AJAX GET callback script
+	 * Constructor
+	 * @param component the {@link FormComponent} that will be posted. It will also receive the event broadcast.
 	 */
-	public JQueryAjaxFormBehavior(Component source, Form<?> form)
+	public OldJQueryAjaxPostBehavior(FormComponent<?> component)
+	{
+		super(component);
+
+		this.components = new  FormComponent<?>[] { component };
+	}
+
+	/**
+	 * Constructor
+	 * @param source {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.
+	 * @param components the form components to post.
+	 */
+	public OldJQueryAjaxPostBehavior(Component source, FormComponent<?>... components)
 	{
 		super(source);
 
-		this.form = form;
+		this.components = components;
 	}
 
 	@Override
@@ -55,6 +65,20 @@ public abstract class JQueryAjaxFormBehavior extends JQueryAjaxBehavior
 		super.updateAjaxAttributes(attributes);
 
 		attributes.setMethod(Method.POST);
-		attributes.setFormId(this.form.getMarkupId());
+
+		if (this.components.length > 0)
+		{
+			StringBuilder serialize = new StringBuilder("var result = [];");
+
+			for (FormComponent<?> component: this.components)
+			{
+				serialize.append("result = result.concat(Wicket.Form.serializeElement(Wicket.$('").append(component.getMarkupId()).append("')));");
+			}
+
+			serialize.append("return result;");
+
+			List<CharSequence> dynamicParameters = attributes.getDynamicExtraParameters();
+			dynamicParameters.add(serialize);
+		}
 	}
 }

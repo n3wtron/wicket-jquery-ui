@@ -28,11 +28,11 @@ import org.apache.wicket.model.Model;
 
 import com.googlecode.wicket.jquery.ui.IJQueryWidget;
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.JQueryPanel;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.ui.interaction.behavior.DisplayNoneBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 
 /**
  * Base class for implementing jQuery dialogs
@@ -59,7 +59,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	private IModel<String> title;
 	private boolean modal;
 	private JQueryBehavior widgetBehavior;
-	private JQueryAjaxBehavior onDefaultClose;
+	private OldJQueryAjaxBehavior onDefaultClose;
 
 	/** Default button */
 	private final DialogButton btnOk = new DialogButton(LBL_OK);
@@ -451,11 +451,11 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	/**
 	 * Gets the ajax behavior that will be triggered when the user clicks on the X-icon
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	protected JQueryAjaxBehavior newDefaultCloseBehavior()
+	protected OldJQueryAjaxBehavior newDefaultCloseBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -466,7 +466,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new CloseEvent(target);
 			}
@@ -476,9 +476,9 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 
 	// Ajax behaviors //
 	/**
-	 * Provides the {@link JQueryAjaxBehavior} being called by the button(s).
+	 * Provides the {@link OldJQueryAjaxBehavior} being called by the button(s).
 	 */
-	class ButtonAjaxBehavior extends JQueryAjaxBehavior
+	class ButtonAjaxBehavior extends OldJQueryAjaxBehavior
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -506,7 +506,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 		}
 
 		@Override
-		protected JQueryEvent newEvent(AjaxRequestTarget target)
+		protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 		{
 			return new DialogEvent(target, this.button);
 		}
@@ -517,7 +517,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	/**
 	 * An event object that will be broadcasted when the user clicks on the X-icon
 	 */
-	static class CloseEvent extends JQueryEvent
+	static class CloseEvent extends OldJQueryEvent
 	{
 		/**
 		 * Constructor

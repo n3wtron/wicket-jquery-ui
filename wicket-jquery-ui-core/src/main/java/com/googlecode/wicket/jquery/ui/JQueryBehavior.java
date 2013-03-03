@@ -145,6 +145,22 @@ public class JQueryBehavior extends JQueryAbstractBehavior
 		}
 	}
 
+	// Events //
+	@Override
+	public void onConfigure(Component component)
+	{
+		this.onConfigure(this);
+	}
+
+	/**
+	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
+	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
+	 *
+	 * @param behavior the {@link JQueryBehavior}
+	 */
+	public void onConfigure(JQueryBehavior behavior)
+	{
+	}
 
 	// Statements //
 	/**

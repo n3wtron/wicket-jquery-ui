@@ -24,9 +24,9 @@ import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery progress-bar based on a {@link JQueryContainer}
@@ -41,7 +41,7 @@ public class ProgressBar extends JQueryContainer
 	private static final int MIN = 0;
 	private static final int MAX = 100;
 
-	private JQueryAjaxBehavior onChangeBehavior = null;
+	private OldJQueryAjaxBehavior onChangeBehavior = null;
 
 	/**
 	 * Constructor
@@ -174,7 +174,7 @@ public class ProgressBar extends JQueryContainer
 	{
 		if (event.getPayload() instanceof ChangeEvent)
 		{
-			JQueryEvent payload = (JQueryEvent) event.getPayload();
+			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
 			AjaxRequestTarget target = payload.getTarget();
 
 			this.onValueChanged(target);
@@ -227,12 +227,12 @@ public class ProgressBar extends JQueryContainer
 	}
 
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'change' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'change' javascript event
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnChangeBehavior()
+	private OldJQueryAjaxBehavior newOnChangeBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -243,7 +243,7 @@ public class ProgressBar extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new ChangeEvent(target);
 			}

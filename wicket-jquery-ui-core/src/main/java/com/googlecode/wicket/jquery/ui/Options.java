@@ -40,7 +40,7 @@ public class Options implements IClusterable
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Converts a string representation of an object to its javascript representation. ie: "myvalue" (with the double quote)
+	 * Converts a string representation of an object to its javascript representation. ie: "myvalue" (with the double quotes)
 	 * @param value the object
 	 * @return the JSON value
 	 */
@@ -50,7 +50,7 @@ public class Options implements IClusterable
 	}
 
 	/**
-	 * Converts a string to its javascript representation. ie: "myvalue" (with the double quote)
+	 * Converts a string to its javascript representation. ie: "myvalue" (with the double quotes)
 	 * @param value the object
 	 * @return the JSON value
 	 */
@@ -60,7 +60,7 @@ public class Options implements IClusterable
 	}
 
 	/**
-	 * Converts a date to its ISO8601/javascript representation. ie: "2009-11-05T13:15:30Z" (with the double quote)
+	 * Converts a date to its ISO8601/javascript representation. ie: "2009-11-05T13:15:30Z" (with the double quotes)
 	 * @param date the date to convert
 	 * @return the JSON value
 	 */

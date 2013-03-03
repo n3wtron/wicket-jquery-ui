@@ -18,7 +18,6 @@ package com.googlecode.wicket.jquery.ui.form.datepicker;
 
 import java.util.Date;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.model.IModel;
 
@@ -34,9 +33,8 @@ import com.googlecode.wicket.jquery.ui.Options;
 public class DatePicker extends DateTextField implements IJQueryWidget
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "datepicker";
 
-	private Options options;
+	protected Options options;
 
 	/**
 	 * Constructor
@@ -133,14 +131,14 @@ public class DatePicker extends DateTextField implements IJQueryWidget
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, METHOD, this.options) {
+		return new DatePickerBehavior(selector, this.options) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onConfigure(Component component)
+			public void onConfigure(JQueryBehavior behavior)
 			{
-				DatePicker.this.onConfigure(this);
+				DatePicker.this.onConfigure(behavior);
 			}
 		};
 	}

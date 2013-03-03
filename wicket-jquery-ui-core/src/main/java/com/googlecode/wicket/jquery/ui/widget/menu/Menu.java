@@ -36,10 +36,10 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.JQueryPanel;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 
 /**
@@ -59,7 +59,7 @@ public class Menu extends JQueryPanel
 	 */
 	private Map<String, IMenuItem> map = new HashMap<String, IMenuItem>();
 
-	private JQueryAjaxBehavior onSelectBehavior;
+	private OldJQueryAjaxBehavior onSelectBehavior;
 
 	/**
 	 * Constructor
@@ -188,12 +188,12 @@ public class Menu extends JQueryPanel
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'select' javascript callback
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that acts as the 'select' javascript callback
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnSelectBehavior()
+	private OldJQueryAjaxBehavior newOnSelectBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -208,7 +208,7 @@ public class Menu extends JQueryPanel
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new SelectEvent(target);
 			}
@@ -218,9 +218,9 @@ public class Menu extends JQueryPanel
 
 	// Event objects //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'select' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'select' callback
 	 */
-	private class SelectEvent extends JQueryEvent
+	private class SelectEvent extends OldJQueryEvent
 	{
 		private final String hash;
 

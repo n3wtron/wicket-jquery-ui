@@ -14,19 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.ajax;
+package com.googlecode.wicket.jquery.ui.old;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 
 /**
- *
- * @param <T> the type of {@link JQueryEvent}
+ * Base class for a jQuery event object that will be broadcasted by {@link OldJQueryAjaxBehavior}<code>s</code>.
  *
  * @author Sebastien Briquet - sebfz1
+ *
  */
-public interface IJQueryAjaxAware
+//TODO: to be removed
+public class OldJQueryEvent
 {
-	void onAjax(AjaxRequestTarget target, JQueryEvent event);
+	private final AjaxRequestTarget target;
+
+	/**
+	 * Constructor.
+	 * @param target the {@link AjaxRequestTarget}
+	 */
+	public OldJQueryEvent()
+	{
+		this.target = null; //To be removed
+	}
+
+	/**
+	 * Constructor.
+	 * @param target the {@link AjaxRequestTarget}
+	 */
+	//TODO: will be deprecated
+	public OldJQueryEvent(AjaxRequestTarget target)
+	{
+		this.target = target;
+	}
+
+	/**
+	 * Get the {@link AjaxRequestTarget}
+	 * @return the {@link AjaxRequestTarget}
+	 */
+	public AjaxRequestTarget getTarget()
+	{
+		return this.target;
+	}
 }

@@ -63,6 +63,4 @@ public class SelectableDraggableFactory extends AbstractDraggableFactory
 			}
 		};
 	}
-
-
 }

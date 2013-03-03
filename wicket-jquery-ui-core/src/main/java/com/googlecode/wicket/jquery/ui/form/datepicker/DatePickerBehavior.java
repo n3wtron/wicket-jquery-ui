@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.form.autocomplete;
+package com.googlecode.wicket.jquery.ui.form.datepicker;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -25,17 +25,18 @@ import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.Options;
 import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
 import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 
 /**
- * Provides a jQuery resizable behavior
+ * Provides a jQuery datepicker behavior
  *
  * @author Sebastien Briquet - sebfz1
  */
-public abstract class AutoCompleteBehavior extends JQueryBehavior implements IJQueryAjaxAware, IAutoCompleteListener
+public class DatePickerBehavior extends JQueryBehavior implements IJQueryAjaxAware, IDatePickerListener
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "autocomplete";
+	private static final String METHOD = "datepicker";
 
 	private JQueryAjaxBehavior onSelectBehavior = null;
 
@@ -43,7 +44,7 @@ public abstract class AutoCompleteBehavior extends JQueryBehavior implements IJQ
 	 * Constructor
 	 * @param selector the html selector (ie: "#myId")
 	 */
-	public AutoCompleteBehavior(String selector)
+	public DatePickerBehavior(String selector)
 	{
 		this(selector, new Options());
 	}
@@ -53,7 +54,7 @@ public abstract class AutoCompleteBehavior extends JQueryBehavior implements IJQ
 	 * @param selector the html selector (ie: "#myId")
 	 * @param options the {@link Options}
 	 */
-	public AutoCompleteBehavior(String selector, Options options)
+	public DatePickerBehavior(String selector, Options options)
 	{
 		super(selector, METHOD, options);
 	}
@@ -64,7 +65,17 @@ public abstract class AutoCompleteBehavior extends JQueryBehavior implements IJQ
 	{
 		super.bind(component);
 
-		component.add(this.onSelectBehavior = this.newOnSelectBehavior());
+		if (this.isOnSelectEventEnabled())
+		{
+			component.add(this.onSelectBehavior = this.newOnSelectBehavior());
+		}
+	}
+
+	// Properties //
+	@Override
+	public boolean isOnSelectEventEnabled()
+	{
+		return false;
 	}
 
 	// Events //
@@ -73,34 +84,44 @@ public abstract class AutoCompleteBehavior extends JQueryBehavior implements IJQ
 	{
 		super.onConfigure(component);
 
-		this.setOption("select", this.onSelectBehavior.getCallbackFunction());
+		if (this.onSelectBehavior != null)
+		{
+			this.setOption("onSelect", this.onSelectBehavior.getCallbackFunction());
+		}
 	}
 
-	// IJQueryAjaxAware //
 	@Override
 	public final void onAjax(AjaxRequestTarget target, JQueryEvent event)
 	{
 		if (event instanceof SelectEvent)
 		{
-			this.onSelect(target, ((SelectEvent) event).getIndex());
+			this.onSelect(target, ((SelectEvent) event).getDateText());
 		}
+	}
+
+	// IDatePickerListener //
+	@Override
+	public void onSelect(AjaxRequestTarget target, String date)
+	{
 	}
 
 	// Factories //
 	/**
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'select' javascript method
+	 * @param source {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
 	protected JQueryAjaxBehavior newOnSelectBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new JQueryAjaxPostBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected CallbackParameter[] getCallbackParameters()
 			{
-				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui"), CallbackParameter.resolved("index", "ui.item.id") };
+				//function( dateText, inst ) {  .. }
+				return new CallbackParameter[] { CallbackParameter.explicit("dateText"), CallbackParameter.context("inst") };
 			}
 
 			@Override
@@ -111,6 +132,7 @@ public abstract class AutoCompleteBehavior extends JQueryBehavior implements IJQ
 		};
 	}
 
+
 	// Event classes //
 	/**
 	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} select callback
@@ -118,16 +140,16 @@ public abstract class AutoCompleteBehavior extends JQueryBehavior implements IJQ
 	 */
 	protected static class SelectEvent extends JQueryEvent
 	{
-		private final int index;
+		private final String date;
 
 		public SelectEvent()
 		{
-			this.index = RequestCycleUtils.getQueryParameterValue("index").toInt(1) - 1;
+			this.date = RequestCycleUtils.getPostParameterValue("dateText").toString();
 		}
 
-		public int getIndex()
+		public String getDateText()
 		{
-			return this.index;
+			return this.date;
 		}
 	}
 }

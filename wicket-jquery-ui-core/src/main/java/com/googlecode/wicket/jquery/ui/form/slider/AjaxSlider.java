@@ -27,15 +27,15 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
 import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxPostBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery range slider based on a {@link FormComponentPanel}
- * This ajax version will post the {@link Component}, using a {@link JQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
+ * This ajax version will post the {@link Component}, using a {@link OldJQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
  *
  * @author Sebastien Briquet - sebfz1
  */
@@ -43,7 +43,7 @@ public class AjaxSlider extends Slider implements IValueChangedListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private JQueryAjaxBehavior onChangeBehavior;
+	private OldJQueryAjaxBehavior onChangeBehavior;
 
 	/**
 	 * Constructor
@@ -140,11 +140,11 @@ public class AjaxSlider extends Slider implements IValueChangedListener
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxPostBehavior} that will be called on 'change' javascript event
-	 * @return the {@link JQueryAjaxPostBehavior}
+	 * Gets a new {@link OldJQueryAjaxPostBehavior} that will be called on 'change' javascript event
+	 * @return the {@link OldJQueryAjaxPostBehavior}
 	 */
-	protected JQueryAjaxPostBehavior newOnChangeBehavior()
+	protected OldJQueryAjaxPostBehavior newOnChangeBehavior()
 	{
-		return new JQueryAjaxChangeBehavior(this, this.input);
+		return new OldJQueryAjaxChangeBehavior(this, this.input);
 	}
 }

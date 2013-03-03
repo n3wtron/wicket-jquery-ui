@@ -33,7 +33,6 @@ import com.googlecode.wicket.jquery.ui.Options;
 public class Button extends org.apache.wicket.markup.html.form.Button implements IJQueryWidget
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "button";
 
 	/**
 	 * Constructor
@@ -59,7 +58,7 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 	 */
 	protected JQueryIcon getIcon()
 	{
-		return null;
+		return JQueryIcon.NONE;
 	}
 
 	// Events //
@@ -77,9 +76,9 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 	 *
 	 * @param behavior the {@link JQueryBehavior}
 	 */
-	protected void onConfigure(JQueryBehavior behavior)
+	protected void onConfigure(ButtonBehavior behavior)
 	{
-		if (this.getIcon() != null)
+		if (this.getIcon() != JQueryIcon.NONE)
 		{
 			behavior.setOption("icons", String.format("{ primary: '%s' }", this.getIcon()));
 		}
@@ -87,9 +86,9 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 
 	// IJQueryWidget //
 	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
+	public ButtonBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, METHOD)
+		return new ButtonBehavior(selector)
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -99,5 +98,31 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 				Button.this.onConfigure(this);
 			}
 		};
+	}
+
+	/**
+	 * TODO: javadoc
+	 * @author Sebastien Briquet - sebfz1
+	 *
+	 */
+	public static class ButtonBehavior extends JQueryBehavior
+	{
+		private static final long serialVersionUID = 1L;
+		private static final String METHOD = "button";
+
+		public ButtonBehavior(String selector)
+		{
+			super(selector, METHOD);
+		}
+
+		public ButtonBehavior(String selector, Options options)
+		{
+			super(selector, METHOD, options);
+		}
+
+		public ButtonBehavior(String selector, JQueryIcon icon)
+		{
+			super(selector, METHOD, new Options("icons", String.format("{ primary: '%s' }", icon)));
+		}
 	}
 }

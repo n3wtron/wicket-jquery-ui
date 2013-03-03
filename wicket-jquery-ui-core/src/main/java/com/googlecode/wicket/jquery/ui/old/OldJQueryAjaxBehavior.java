@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.ajax;
+package com.googlecode.wicket.jquery.ui.old;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AbstractDefaultAjaxBehavior;
@@ -22,13 +22,12 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.attributes.CallbackParameter;
 import org.apache.wicket.ajax.attributes.ThrottlingSettings;
-import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.event.Broadcast;
+import org.apache.wicket.event.IEventSink;
 import org.apache.wicket.util.time.Duration;
 
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 
 /**
- * TODO: change javadoc
  * Base class for implementing AJAX GET calls on JQuery components<br />
  * The 'source' constructor argument is the {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.<br/>
  * <pre>
@@ -107,29 +106,30 @@ public class MyJQueryLabel extends Label implements IJQueryWidget
  * @author Sebastien Briquet - sebfz1
  *
  */
-public abstract class JQueryAjaxBehavior extends AbstractDefaultAjaxBehavior
+//TODO to be removed
+public abstract class OldJQueryAjaxBehavior extends AbstractDefaultAjaxBehavior
 {
 	private static final long serialVersionUID = 1L;
 
-	private final IJQueryAjaxAware source;
+	private final Component source;
 	private final Duration duration;
 
 
 	/**
 	 * Constructor
-	 * @param source {@link Behavior} to which the event - returned by {@link #newEvent()} - will be broadcasted.
+	 * @param source {@link Component} to which the event - returned by {@link #newEvent(AjaxRequestTarget)} - will be broadcasted.
 	 */
-	public JQueryAjaxBehavior(IJQueryAjaxAware source)
+	public OldJQueryAjaxBehavior(Component source)
 	{
 		this(source, Duration.NONE);
 	}
 
 	/**
 	 * Constructor
-	 * @param source {@link Behavior} to which the event - returned by {@link #newEvent()} - will be broadcasted.
+	 * @param source {@link Component} to which the event - returned by {@link #newEvent(AjaxRequestTarget)} - will be broadcasted.
 	 * @param duration {@link Duration}. If different than {@link Duration#NONE}, an {@link ThrottlingSettings} will be added with the specified {@link Duration}.
 	 */
-	public JQueryAjaxBehavior(IJQueryAjaxAware source, Duration duration)
+	public OldJQueryAjaxBehavior(Component source, Duration duration)
 	{
 		this.source = source;
 		this.duration = duration;
@@ -138,17 +138,37 @@ public abstract class JQueryAjaxBehavior extends AbstractDefaultAjaxBehavior
 	@Override
 	protected void respond(AjaxRequestTarget target)
 	{
+		//Old design: broadcasting to the component (kept for backward compatibility)
 		if (this.source != null)
 		{
-			this.source.onAjax(target, this.newEvent());
+			this.source.send(this.getSink(), this.getBroadcast(), this.newEvent(target));
 		}
 	}
 
 	/**
-	 * @param target the {@link AjaxRequestTarget}
-	 * @return the {@link JQueryEvent} to be broadcasted to the source when the behavior will respond
+	 * Gets the broadcast to be used in {@link #respond(AjaxRequestTarget)}
+	 * @return {@link Broadcast#EXACT} by default
 	 */
-	protected abstract JQueryEvent newEvent();
+	protected Broadcast getBroadcast()
+	{
+		return Broadcast.EXACT;
+	}
+
+	/**
+	 * Gets the sink (the object that will receive the event).<br/>
+	 * This method might be overridden if the {@link #getBroadcast()} is overridden.
+	 * @return by default, the source component specified in the constructor.
+	 */
+	protected IEventSink getSink()
+	{
+		return this.source;
+	}
+
+	/**
+	 * @param target the {@link AjaxRequestTarget}
+	 * @return the {@link OldJQueryEvent} to be broadcasted to the source when the behavior will respond
+	 */
+	protected abstract OldJQueryEvent newEvent(AjaxRequestTarget target);
 
 
 	// wicket 6.x specific //

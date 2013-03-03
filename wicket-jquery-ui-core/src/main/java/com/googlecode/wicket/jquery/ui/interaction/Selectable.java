@@ -33,9 +33,9 @@ import org.apache.wicket.util.string.StringValue;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 
 /**
@@ -73,7 +73,7 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;
 
-	private JQueryAjaxBehavior onStopBehavior;
+	private OldJQueryAjaxBehavior onStopBehavior;
 	private List<T> items; //selected items
 
 	/**
@@ -201,11 +201,11 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 	/**
 	 * Gets the ajax behavior that will be triggered when the user has selected items
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	protected JQueryAjaxBehavior newOnStopBehavior()
+	protected OldJQueryAjaxBehavior newOnStopBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -226,7 +226,7 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new StopEvent(target);
 			}
@@ -261,9 +261,9 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 
 	// Event class //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'stop' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'stop' callback
 	 */
-	protected class StopEvent extends JQueryEvent
+	protected class StopEvent extends OldJQueryEvent
 	{
 		private final List<Integer> indexes;
 

@@ -18,7 +18,7 @@ package com.googlecode.wicket.jquery.ui.effect;
 
 import com.googlecode.wicket.jquery.ui.JQueryAbstractBehavior;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
 
 /**
  * Provides a specific jQuery behavior for playing effects.
@@ -36,7 +36,7 @@ public class JQueryEffectBehavior extends JQueryAbstractBehavior
 	private int speed;
 	private String effect;
 	private Options options;
-	private JQueryAjaxBehavior callback = null;
+	private OldJQueryAjaxBehavior callback = null;
 
 	/**
 	 * Constructor.
@@ -97,10 +97,10 @@ public class JQueryEffectBehavior extends JQueryAbstractBehavior
 	}
 
 	/**
-	 * Sets the {@link JQueryAjaxBehavior} to callback once the effect completes
+	 * Sets the {@link OldJQueryAjaxBehavior} to callback once the effect completes
 	 * @param callback
 	 */
-	public void setCallback(JQueryAjaxBehavior callback)
+	public void setCallback(OldJQueryAjaxBehavior callback)
 	{
 		this.callback = callback;
 	}

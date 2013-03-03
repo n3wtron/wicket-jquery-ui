@@ -22,10 +22,10 @@ import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
+
 import com.googlecode.wicket.jquery.ui.IJQueryWidget.JQueryWidget;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryIcon;
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.ui.form.button.Button.ButtonBehavior;
 
 /**
  * Provides a Palette, with jQuery UI icon-buttons
@@ -66,7 +66,7 @@ public class Palette<T> extends org.apache.wicket.extensions.markup.html.form.pa
 	protected Component newAddComponent()
 	{
 		Component component = super.newAddComponent();
-		component.add(new JQueryBehavior(JQueryWidget.getSelector(component), "button", new Options("icons", String.format("{ primary: '%s' }", JQueryIcon.CARAT_1_E))));
+		component.add(new ButtonBehavior(JQueryWidget.getSelector(component), JQueryIcon.CARAT_1_E));
 		return component;
 	}
 
@@ -74,7 +74,7 @@ public class Palette<T> extends org.apache.wicket.extensions.markup.html.form.pa
 	protected Component newRemoveComponent()
 	{
 		Component component = super.newRemoveComponent();
-		component.add(new JQueryBehavior(JQueryWidget.getSelector(component), "button", new Options("icons", String.format("{ primary: '%s' }", JQueryIcon.CARAT_1_W))));
+		component.add(new ButtonBehavior(JQueryWidget.getSelector(component), JQueryIcon.CARAT_1_W));
 		return component;
 	}
 
@@ -82,7 +82,7 @@ public class Palette<T> extends org.apache.wicket.extensions.markup.html.form.pa
 	protected Component newUpComponent()
 	{
 		Component component = super.newUpComponent();
-		component.add(new JQueryBehavior(JQueryWidget.getSelector(component), "button", new Options("icons", String.format("{ primary: '%s' }", JQueryIcon.CARAT_1_N))));
+		component.add(new ButtonBehavior(JQueryWidget.getSelector(component), JQueryIcon.CARAT_1_N));
 		return component;
 	}
 
@@ -90,7 +90,7 @@ public class Palette<T> extends org.apache.wicket.extensions.markup.html.form.pa
 	protected Component newDownComponent()
 	{
 		Component component = super.newDownComponent();
-		component.add(new JQueryBehavior(JQueryWidget.getSelector(component), "button", new Options("icons", String.format("{ primary: '%s' }", JQueryIcon.CARAT_1_S))));
+		component.add(new ButtonBehavior(JQueryWidget.getSelector(component), JQueryIcon.CARAT_1_S));
 		return component;
 	}
 }

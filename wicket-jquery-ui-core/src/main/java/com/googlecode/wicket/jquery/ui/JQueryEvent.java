@@ -16,35 +16,20 @@
  */
 package com.googlecode.wicket.jquery.ui;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
 
 /**
- * Base class for a jQuery event object that will be broadcasted by {@link JQueryAjaxBehavior}<code>s</code>.
- * 
+ * Base class for a jQuery event object that will be broadcasted by {@link OldJQueryAjaxBehavior}<code>s</code>.
+ *
  * @author Sebastien Briquet - sebfz1
  *
  */
 public class JQueryEvent
 {
-	private final AjaxRequestTarget target;
-
 	/**
 	 * Constructor.
-	 * @param target the {@link AjaxRequestTarget}
 	 */
-	public JQueryEvent(AjaxRequestTarget target)
+	public JQueryEvent()
 	{
-		this.target = target;
-	}
-	
-	/**
-	 * Get the {@link AjaxRequestTarget}
-	 * @return the {@link AjaxRequestTarget}
-	 */
-	public AjaxRequestTarget getTarget()
-	{
-		return this.target;
 	}
 }

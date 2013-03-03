@@ -57,6 +57,32 @@ public class RequestCycleUtils
 	}
 
 	/**
+	 * Gets the value of a post parameter
+	 * @param name the name of the query parameter
+	 * @return a {@link StringValue}
+	 */
+	public static StringValue getPostParameterValue(String name)
+	{
+		final RequestCycle requestCycle = RequestCycle.get();
+		final IRequestParameters parameters = requestCycle.getRequest().getPostParameters();
+
+		return parameters.getParameterValue(name);
+	}
+
+	/**
+	 * Gets the values of a post parameter
+	 * @param name the name of the query parameter
+	 * @return a {@link List} of {@link StringValue}
+	 */
+	public static List<StringValue> getPostParameterValues(String name)
+	{
+		final RequestCycle requestCycle = RequestCycle.get();
+		final IRequestParameters parameters = requestCycle.getRequest().getPostParameters();
+
+		return parameters.getParameterValues(name);
+	}
+
+	/**
 	 * Utility class
 	 */
 	private RequestCycleUtils()

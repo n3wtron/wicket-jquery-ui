@@ -24,8 +24,8 @@ import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 
 /**
  * Provides a jQuery droppable area, on which {@link Draggable}<code>s</code> could be dropped.
@@ -37,9 +37,9 @@ public abstract class Droppable<T> extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;
 
-	private JQueryAjaxBehavior onDropBehavior;
-	private JQueryAjaxBehavior onOverBehavior;
-	private JQueryAjaxBehavior onExitBehavior;
+	private OldJQueryAjaxBehavior onDropBehavior;
+	private OldJQueryAjaxBehavior onOverBehavior;
+	private OldJQueryAjaxBehavior onExitBehavior;
 	private transient Draggable<?> draggable = null;  /* object being dragged */
 
 	/**
@@ -100,9 +100,9 @@ public abstract class Droppable<T> extends JQueryContainer
 	@Override
 	public void onEvent(IEvent<?> event)
 	{
-		if (event.getPayload() instanceof JQueryEvent)
+		if (event.getPayload() instanceof OldJQueryEvent)
 		{
-			JQueryEvent payload = (JQueryEvent) event.getPayload();
+			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
 
 			// registers the draggable object that starts
 			if (payload instanceof Draggable.DragStartEvent)
@@ -184,12 +184,12 @@ public abstract class Droppable<T> extends JQueryContainer
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'drop' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'drop' javascript event
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnDropBehavior()
+	private OldJQueryAjaxBehavior newOnDropBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -200,7 +200,7 @@ public abstract class Droppable<T> extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new DropEvent(target);
 			}
@@ -208,12 +208,12 @@ public abstract class Droppable<T> extends JQueryContainer
 	}
 
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'over' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'over' javascript event
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnOverBehavior()
+	private OldJQueryAjaxBehavior newOnOverBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -224,7 +224,7 @@ public abstract class Droppable<T> extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new OverEvent(target);
 			}
@@ -232,12 +232,12 @@ public abstract class Droppable<T> extends JQueryContainer
 	}
 
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'exit' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'exit' javascript event
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnExitBehavior()
+	private OldJQueryAjaxBehavior newOnExitBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -248,7 +248,7 @@ public abstract class Droppable<T> extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new ExitEvent(target);
 			}
@@ -258,9 +258,9 @@ public abstract class Droppable<T> extends JQueryContainer
 
 	// Event classes //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'drop' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'drop' callback
 	 */
-	public class DropEvent extends JQueryEvent
+	public class DropEvent extends OldJQueryEvent
 	{
 		public DropEvent(AjaxRequestTarget target)
 		{
@@ -269,9 +269,9 @@ public abstract class Droppable<T> extends JQueryContainer
 	}
 
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'over' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'over' callback
 	 */
-	public class OverEvent extends JQueryEvent
+	public class OverEvent extends OldJQueryEvent
 	{
 		public OverEvent(AjaxRequestTarget target)
 		{
@@ -280,9 +280,9 @@ public abstract class Droppable<T> extends JQueryContainer
 	}
 
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'exit' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'exit' callback
 	 */
-	public class ExitEvent extends JQueryEvent
+	public class ExitEvent extends OldJQueryEvent
 	{
 		public ExitEvent(AjaxRequestTarget target)
 		{

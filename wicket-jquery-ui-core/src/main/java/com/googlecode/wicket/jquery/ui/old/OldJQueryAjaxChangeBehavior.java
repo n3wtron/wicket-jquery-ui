@@ -14,19 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.event;
+package com.googlecode.wicket.jquery.ui.old;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.CallbackParameter;
 import org.apache.wicket.markup.html.form.FormComponent;
 
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
 
 /**
- * Provides a new {@link JQueryAjaxPostBehavior} that will (should) be called on 'change' jQuery method
+ * Provides a new {@link OldJQueryAjaxPostBehavior} that will (should) be called on 'change' jQuery method
  */
-public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
+public class OldJQueryAjaxChangeBehavior extends OldJQueryAjaxPostBehavior
 {
 	private static final long serialVersionUID = 1L;
 
@@ -34,8 +33,7 @@ public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
 	 * Constructor
 	 * @param component the the {@link FormComponent}
 	 */
-	@SuppressWarnings("javadoc")
-	public <A extends FormComponent<?> & IJQueryAjaxAware> JQueryAjaxChangeBehavior(A component)
+	public OldJQueryAjaxChangeBehavior(FormComponent<?> component)
 	{
 		super(component);
 	}
@@ -45,7 +43,7 @@ public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
 	 * @param source the component that will broadcast the event.
 	 * @param components the form components to post
 	 */
-	public JQueryAjaxChangeBehavior(IJQueryAjaxAware source, FormComponent<?>... components)
+	public OldJQueryAjaxChangeBehavior(Component source, FormComponent<?>... components)
 	{
 		super(source, components);
 	}
@@ -59,22 +57,25 @@ public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
 
 	// Factories //
 	@Override
-	protected JQueryEvent newEvent()
+	protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 	{
 		return new ChangeEvent();
 	}
 
 	// Event Object //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxChangeBehavior}
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxChangeBehavior}
 	 */
-	public static class ChangeEvent extends JQueryEvent
+	public static class ChangeEvent extends OldJQueryEvent
 	{
-		/**
-		 * Constructor
-		 */
 		public ChangeEvent()
 		{
+
+		}
+
+		public ChangeEvent(AjaxRequestTarget target)
+		{
+			super(target);
 		}
 	}
 }

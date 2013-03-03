@@ -27,7 +27,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
 /**
  * Base class for implementing AJAX POST calls on JQuery {@link Component}<br/>
  * The difference with {@link JQueryAjaxFormBehavior} is that this behavior post a {@link FormComponent} so the receiver of the event can get the component back.
- * 
+ *
  * @author Sebastien Briquet - sebfz1
  *
  */
@@ -40,10 +40,11 @@ public abstract class JQueryAjaxPostBehavior extends JQueryAjaxBehavior
 	 * Constructor
 	 * @param component the {@link FormComponent} that will be posted. It will also receive the event broadcast.
 	 */
-	public JQueryAjaxPostBehavior(FormComponent<?> component)
+	@SuppressWarnings("javadoc")
+	public <A extends FormComponent<?> & IJQueryAjaxAware> JQueryAjaxPostBehavior(A component)
 	{
 		super(component);
-		
+
 		this.components = new  FormComponent<?>[] { component };
 	}
 
@@ -52,10 +53,10 @@ public abstract class JQueryAjaxPostBehavior extends JQueryAjaxBehavior
 	 * @param source {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.
 	 * @param components the form components to post.
 	 */
-	public JQueryAjaxPostBehavior(Component source, FormComponent<?>... components)
+	public JQueryAjaxPostBehavior(IJQueryAjaxAware source, FormComponent<?>... components)
 	{
 		super(source);
-		
+
 		this.components = components;
 	}
 
@@ -63,20 +64,20 @@ public abstract class JQueryAjaxPostBehavior extends JQueryAjaxBehavior
 	protected void updateAjaxAttributes(AjaxRequestAttributes attributes)
 	{
 		super.updateAjaxAttributes(attributes);
-		
+
 		attributes.setMethod(Method.POST);
-		
+
 		if (this.components.length > 0)
 		{
 			StringBuilder serialize = new StringBuilder("var result = [];");
-			
+
 			for (FormComponent<?> component: this.components)
 			{
 				serialize.append("result = result.concat(Wicket.Form.serializeElement(Wicket.$('").append(component.getMarkupId()).append("')));");
 			}
 
 			serialize.append("return result;");
-		
+
 			List<CharSequence> dynamicParameters = attributes.getDynamicExtraParameters();
 			dynamicParameters.add(serialize);
 		}

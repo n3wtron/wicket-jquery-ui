@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.ajax;
+package com.googlecode.wicket.jquery.ui.form.autocomplete;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-
 /**
- *
- * @param <T> the type of {@link JQueryEvent}
- *
+ * TODO javadoc
  * @author Sebastien Briquet - sebfz1
+ *
  */
-public interface IJQueryAjaxAware
+interface IAutoCompleteListener
 {
-	void onAjax(AjaxRequestTarget target, JQueryEvent event);
+	void onSelect(AjaxRequestTarget target, int index);
 }

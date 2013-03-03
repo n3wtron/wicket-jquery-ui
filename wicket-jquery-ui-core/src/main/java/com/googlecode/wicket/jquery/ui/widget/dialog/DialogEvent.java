@@ -18,14 +18,14 @@ package com.googlecode.wicket.jquery.ui.widget.dialog;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 
 /**
  * Provides a dialog event that will be transmitted to the dialog {@link AbstractDialog}
  * 
  * @author Sebastien Briquet - sebfz1
  */
-public class DialogEvent extends JQueryEvent
+public class DialogEvent extends OldJQueryEvent
 {
 	private final DialogButton button;
 

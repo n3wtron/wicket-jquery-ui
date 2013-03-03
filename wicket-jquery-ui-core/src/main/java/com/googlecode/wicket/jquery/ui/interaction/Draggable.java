@@ -28,9 +28,9 @@ import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 
 /**
  * Provides a jQuery draggable element based on a {@link JQueryContainer}
@@ -80,8 +80,8 @@ public class Draggable<T> extends JQueryContainer
 	}
 
 
-	private JQueryAjaxBehavior onDragStartBehavior;
-	private JQueryAjaxBehavior onDragStopBehavior;
+	private OldJQueryAjaxBehavior onDragStartBehavior;
+	private OldJQueryAjaxBehavior onDragStopBehavior;
 	private Options options;
 
 	/**
@@ -173,9 +173,9 @@ public class Draggable<T> extends JQueryContainer
 	public void onEvent(IEvent<?> event)
 	{
 		// dragStartBehavior is multicasted; need to check that 'this' is the expected source (in case of several Draggables)
-		if ((event.getPayload() instanceof JQueryEvent) && (event.getSource() == this))
+		if ((event.getPayload() instanceof OldJQueryEvent) && (event.getSource() == this))
 		{
-			JQueryEvent payload = (JQueryEvent) event.getPayload();
+			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
 
 			if (payload instanceof Draggable.DragStartEvent)
 			{
@@ -303,12 +303,12 @@ public class Draggable<T> extends JQueryContainer
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'dragStart' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'dragStart' javascript event
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnDragStartBehavior()
+	private OldJQueryAjaxBehavior newOnDragStartBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -331,7 +331,7 @@ public class Draggable<T> extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new DragStartEvent(target);
 			}
@@ -339,12 +339,12 @@ public class Draggable<T> extends JQueryContainer
 	}
 
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'dragStop' javascript event
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'dragStop' javascript event
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnDragStopBehavior()
+	private OldJQueryAjaxBehavior newOnDragStopBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -355,7 +355,7 @@ public class Draggable<T> extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new DragStopEvent(target);
 			}
@@ -365,9 +365,9 @@ public class Draggable<T> extends JQueryContainer
 
 	// Events classes //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'start' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'start' callback
 	 */
-	public class DragStartEvent extends JQueryEvent
+	public class DragStartEvent extends OldJQueryEvent
 	{
 		public DragStartEvent(AjaxRequestTarget target)
 		{
@@ -376,9 +376,9 @@ public class Draggable<T> extends JQueryContainer
 	}
 
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'stop' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'stop' callback
 	 */
-	public class DragStopEvent extends JQueryEvent
+	public class DragStopEvent extends OldJQueryEvent
 	{
 		public DragStopEvent(AjaxRequestTarget target)
 		{

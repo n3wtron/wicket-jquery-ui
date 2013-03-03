@@ -26,9 +26,9 @@ import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 
 /**
@@ -42,7 +42,7 @@ public class RangeDatePicker extends JQueryContainer
 	private static final long serialVersionUID = 1L;
 
 	private Options options;
-	private JQueryAjaxBehavior onChangeBehavior;
+	private OldJQueryAjaxBehavior onChangeBehavior;
 
 	/**
 	 * Constructor
@@ -182,12 +182,12 @@ public class RangeDatePicker extends JQueryContainer
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'change' javascript callback
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that acts as the 'change' javascript callback
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnChangeBehavior()
+	private OldJQueryAjaxBehavior newOnChangeBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -204,7 +204,7 @@ public class RangeDatePicker extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new ChangeEvent(target);
 			}
@@ -213,9 +213,9 @@ public class RangeDatePicker extends JQueryContainer
 
 	// Event class //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'change' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'change' callback
 	 */
-	class ChangeEvent extends JQueryEvent
+	class ChangeEvent extends OldJQueryEvent
 	{
 		private final Date start;
 		private final Date end;

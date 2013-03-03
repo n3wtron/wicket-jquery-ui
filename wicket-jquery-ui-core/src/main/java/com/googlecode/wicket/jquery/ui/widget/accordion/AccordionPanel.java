@@ -29,10 +29,10 @@ import org.apache.wicket.markup.html.list.LoopItem;
 import org.apache.wicket.model.Model;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.JQueryPanel;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 import com.googlecode.wicket.jquery.ui.widget.tabs.AjaxTab;
 
@@ -50,7 +50,7 @@ public class AccordionPanel extends JQueryPanel
 	private final List<ITab> tabs;
 
 	private AccordionBehavior widgetBehavior;
-	private JQueryAjaxBehavior activateEventBehavior;
+	private OldJQueryAjaxBehavior activateEventBehavior;
 
 	/**
 	 * Constructor
@@ -222,13 +222,13 @@ public class AccordionPanel extends JQueryPanel
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'activate' callback
+	 * Gets a new {@link OldJQueryAjaxBehavior} that acts as the 'activate' callback
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newActivateEventBehavior()
+	private OldJQueryAjaxBehavior newActivateEventBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -243,7 +243,7 @@ public class AccordionPanel extends JQueryPanel
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new ActivateEvent(target);
 			}
@@ -254,7 +254,7 @@ public class AccordionPanel extends JQueryPanel
 	/**
 	 * Base class for accordion event objects
 	 */
-	private class ActivateEvent extends JQueryEvent
+	private class ActivateEvent extends OldJQueryEvent
 	{
 		private final int index;
 

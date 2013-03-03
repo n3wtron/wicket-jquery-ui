@@ -26,15 +26,15 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
 import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxPostBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery range slider based on a {@link FormComponentPanel}
- * This ajax version will post the {@link Component}, using a {@link JQueryAjaxPostBehavior}, when the 'change' javascript method is called.
+ * This ajax version will post the {@link Component}, using a {@link OldJQueryAjaxPostBehavior}, when the 'change' javascript method is called.
  *
  * @author Sebastien Briquet - sebfz1
  */
@@ -42,7 +42,7 @@ public class AjaxRangeSlider extends RangeSlider implements IValueChangedListene
 {
 	private static final long serialVersionUID = 1L;
 
-	private JQueryAjaxBehavior onChangeBehavior;
+	private OldJQueryAjaxBehavior onChangeBehavior;
 
 	/**
 	 * Constructor
@@ -141,11 +141,11 @@ public class AjaxRangeSlider extends RangeSlider implements IValueChangedListene
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxPostBehavior} that will be called on 'change' javascript event
-	 * @return the {@link JQueryAjaxPostBehavior}
+	 * Gets a new {@link OldJQueryAjaxPostBehavior} that will be called on 'change' javascript event
+	 * @return the {@link OldJQueryAjaxPostBehavior}
 	 */
-	protected JQueryAjaxPostBehavior newOnChangeBehavior()
+	protected OldJQueryAjaxPostBehavior newOnChangeBehavior()
 	{
-		return new JQueryAjaxChangeBehavior(this, this.lower, this.upper);
+		return new OldJQueryAjaxChangeBehavior(this, this.lower, this.upper);
 	}
 }

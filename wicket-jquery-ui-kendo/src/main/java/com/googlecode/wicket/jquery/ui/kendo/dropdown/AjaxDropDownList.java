@@ -25,14 +25,14 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.ui.event.ISelectionChangedListener;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a Kendo UI DropDownList widget.<br/>
- * This ajax version will post the component, using a {@link JQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
+ * This ajax version will post the component, using a {@link OldJQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
  *
  * @author Sebastien Briquet - sebfz1
  *
@@ -42,7 +42,7 @@ public class AjaxDropDownList<T> extends DropDownList<T> implements ISelectionCh
 {
 	private static final long serialVersionUID = 1L;
 
-	private JQueryAjaxBehavior changeBehavior;
+	private OldJQueryAjaxBehavior changeBehavior;
 
 	/**
 	 * Constructor
@@ -147,7 +147,7 @@ public class AjaxDropDownList<T> extends DropDownList<T> implements ISelectionCh
 	{
 		super.onInitialize();
 
-		this.add(this.changeBehavior = new JQueryAjaxChangeBehavior(this));
+		this.add(this.changeBehavior = new OldJQueryAjaxChangeBehavior(this));
 	}
 
 	@Override

@@ -31,10 +31,10 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.util.ListModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.JQueryPanel;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 
 /**
@@ -49,7 +49,7 @@ public class TabbedPanel extends JQueryPanel
 	private final List<ITab> tabs;
 
 	private TabsBehavior widgetBehavior;
-	private JQueryAjaxBehavior activateEventBehavior;
+	private OldJQueryAjaxBehavior activateEventBehavior;
 
 	/**
 	 * Constructor
@@ -249,12 +249,12 @@ public class TabbedPanel extends JQueryPanel
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'activate' javascript callback
-	 * @return the {@link JQueryAjaxBehavior}
+	 * Gets a new {@link OldJQueryAjaxBehavior} that acts as the 'activate' javascript callback
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newActivateEventBehavior()
+	private OldJQueryAjaxBehavior newActivateEventBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -269,7 +269,7 @@ public class TabbedPanel extends JQueryPanel
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new ActivateEvent(target);
 			}
@@ -279,9 +279,9 @@ public class TabbedPanel extends JQueryPanel
 
 	// Event objects //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'activate' callback
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'activate' callback
 	 */
-	private class ActivateEvent extends JQueryEvent
+	private class ActivateEvent extends OldJQueryEvent
 	{
 		private final int index;
 

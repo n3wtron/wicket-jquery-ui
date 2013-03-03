@@ -29,9 +29,9 @@ import org.apache.wicket.util.time.Duration;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
 
 /**
@@ -51,12 +51,12 @@ public class Calendar extends JQueryContainer
 
 	private CalendarModelBehavior modelBehavior; // events load
 
-	private JQueryAjaxBehavior onDayClickBehavior; // day click
-	private JQueryAjaxBehavior onSelectBehavior; // date range-select behavior;
+	private OldJQueryAjaxBehavior onDayClickBehavior; // day click
+	private OldJQueryAjaxBehavior onSelectBehavior; // date range-select behavior;
 
-	private JQueryAjaxBehavior onEventClickBehavior; // event click
-	private JQueryAjaxBehavior onEventDropBehavior; // event drop
-	private JQueryAjaxBehavior onEventResizeBehavior; // event resize
+	private OldJQueryAjaxBehavior onEventClickBehavior; // event click
+	private OldJQueryAjaxBehavior onEventDropBehavior; // event drop
+	private OldJQueryAjaxBehavior onEventResizeBehavior; // event resize
 
 	/**
 	 * Constructor
@@ -372,11 +372,11 @@ public class Calendar extends JQueryContainer
 	/**
 	 * Gets the ajax behavior that will be triggered when the user clicks on a day cell
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnDayClickBehavior()
+	private OldJQueryAjaxBehavior newOnDayClickBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -394,7 +394,7 @@ public class Calendar extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new DayClickEvent(target);
 			}
@@ -404,11 +404,11 @@ public class Calendar extends JQueryContainer
 	/**
 	 * Gets the ajax behavior that will be triggered when the user select a cell range
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnSelectBehavior()
+	private OldJQueryAjaxBehavior newOnSelectBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -427,7 +427,7 @@ public class Calendar extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new SelectEvent(target);
 			}
@@ -437,11 +437,11 @@ public class Calendar extends JQueryContainer
 	/**
 	 * Gets the ajax behavior that will be triggered when the user clicks on an event
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnEventClickBehavior()
+	private OldJQueryAjaxBehavior newOnEventClickBehavior()
 	{
-		return new JQueryAjaxBehavior(this) {
+		return new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -459,7 +459,7 @@ public class Calendar extends JQueryContainer
 			}
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new ClickEvent(target);
 			}
@@ -469,16 +469,16 @@ public class Calendar extends JQueryContainer
 	/**
 	 * Gets the ajax behavior that will be triggered when the user moves (drag & drop) an event
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnEventDropBehavior()
+	private OldJQueryAjaxBehavior newOnEventDropBehavior()
 	{
 		return new EventDeltaBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new DropEvent(target);
 			}
@@ -488,16 +488,16 @@ public class Calendar extends JQueryContainer
 	/**
 	 * Gets the ajax behavior that will be triggered when the user resizes an event
 	 *
-	 * @return the {@link JQueryAjaxBehavior}
+	 * @return the {@link OldJQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnEventResizeBehavior()
+	private OldJQueryAjaxBehavior newOnEventResizeBehavior()
 	{
 		return new EventDeltaBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new ResizeEvent(target);
 			}
@@ -507,9 +507,9 @@ public class Calendar extends JQueryContainer
 
 	// Behavior classes //
 	/**
-	 * Base class for {@link JQueryAjaxBehavior} that will broadcast delta-based events
+	 * Base class for {@link OldJQueryAjaxBehavior} that will broadcast delta-based events
 	 */
-	private abstract class EventDeltaBehavior extends JQueryAjaxBehavior
+	private abstract class EventDeltaBehavior extends OldJQueryAjaxBehavior
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -541,7 +541,7 @@ public class Calendar extends JQueryContainer
 	/**
 	 * An event object that will be broadcasted when the user clicks on a day cell
 	 */
-	private class DayClickEvent extends JQueryEvent
+	private class DayClickEvent extends OldJQueryEvent
 	{
 		private final Date day;
 
@@ -570,7 +570,7 @@ public class Calendar extends JQueryContainer
 	/**
 	 * An event object that will be broadcasted when the user select a cell range
 	 */
-	private class SelectEvent extends JQueryEvent
+	private class SelectEvent extends OldJQueryEvent
 	{
 		private final boolean isAllDay;
 		private final Date start;
@@ -620,7 +620,7 @@ public class Calendar extends JQueryContainer
 	/**
 	 * An event object that will be broadcasted when the user clicks on an event
 	 */
-	private class ClickEvent extends JQueryEvent
+	private class ClickEvent extends OldJQueryEvent
 	{
 		private final int eventId;
 
@@ -648,7 +648,7 @@ public class Calendar extends JQueryContainer
 	/**
 	 * A base event object that contains a delta time
 	 */
-	private abstract class DeltaEvent extends JQueryEvent
+	private abstract class DeltaEvent extends OldJQueryEvent
 	{
 		private final int eventId;
 		private long delta;

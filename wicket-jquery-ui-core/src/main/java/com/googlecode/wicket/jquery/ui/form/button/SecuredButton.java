@@ -20,7 +20,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.WebSession;
 
 import com.googlecode.wicket.jquery.ui.IJQuerySecurityProvider;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryIcon;
 
 /**
@@ -107,6 +106,13 @@ public abstract class SecuredButton extends Button
 		return !this.provider.hasRole(this.roles);
 	}
 
+	//TODO: report as change
+	@Override
+	protected JQueryIcon getIcon()
+	{
+		return this.isLocked() ? JQueryIcon.LOCKED : JQueryIcon.UNLOCKED;
+	}
+
 	// Events //
 	@Override
 	protected void onConfigure()
@@ -117,9 +123,12 @@ public abstract class SecuredButton extends Button
 	}
 
 	@Override
-	protected void onConfigure(JQueryBehavior behavior)
+	protected void onConfigure(ButtonBehavior behavior)
 	{
-		//super.onConfigure(behavior); do not call super
-		behavior.setOption("icons", String.format("{ primary: '%s' }", isLocked() ? JQueryIcon.LOCKED : JQueryIcon.UNLOCKED));
+		super.onConfigure(behavior);
+
+		//old: (TODO: to be removed)
+		//do not call super//
+//		behavior.setOption("icons", String.format("{ primary: '%s' }", isLocked() ? JQueryIcon.LOCKED : JQueryIcon.UNLOCKED));
 	}
 }

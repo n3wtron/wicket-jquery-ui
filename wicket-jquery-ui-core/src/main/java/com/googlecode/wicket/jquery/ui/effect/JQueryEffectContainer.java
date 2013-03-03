@@ -23,8 +23,8 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 
 import com.googlecode.wicket.jquery.ui.IJQueryWidget.JQueryWidget;
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 
 /**
  * Provides a {@link WebMarkupContainer} on which effect can be played
@@ -36,7 +36,7 @@ public class JQueryEffectContainer extends WebMarkupContainer
 {
 	private static final long serialVersionUID = 1L;
 
-	private JQueryAjaxBehavior callback;
+	private OldJQueryAjaxBehavior callback;
 	private JQueryEffectBehavior widgetBehavior;
 
 	/**
@@ -58,12 +58,12 @@ public class JQueryEffectContainer extends WebMarkupContainer
 	 */
 	private void init()
 	{
-		this.callback = new JQueryAjaxBehavior(this) {
+		this.callback = new OldJQueryAjaxBehavior(this) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected JQueryEvent newEvent(AjaxRequestTarget target)
+			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
 			{
 				return new CallbackEvent(target);
 			}
@@ -124,7 +124,7 @@ public class JQueryEffectContainer extends WebMarkupContainer
 	{
 		if (event.getPayload() instanceof CallbackEvent)
 		{
-			JQueryEvent payload = (JQueryEvent) event.getPayload();
+			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
 			this.onComplete(payload.getTarget());
 		}
 	}
@@ -160,9 +160,9 @@ public class JQueryEffectContainer extends WebMarkupContainer
 
 	// Event class //
 	/**
-	 * Provides the event object that will be broadcasted by the {@link JQueryAjaxBehavior} callback
+	 * Provides the event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} callback
 	 */
-	class CallbackEvent extends JQueryEvent
+	class CallbackEvent extends OldJQueryEvent
 	{
 		public CallbackEvent(AjaxRequestTarget target)
 		{
