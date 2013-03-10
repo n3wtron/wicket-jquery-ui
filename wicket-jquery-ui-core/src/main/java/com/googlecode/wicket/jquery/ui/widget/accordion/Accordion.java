@@ -16,7 +16,12 @@
  */
 package com.googlecode.wicket.jquery.ui.widget.accordion;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
@@ -27,9 +32,9 @@ import com.googlecode.wicket.jquery.ui.Options;
  *
  * @author Sebastien Briquet - sebfz1
  * @since 1.0
- * @deprecated use {@link AccordionBehavior} or {@link AccordionPanel} instead
+ * TODO deprecated use <code>new JQueryBehavior("#myAccordion", "accordion")</code>, {@link AccordionBehavior} or {@link AccordionPanel} instead
  */
-@Deprecated
+
 public class Accordion extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;
@@ -77,9 +82,22 @@ public class Accordion extends JQueryContainer
 			private static final long serialVersionUID = 1L;
 
 			@Override
+			protected List<ITab> getTabList()
+			{
+				return Collections.emptyList();
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
+				super.onConfigure(component);
+
 				Accordion.this.onConfigure(this);
+			}
+
+			@Override
+			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
+			{
 			}
 		};
 	}

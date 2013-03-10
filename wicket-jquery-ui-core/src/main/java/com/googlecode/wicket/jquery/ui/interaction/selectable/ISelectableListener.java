@@ -14,41 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.effect;
+package com.googlecode.wicket.jquery.ui.interaction.selectable;
+
+import java.io.Serializable;
+import java.util.List;
+
+import org.apache.wicket.ajax.AjaxRequestTarget;
 
 /**
- * Provides an enumeration of effect being available in jQuery<br/>
- * It can be used as argument on {@link JQueryEffectContainer#play(org.apache.wicket.ajax.AjaxRequestTarget, Effect)}
- *
+ * TODO javadoc
  * @author Sebastien Briquet - sebfz1
+ *
  */
-public enum Effect
+interface ISelectableListener<T extends Serializable>
 {
-	Blind("blind"),
-	Bounce("bounce"),
-	Clip("clip"),
-	Drop("drop"),
-	Explode("explode"),
-	Fold("fold"),
-	Highlight("highlight"), //produce nothing !?
-	Puff("puff"),
-	Pulsate("pulsate"),
-	Scale("scale"), //produce nothing !?
-	Shake("shake"),
-	Size("size"), //produce nothing !?
-	Slide("slide");
-//	Transfer("transfer"); // cause an error, to be investigated
-
-	private final String name;
-
-	private Effect(String name)
-	{
-		this.name = name;
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.name;
-	}
+	/**
+	 * Triggered when a selection has been made (stops)
+	 *
+	 * @param target the {@link AjaxRequestTarget}
+	 * @param items the {@link List} of selected items
+	 */
+	void onSelect(AjaxRequestTarget target, List<T> items);
 }

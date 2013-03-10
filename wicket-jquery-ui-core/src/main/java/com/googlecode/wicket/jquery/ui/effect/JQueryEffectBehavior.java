@@ -16,9 +16,14 @@
  */
 package com.googlecode.wicket.jquery.ui.effect;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+
 import com.googlecode.wicket.jquery.ui.JQueryAbstractBehavior;
+import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
 
 /**
  * Provides a specific jQuery behavior for playing effects.
@@ -26,7 +31,7 @@ import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
  * @author Sebastien Briquet - sebfz1
  *
  */
-public class JQueryEffectBehavior extends JQueryAbstractBehavior
+public class JQueryEffectBehavior extends JQueryAbstractBehavior implements IJQueryAjaxAware, IEffectListener
 {
 	private static final long serialVersionUID = 1L;
 	private static final String METHOD = "effect";
@@ -36,7 +41,8 @@ public class JQueryEffectBehavior extends JQueryAbstractBehavior
 	private int speed;
 	private String effect;
 	private Options options;
-	private OldJQueryAjaxBehavior callback = null;
+
+	private JQueryAjaxBehavior callback = null;
 
 	/**
 	 * Constructor.
@@ -96,18 +102,41 @@ public class JQueryEffectBehavior extends JQueryAbstractBehavior
 		this.speed = speed;
 	}
 
-	/**
-	 * Sets the {@link OldJQueryAjaxBehavior} to callback once the effect completes
-	 * @param callback
-	 */
-	public void setCallback(OldJQueryAjaxBehavior callback)
+	// Properties //
+	@Override
+	public boolean isCallbackEnabled()
 	{
-		this.callback = callback;
+		return false;
 	}
 
+	// Methods //
+	@Override
+	public void bind(Component component)
+	{
+		super.bind(component);
+
+		if (this.isCallbackEnabled())
+		{
+			component.add(this.callback = this.newCallbackBehavior());
+		}
+	}
+
+	// Events //
+	@Override
+	public void onAjax(AjaxRequestTarget target, JQueryEvent event)
+	{
+		if (event instanceof CallbackEvent)
+		{
+			this.onEffectComplete(target);
+		}
+	}
+
+	@Override
+	public void onEffectComplete(AjaxRequestTarget target)
+	{
+	}
 
 	// Statements //
-
 	@Override
 	protected String $()
 	{
@@ -146,5 +175,34 @@ public class JQueryEffectBehavior extends JQueryAbstractBehavior
 	private static String $(String selector, String effect, String options, int speed, String callback)
 	{
 		return String.format("jQuery(function() { jQuery('%s').%s('%s', %s, %d, function() { %s }); });", selector, METHOD, effect, options, speed, callback);
+	}
+
+	// Factories //
+	/**
+	 * Gets the ajax behavior that will be triggered when the user has selected items
+	 *
+	 * @return the {@link JQueryAjaxBehavior}
+	 */
+	protected JQueryAjaxBehavior newCallbackBehavior()
+	{
+		return new JQueryAjaxBehavior(this) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected JQueryEvent newEvent()
+			{
+				return new CallbackEvent();
+			}
+		};
+	}
+
+
+	// Event class //
+	/**
+	 * Provides the event object that will be broadcasted by the {@link JQueryAjaxBehavior} callback
+	 */
+	public static class CallbackEvent extends JQueryEvent
+	{
 	}
 }

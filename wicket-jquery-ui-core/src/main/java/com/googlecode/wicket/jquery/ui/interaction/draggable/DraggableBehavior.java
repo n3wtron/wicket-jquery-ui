@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.interaction;
+package com.googlecode.wicket.jquery.ui.interaction.draggable;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -26,6 +26,7 @@ import com.googlecode.wicket.jquery.ui.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.Options;
 import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.ui.interaction.droppable.DroppableBehavior;
 
 /**
  * Provides a jQuery draggable behavior
@@ -132,7 +133,7 @@ public abstract class DraggableBehavior extends JQueryBehavior implements IJQuer
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'start' javascript event
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnDragStartBehavior()
+	protected JQueryAjaxBehavior newOnDragStartBehavior()
 	{
 		return new JQueryAjaxBehavior(this) {
 
@@ -156,7 +157,7 @@ public abstract class DraggableBehavior extends JQueryBehavior implements IJQuer
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'stop' javascript event
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnDragStopBehavior()
+	protected JQueryAjaxBehavior newOnDragStopBehavior()
 	{
 		return new JQueryAjaxBehavior(this) {
 
@@ -181,14 +182,14 @@ public abstract class DraggableBehavior extends JQueryBehavior implements IJQuer
 	/**
 	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'start' callback
 	 */
-	public static class DragStartEvent extends JQueryEvent
+	protected static class DragStartEvent extends JQueryEvent
 	{
 	}
 
 	/**
 	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'stop' callback
 	 */
-	public static class DragStopEvent extends JQueryEvent
+	protected static class DragStopEvent extends JQueryEvent
 	{
 	}
 }

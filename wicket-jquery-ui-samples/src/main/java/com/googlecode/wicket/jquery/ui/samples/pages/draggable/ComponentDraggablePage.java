@@ -3,7 +3,7 @@ package com.googlecode.wicket.jquery.ui.samples.pages.draggable;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
-import com.googlecode.wicket.jquery.ui.interaction.Draggable;
+import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 
 public class ComponentDraggablePage extends AbstractDraggablePage

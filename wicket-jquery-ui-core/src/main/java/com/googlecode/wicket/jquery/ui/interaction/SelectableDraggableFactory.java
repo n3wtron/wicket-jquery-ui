@@ -17,6 +17,9 @@
 package com.googlecode.wicket.jquery.ui.interaction;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
+import com.googlecode.wicket.jquery.ui.interaction.selectable.AbstractDraggableFactory;
+import com.googlecode.wicket.jquery.ui.interaction.selectable.Selectable;
 
 
 /**

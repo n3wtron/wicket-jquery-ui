@@ -12,9 +12,9 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 
-import com.googlecode.wicket.jquery.ui.interaction.Draggable;
-import com.googlecode.wicket.jquery.ui.interaction.Droppable;
-import com.googlecode.wicket.jquery.ui.interaction.Selectable;
+import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
+import com.googlecode.wicket.jquery.ui.interaction.droppable.Droppable;
+import com.googlecode.wicket.jquery.ui.interaction.selectable.Selectable;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 
 public class DraggableSelectablePage extends AbstractSelectablePage

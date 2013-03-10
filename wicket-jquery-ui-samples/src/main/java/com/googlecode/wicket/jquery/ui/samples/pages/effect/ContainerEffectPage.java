@@ -15,31 +15,32 @@ import com.googlecode.wicket.jquery.ui.kendo.dropdown.DropDownList;
 public class ContainerEffectPage extends AbstractEffectPage
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	public ContainerEffectPage()
 	{
 		final JQueryEffectContainer container = new JQueryEffectContainer("container") {
 
 			private static final long serialVersionUID = 1L;
 
+			//TODO: mark as changed: protected void onComplete(AjaxRequestTarget target) > public void onEffectComplete
 			@Override
-			protected void onComplete(AjaxRequestTarget target)
+			public void onEffectComplete(AjaxRequestTarget target)
 			{
 				this.show(target);
 			}
 		};
 
 		this.add(container);
-		
+
 		container.add(new JQueryBehavior("#tabs", "tabs"));
-		
+
 		Form<Void> form = new Form<Void>("form");
 		this.add(form);
-		
+
 		// DropDownList //
 		final DropDownList<Effect> dropdown = new DropDownList<Effect>("effects", new Model<Effect>(Effect.Explode), Arrays.asList(Effect.values()));
 		form.add(dropdown);
-		
+
 		// Button //
 		form.add(new AjaxButton("button") {
 

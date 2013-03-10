@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.interaction;
+package com.googlecode.wicket.jquery.ui.interaction.droppable;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -23,6 +23,7 @@ import org.apache.wicket.model.IModel;
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
 import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
 
 /**
  * Provides a jQuery droppable area, on which {@link Draggable}<code>s</code> could be dropped.
@@ -53,7 +54,7 @@ public abstract class Droppable<T> extends JQueryContainer implements IDroppable
 		super(id, model);
 	}
 
-	// Getters / Setters //
+	// Properties //
 	@Override
 	public boolean isOverEventEnabled()
 	{

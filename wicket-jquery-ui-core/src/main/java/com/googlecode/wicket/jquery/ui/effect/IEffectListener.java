@@ -14,37 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.interaction;
+package com.googlecode.wicket.jquery.ui.effect;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.Options;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 
 /**
- * Provides a jQuery selectable behavior
- * 
+ * TODO javadoc
  * @author Sebastien Briquet - sebfz1
+ *
  */
-public class SelectableBehavior extends JQueryBehavior
+interface IEffectListener
 {
-	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "selectable";
+	/**
+	 * Indicates whether the callback should be triggered when the effect completes.<br />
+	 * If true, the {@link #onEffectStop(AjaxRequestTarget)} event will be triggered.
+	 *
+	 * @return false by default
+	 */
+	boolean isCallbackEnabled();
 
 	/**
-	 * Constructor
-	 * @param selector the html selector (ie: "#myId")
+	 * Triggered when the effects is completed
+	 *
+	 * @param target the {@link AjaxRequestTarget}
+	 *
+	 * @see #isEffectStopEventEnabled()
 	 */
-	public SelectableBehavior(String selector)
-	{
-		super(selector, METHOD, new Options());
-	}
-
-	/**
-	 * Constructor
-	 * @param selector the html selector (ie: "#myId")
-	 * @param options the {@link Options}
-	 */
-	public SelectableBehavior(String selector, Options options)
-	{
-		super(selector, METHOD, options);
-	}
+	void onEffectComplete(AjaxRequestTarget target);
 }

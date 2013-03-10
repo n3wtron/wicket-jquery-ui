@@ -18,13 +18,11 @@ package com.googlecode.wicket.jquery.ui.effect;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 
 import com.googlecode.wicket.jquery.ui.IJQueryWidget.JQueryWidget;
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
+import com.googlecode.wicket.jquery.ui.Options;
 
 /**
  * Provides a {@link WebMarkupContainer} on which effect can be played
@@ -32,12 +30,11 @@ import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
  * @author Sebastien Briquet - sebfz1
  *
  */
-public class JQueryEffectContainer extends WebMarkupContainer
+public class JQueryEffectContainer extends WebMarkupContainer implements IEffectListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private OldJQueryAjaxBehavior callback;
-	private JQueryEffectBehavior widgetBehavior;
+	private JQueryEffectBehavior effectBehavior;
 
 	/**
 	 * Constructor
@@ -46,30 +43,16 @@ public class JQueryEffectContainer extends WebMarkupContainer
 	public JQueryEffectContainer(String id)
 	{
 		super(id);
-
-		this.init();
 	}
 
+	// Properties //
+	@Override
+	public boolean isCallbackEnabled()
+	{
+		return true;
+	}
 
 	// Methods //
-
-	/**
-	 * Initialization
-	 */
-	private void init()
-	{
-		this.callback = new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new CallbackEvent(target);
-			}
-		};
-	}
-
 	public void play(AjaxRequestTarget target, Effect effect)
 	{
 		if (effect != null)
@@ -85,7 +68,7 @@ public class JQueryEffectContainer extends WebMarkupContainer
 	 */
 	public void play(AjaxRequestTarget target, String effect)
 	{
-		target.appendJavaScript(this.widgetBehavior.$(effect));
+		target.appendJavaScript(this.effectBehavior.$(effect));
 	}
 
 	/**
@@ -115,35 +98,32 @@ public class JQueryEffectContainer extends WebMarkupContainer
 	{
 		super.onInitialize();
 
-		this.add(this.callback);
-		this.add(this.widgetBehavior = this.newWidgetBehavior(JQueryWidget.getSelector(this))); //cannot be in ctor as the markupId may be set manually afterward
-	}
-
-	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof CallbackEvent)
-		{
-			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
-			this.onComplete(payload.getTarget());
-		}
+		this.add(this.effectBehavior = this.newEffectBehavior(JQueryWidget.getSelector(this))); //cannot be in ctor as the markupId may be set manually afterward
 	}
 
 	/**
-	 * Triggered when the effect completes
+	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
+	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
+	 *
+	 * @param behavior the {@link JQueryBehavior}
 	 */
-	protected void onComplete(AjaxRequestTarget target)
+	protected void onConfigure(JQueryEffectBehavior behavior)
+	{
+	}
+
+	@Override
+	public void onEffectComplete(AjaxRequestTarget target)
 	{
 	}
 
 
-	// Not IJQueryWidget //
+	// Factories //
 	/**
 	 * Gets a new {@link JQueryEffectBehavior}
 	 * @param selector
 	 * @return the widget behavior
 	 */
-	public JQueryEffectBehavior newWidgetBehavior(String selector)
+	protected JQueryEffectBehavior newEffectBehavior(String selector)
 	{
 		return new JQueryEffectBehavior(selector) {
 
@@ -152,21 +132,22 @@ public class JQueryEffectContainer extends WebMarkupContainer
 			@Override
 			public void onConfigure(Component component)
 			{
-				this.setCallback(callback);
+				super.onConfigure(component);
+
+				JQueryEffectContainer.this.onConfigure(this);
+			}
+
+			@Override
+			public boolean isCallbackEnabled()
+			{
+				return JQueryEffectContainer.this.isCallbackEnabled();
+			}
+
+			@Override
+			public void onEffectComplete(AjaxRequestTarget target)
+			{
+				JQueryEffectContainer.this.onEffectComplete(target);
 			}
 		};
-	}
-
-
-	// Event class //
-	/**
-	 * Provides the event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} callback
-	 */
-	class CallbackEvent extends OldJQueryEvent
-	{
-		public CallbackEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
 	}
 }

@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.interaction;
+package com.googlecode.wicket.jquery.ui.interaction.selectable;
 
 import org.apache.wicket.util.io.IClusterable;
+
+import com.googlecode.wicket.jquery.ui.interaction.SelectableDraggableFactory;
+import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
 
 /**
  * Provides the ability to create a {@link Draggable} that is related to another component (defined by its selector).<br/>

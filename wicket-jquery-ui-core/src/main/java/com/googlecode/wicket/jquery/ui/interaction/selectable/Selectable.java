@@ -14,30 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.interaction;
+package com.googlecode.wicket.jquery.ui.interaction.selectable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.CallbackParameter;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.util.ListModel;
-import org.apache.wicket.util.string.StringValue;
-
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
 import com.googlecode.wicket.jquery.ui.JQueryIcon;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
-import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
+import com.googlecode.wicket.jquery.ui.interaction.SelectableDraggableFactory;
+import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
 
 /**
  * Provides a jQuery UI selectable {@link JQueryContainer}.<br/>
@@ -74,8 +66,7 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;
 
-	private OldJQueryAjaxBehavior onStopBehavior;
-	private List<T> items; //selected items
+	private List<T> items = null; //selected items
 
 	/**
 	 * Constructor
@@ -105,15 +96,6 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 	}
 
 	/**
-	 * Gets the selected items
-	 * @return selected items
-	 */
-	public List<T> getSelectedItems()
-	{
-		return this.items;
-	}
-
-	/**
 	 * Gets the selector that identifies the selectable item within a {@link Selectable}<br/>
 	 * The selector should be the path from the {@link Selectable} to the item (for instance '#myUL LI', where '#myUL' is the {@link Selectable}'s selector)
 	 *
@@ -124,16 +106,21 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 		return "li";
 	}
 
-
-	// Events //
-	@Override
-	protected void onInitialize()
+	/**
+	 * Gets the selected items
+	 * @return selected items
+	 */
+	public List<T> getSelectedItems()
 	{
-		super.onInitialize();
+		if (this.items != null)
+		{
+			return this.items;
+		}
 
-		this.add(this.onStopBehavior = this.newOnStopBehavior());
+		return Collections.emptyList();
 	}
 
+	// Events //
 	/**
 	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
 	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
@@ -142,40 +129,15 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 	 */
 	protected void onConfigure(JQueryBehavior behavior)
 	{
-		behavior.setOption("filter", Options.asString(this.getItemSelector()));
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof Selectable.StopEvent)
-		{
-			StopEvent payload = (StopEvent) event.getPayload();
-
-			this.items = new ArrayList<T>();
-			List<T> list = this.getModelObject();
-
-			for (int index : payload.getIndexes())
-			{
-				// defensive, if the item-selector is miss-configured, this can result in an OutOfBoundException
-				if (index < list.size())
-				{
-					this.items.add(list.get(index));
-				}
-			}
-
-			this.onSelect(payload.getTarget(), this.items);
-		}
 	}
 
 	/**
 	 * Triggered when a selection has been made (stops)
 	 *
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param list the {@link List} of selected items
+	 * @param items the {@link List} of selected items
 	 */
-	protected void onSelect(AjaxRequestTarget target, List<T> list)
+	protected void onSelect(AjaxRequestTarget target, List<T> items)
 	{
 	}
 
@@ -183,54 +145,37 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new SelectableBehavior(selector) {
+		return new SelectableBehavior<T>(selector) {
 
 			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected List<T> getItemList()
+			{
+				return Selectable.this.getModelObject();
+			}
+
+			@Override
+			protected String getItemSelector()
+			{
+				return Selectable.this.getItemSelector();
+			}
 
 			@Override
 			public void onConfigure(Component component)
 			{
+				super.onConfigure(component);
+
 				Selectable.this.onConfigure(this);
-
-				this.setOption("stop", Selectable.this.onStopBehavior.getCallbackFunction());
-			}
-		};
-	}
-
-
-	// Behavior factory //
-	/**
-	 * Gets the ajax behavior that will be triggered when the user has selected items
-	 *
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	protected OldJQueryAjaxBehavior newOnStopBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] { CallbackParameter.resolved("indexes", "indexes") };
 			}
 
 			@Override
-			public CharSequence getCallbackFunctionBody(CallbackParameter... parameters)
+			public void onSelect(AjaxRequestTarget target, List<T> items)
 			{
-				//build indexes array, ie: 'indexes=[1,2,3]'
-				String selector = String.format("%s %s", JQueryWidget.getSelector(Selectable.this), Selectable.this.getItemSelector());
-				String indexes = "var indexes=[]; jQuery('.ui-selected', this).each( function() { indexes.push(jQuery('" + selector + "').index(this)); } ); ";
-
-				return indexes + super.getCallbackFunctionBody(parameters);
+				Selectable.this.items = items;
+				Selectable.this.onSelect(target, items);
 			}
 
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new StopEvent(target);
-			}
 		};
 	}
 
@@ -257,40 +202,6 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 	public Draggable<?> createDraggable(String id, SelectableDraggableFactory factory)
 	{
 		return factory.create(id, JQueryWidget.getSelector(this)); //let throw a NPE if no factory is defined
-	}
-
-
-	// Event class //
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'stop' callback
-	 */
-	protected class StopEvent extends OldJQueryEvent
-	{
-		private final List<Integer> indexes;
-
-		public StopEvent(AjaxRequestTarget target)
-		{
-			super(target);
-
-			this.indexes = new ArrayList<Integer>();
-			StringValue values = RequestCycleUtils.getQueryParameterValue("indexes");
-
-			if (values != null)
-			{
-				Pattern pattern = Pattern.compile("(\\d+)");
-				Matcher matcher = pattern.matcher(values.toString());
-
-				while (matcher.find())
-				{
-					this.indexes.add(Integer.valueOf(matcher.group()));
-				}
-			}
-		}
-
-		public List<Integer> getIndexes()
-		{
-			return this.indexes;
-		}
 	}
 
 	// Default Draggable Factory //

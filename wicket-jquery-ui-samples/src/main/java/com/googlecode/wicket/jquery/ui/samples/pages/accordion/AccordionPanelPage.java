@@ -42,7 +42,7 @@ public class AccordionPanelPage extends AbstractAccordionPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onActivate(AjaxRequestTarget target, int index, ITab tab)
+			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
 			{
 				info(String.format("selected tab: #%d - %s", index, tab.getTitle().getObject()));
 				target.add(feedback);

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.interaction;
+package com.googlecode.wicket.jquery.ui.interaction.droppable;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -60,7 +60,7 @@ public abstract class DroppableBehavior extends JQueryBehavior implements IJQuer
 		super(selector, METHOD, options);
 	}
 
-	// Getters / Setters //
+	// Properties //
 	public void setDraggable(Component draggable)
 	{
 		this.draggable = draggable;
@@ -129,7 +129,7 @@ public abstract class DroppableBehavior extends JQueryBehavior implements IJQuer
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'drop' javascript event
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnDropBehavior()
+	protected JQueryAjaxBehavior newOnDropBehavior()
 	{
 		return new JQueryAjaxBehavior(this) {
 
@@ -153,7 +153,7 @@ public abstract class DroppableBehavior extends JQueryBehavior implements IJQuer
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'over' javascript event
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnOverBehavior()
+	protected JQueryAjaxBehavior newOnOverBehavior()
 	{
 		return new JQueryAjaxBehavior(this) {
 
@@ -177,7 +177,7 @@ public abstract class DroppableBehavior extends JQueryBehavior implements IJQuer
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'exit' javascript event
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newOnExitBehavior()
+	protected JQueryAjaxBehavior newOnExitBehavior()
 	{
 		return new JQueryAjaxBehavior(this) {
 
@@ -201,21 +201,21 @@ public abstract class DroppableBehavior extends JQueryBehavior implements IJQuer
 	/**
 	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'drop' callback
 	 */
-	public static class DropEvent extends JQueryEvent
+	protected static class DropEvent extends JQueryEvent
 	{
 	}
 
 	/**
 	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'over' callback
 	 */
-	public static class OverEvent extends JQueryEvent
+	protected static class OverEvent extends JQueryEvent
 	{
 	}
 
 	/**
 	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'exit' callback
 	 */
-	public static class ExitEvent extends JQueryEvent
+	protected static class ExitEvent extends JQueryEvent
 	{
 	}
 }

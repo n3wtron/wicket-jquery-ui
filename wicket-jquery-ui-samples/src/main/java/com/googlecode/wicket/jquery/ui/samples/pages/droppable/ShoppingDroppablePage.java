@@ -19,8 +19,8 @@ import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.util.io.IClusterable;
 
 import com.googlecode.wicket.jquery.ui.form.button.AjaxButton;
-import com.googlecode.wicket.jquery.ui.interaction.Draggable;
-import com.googlecode.wicket.jquery.ui.interaction.Droppable;
+import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
+import com.googlecode.wicket.jquery.ui.interaction.droppable.Droppable;
 
 public class ShoppingDroppablePage extends AbstractDroppablePage
 {

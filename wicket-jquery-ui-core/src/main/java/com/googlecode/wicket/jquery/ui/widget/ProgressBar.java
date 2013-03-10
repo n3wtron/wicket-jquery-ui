@@ -69,7 +69,7 @@ public class ProgressBar extends JQueryContainer
 //	}
 
 
-	/* Getters / Setters */
+	// Properties //
 	/**
 	 * Gets the model (wrapping the value)
 	 * @return {@link IModel}
