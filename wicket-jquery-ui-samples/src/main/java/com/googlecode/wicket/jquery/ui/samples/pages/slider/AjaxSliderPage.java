@@ -13,7 +13,7 @@ import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 public class AjaxSliderPage extends AbstractSliderPage
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	// Model //
 	private final Model<Integer> model = new Model<Integer>(15);
 
@@ -21,7 +21,7 @@ public class AjaxSliderPage extends AbstractSliderPage
 	{
 		this.init();
 	}
-	
+
 	private void init()
 	{
 		final Form<Void> form = new Form<Void>("form");
@@ -34,7 +34,7 @@ public class AjaxSliderPage extends AbstractSliderPage
 		// Sliders //
 		final Label label = new Label("label", this.model); //the supplied model allows the initial display
 		form.add(label);
-		
+
 		form.add(new AjaxSlider("slider", this.model, label) {
 
 			private static final long serialVersionUID = 1L;
@@ -50,7 +50,7 @@ public class AjaxSliderPage extends AbstractSliderPage
 
 	private void info(Component component)
 	{
-		this.info(component.getMarkupId() + " has been clicked");
+		this.info(component.getMarkupId() + " has been slided");
 		this.info("The model object is: " + this.model.getObject());
 	}
 }

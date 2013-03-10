@@ -18,14 +18,11 @@ package com.googlecode.wicket.jquery.ui.interaction;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.CallbackParameter;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
+import com.googlecode.wicket.jquery.ui.Options;
 
 /**
  * Provides a jQuery droppable area, on which {@link Draggable}<code>s</code> could be dropped.
@@ -33,14 +30,9 @@ import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
  * @param <T> the model object type
  * @author Sebastien Briquet - sebfz1
  */
-public abstract class Droppable<T> extends JQueryContainer
+public abstract class Droppable<T> extends JQueryContainer implements IDroppableListener
 {
 	private static final long serialVersionUID = 1L;
-
-	private OldJQueryAjaxBehavior onDropBehavior;
-	private OldJQueryAjaxBehavior onOverBehavior;
-	private OldJQueryAjaxBehavior onExitBehavior;
-	private transient Draggable<?> draggable = null;  /* object being dragged */
 
 	/**
 	 * Constructor
@@ -62,231 +54,87 @@ public abstract class Droppable<T> extends JQueryContainer
 	}
 
 	// Getters / Setters //
-	/**
-	 * Indicates whether the 'over' event is enabled.<br />
-	 * If true, the {@link #onOver(AjaxRequestTarget, Draggable)} event will be triggered.
-	 * @return false by default
-	 */
-	protected boolean isOverEventEnabled()
+	@Override
+	public boolean isOverEventEnabled()
 	{
 		return false;
 	}
 
-	/**
-	 * Indicates whether the 'exit' (or 'out') event is enabled.<br />
-	 * If true, the {@link #onExit(AjaxRequestTarget, Draggable)} event will be triggered.
-	 * @return false by default
-	 */
-	protected boolean isExitEventEnabled()
+	@Override
+	public boolean isExitEventEnabled()
 	{
 		return false;
 	}
-
 
 	// Events //
+	/**
+	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
+	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
+	 *
+	 * @param behavior the {@link JQueryBehavior}
+	 */
+	protected void onConfigure(JQueryBehavior behavior)
+	{
+	}
+
 	@Override
-	protected void onInitialize()
-	{
-		super.onInitialize();
+	public abstract void onDrop(AjaxRequestTarget target, Component component);
 
-		this.add(this.onDropBehavior = this.newOnDropBehavior());
-		this.add(this.onOverBehavior = this.newOnOverBehavior());
-		this.add(this.onExitBehavior = this.newOnExitBehavior());
-	}
-
-	/**
-	 * Triggered by JQueryAjaxBehavior#respond
-	 */
 	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof OldJQueryEvent)
-		{
-			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
-
-			// registers the draggable object that starts
-			if (payload instanceof Draggable.DragStartEvent)
-			{
-				this.draggable = (Draggable<?>) event.getSource();
-			}
-
-			else if (payload instanceof Droppable.DropEvent)
-			{
-				this.onDrop(payload.getTarget(), this.draggable);
-			}
-
-			else if (payload instanceof Droppable.OverEvent)
-			{
-				this.onOver(payload.getTarget(), this.draggable);
-			}
-
-			else if (payload instanceof Droppable.ExitEvent)
-			{
-				this.onExit(payload.getTarget(), this.draggable);
-			}
-		}
-	}
-
-	/**
-	 * Triggered when a {@link Draggable} has been dropped
-	 * @param target the {@link AjaxRequestTarget}
-	 * @param draggable the {@link Draggable} object
-	 */
-	protected abstract void onDrop(AjaxRequestTarget target, Draggable<?> draggable);
-
-	/**
-	 * Triggered when a {@link Draggable} overs the droppable area
-	 * @param target the {@link AjaxRequestTarget}
-	 * @param draggable the {@link Draggable} object
-	 * @see #isOverEventEnabled()
-	 */
-	protected void onOver(AjaxRequestTarget target, Draggable<?> draggable)
+	public void onOver(AjaxRequestTarget target, Component component)
 	{
 	}
 
-	/**
-	 * Triggered when a {@link Draggable} exits the droppable area
-	 * @param target the {@link AjaxRequestTarget}
-	 * @param draggable the {@link Draggable} object
-	 * @see #isExitEventEnabled()
-	 */
-	protected void onExit(AjaxRequestTarget target, Draggable<?> draggable)
+	@Override
+	public void onExit(AjaxRequestTarget target, Component component)
 	{
 	}
-
 
 	// IJQueryWidget //
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, "droppable") {
+		return new DroppableBehavior(selector) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void onConfigure(Component component)
 			{
-				this.setOption("drop", Droppable.this.onDropBehavior.getCallbackFunction());
+				super.onConfigure(component);
 
-				if (Droppable.this.isOverEventEnabled())
-				{
-					this.setOption("over", Droppable.this.onOverBehavior.getCallbackFunction());
-				}
+				Droppable.this.onConfigure(this);
+			}
 
-				if (Droppable.this.isExitEventEnabled())
-				{
-					this.setOption("out", Droppable.this.onExitBehavior.getCallbackFunction());
-				}
+			@Override
+			public boolean isOverEventEnabled()
+			{
+				return Droppable.this.isOverEventEnabled();
+			}
+
+			@Override
+			public boolean isExitEventEnabled()
+			{
+				return Droppable.this.isExitEventEnabled();
+			}
+
+			@Override
+			public void onDrop(AjaxRequestTarget target, Component component)
+			{
+				Droppable.this.onDrop(target, component);
+			}
+
+			@Override
+			public void onOver(AjaxRequestTarget target, Component component)
+			{
+				Droppable.this.onOver(target, component);
+			}
+
+			@Override
+			public void onExit(AjaxRequestTarget target, Component component)
+			{
+				Droppable.this.onExit(target, component);
 			}
 		};
-	}
-
-
-	// Factories //
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'drop' javascript event
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newOnDropBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui") };
-			}
-
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new DropEvent(target);
-			}
-		};
-	}
-
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'over' javascript event
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newOnOverBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui") };
-			}
-
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new OverEvent(target);
-			}
-		};
-	}
-
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'exit' javascript event
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newOnExitBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui") };
-			}
-
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new ExitEvent(target);
-			}
-		};
-	}
-
-
-	// Event classes //
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'drop' callback
-	 */
-	public class DropEvent extends OldJQueryEvent
-	{
-		public DropEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
-	}
-
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'over' callback
-	 */
-	public class OverEvent extends OldJQueryEvent
-	{
-		public OverEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
-	}
-
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'exit' callback
-	 */
-	public class ExitEvent extends OldJQueryEvent
-	{
-		public ExitEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
 	}
 }

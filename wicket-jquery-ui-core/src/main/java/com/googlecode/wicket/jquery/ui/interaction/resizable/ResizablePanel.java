@@ -16,6 +16,7 @@
  */
 package com.googlecode.wicket.jquery.ui.interaction.resizable;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 
@@ -126,9 +127,11 @@ public abstract class ResizablePanel extends JQueryPanel implements IResizableLi
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onConfigure(JQueryBehavior behavior)
+			public void onConfigure(Component component)
 			{
-				ResizablePanel.this.onConfigure(behavior);
+				super.onConfigure(component);
+
+				ResizablePanel.this.onConfigure(this);
 			}
 
 			@Override

@@ -18,7 +18,6 @@ package com.googlecode.wicket.jquery.ui.form.slider;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
@@ -26,23 +25,24 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.ui.JQueryEvent;
+import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
 import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxPostBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior;
+import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery range slider based on a {@link FormComponentPanel}
- * This ajax version will post the {@link Component}, using a {@link OldJQueryAjaxPostBehavior}, when the 'change' javascript method is called.
+ * This ajax version will post the {@link Component}, using a {@link JQueryAjaxPostBehavior}, when the 'change' javascript method is called.
  *
  * @author Sebastien Briquet - sebfz1
  */
-public class AjaxRangeSlider extends RangeSlider implements IValueChangedListener
+public class AjaxRangeSlider extends RangeSlider implements IJQueryAjaxAware, IValueChangedListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private OldJQueryAjaxBehavior onChangeBehavior;
+	//private OldJQueryAjaxBehavior onChangeBehavior; //TODO remove
 
 	/**
 	 * Constructor
@@ -88,28 +88,10 @@ public class AjaxRangeSlider extends RangeSlider implements IValueChangedListene
 
 	// Events //
 	@Override
-	protected void onInitialize()
+	public void onAjax(AjaxRequestTarget target, JQueryEvent event)
 	{
-		super.onInitialize();
-
-		this.add(this.onChangeBehavior = this.newOnChangeBehavior());
-	}
-
-	@Override
-	protected void onConfigure(JQueryBehavior behavior)
-	{
-		super.onConfigure(behavior);
-
-		behavior.setOption("change", this.onChangeBehavior.getCallbackFunction());
-	}
-
-	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof ChangeEvent)
+		if (event instanceof ChangeEvent)
 		{
-			ChangeEvent payload = (ChangeEvent) event.getPayload();
-
 			//In case of issue, consider copying code from AjaxFormComponentUpdatingBehavior.onEvent
 			this.lower.processInput();
 			this.upper.processInput();
@@ -117,11 +99,11 @@ public class AjaxRangeSlider extends RangeSlider implements IValueChangedListene
 
 			if (this.isValid() && this.lower.isValid() && this.upper.isValid())
 			{
-				this.onValueChanged(payload.getTarget(), this.getForm());
+				this.onValueChanged(target, this.getForm());
 			}
 			else
 			{
-				this.onError(payload.getTarget());
+				this.onError(target);
 			}
 		}
 	}
@@ -140,12 +122,42 @@ public class AjaxRangeSlider extends RangeSlider implements IValueChangedListene
 	}
 
 	// Factories //
-	/**
-	 * Gets a new {@link OldJQueryAjaxPostBehavior} that will be called on 'change' javascript event
-	 * @return the {@link OldJQueryAjaxPostBehavior}
-	 */
-	protected OldJQueryAjaxPostBehavior newOnChangeBehavior()
+	//TODO: to remove
+//	/**
+//	 * Gets a new {@link OldJQueryAjaxPostBehavior} that will be called on 'change' javascript event
+//	 * @return the {@link OldJQueryAjaxPostBehavior}
+//	 */
+//	protected OldJQueryAjaxPostBehavior newOnChangeBehavior()
+//	{
+//		return new OldJQueryAjaxChangeBehavior(this, this.lower, this.upper);
+//	}
+
+	@Override
+	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new OldJQueryAjaxChangeBehavior(this, this.lower, this.upper);
+		return new AjaxSliderBehavior(selector, super.options) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onConfigure(Component component)
+			{
+				super.onConfigure(component);
+
+				AjaxRangeSlider.this.onConfigure(this); //important, should call Slider#onConfigure(JQueryBehavior)
+			}
+
+			@Override
+			public void onAjax(AjaxRequestTarget target, JQueryEvent event)
+			{
+				AjaxRangeSlider.this.onAjax(target, event);
+			}
+
+			@Override
+			protected JQueryAjaxPostBehavior newOnChangeBehavior()
+			{
+				return new JQueryAjaxChangeBehavior(this, AjaxRangeSlider.this.lower, AjaxRangeSlider.this.upper);
+			}
+		};
 	}
 }

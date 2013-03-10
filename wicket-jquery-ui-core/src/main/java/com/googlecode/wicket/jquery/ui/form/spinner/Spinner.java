@@ -34,7 +34,6 @@ import com.googlecode.wicket.jquery.ui.Options;
 public class Spinner<T extends Number> extends TextField<T> implements IJQueryCultureWidget
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "spinner";
 
 	private Options options;
 
@@ -125,7 +124,6 @@ public class Spinner<T extends Number> extends TextField<T> implements IJQueryCu
 
 		this.options = options;
 	}
-
 
 	// Events //
 	@Override
@@ -247,7 +245,7 @@ public class Spinner<T extends Number> extends TextField<T> implements IJQueryCu
 		return this;
 	}
 
-	//Not activated for now, because of currency issue in Wicket (space before the currency symbol, WICKET-4988) and an issue in Java (space as thousand separator, in fr_FR for instance.
+	//Not activated for now, because of currency issue in Wicket (space before the currency symbol, WICKET-4988) and an issue in Java (space as thousand separator, in fr_FR for instance).
 //	/**
 //	 * Format of numbers passed to Globalize, if available. Most common are "n" for a decimal number and "C" for a currency value. Also see the culture option.<br/>
 //	 * <b>More: </b> https://github.com/jquery/globalize
@@ -292,9 +290,9 @@ public class Spinner<T extends Number> extends TextField<T> implements IJQueryCu
 
 	// IJQueryWidget //
 	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
+	public SpinnerBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, METHOD, this.options) {
+		return new SpinnerBehavior(selector, this.options) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -304,5 +302,25 @@ public class Spinner<T extends Number> extends TextField<T> implements IJQueryCu
 				Spinner.this.onConfigure(this);
 			}
 		};
+	}
+
+
+	/**
+	 * TODO: javadoc
+	 */
+	public static class SpinnerBehavior extends JQueryBehavior
+	{
+		private static final long serialVersionUID = 1L;
+		private static final String METHOD = "spinner";
+
+		public SpinnerBehavior(String selector)
+		{
+			super(selector, METHOD);
+		}
+
+		public SpinnerBehavior(String selector, Options options)
+		{
+			super(selector, METHOD, options);
+		}
 	}
 }

@@ -26,6 +26,8 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.EmptyPanel;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
+import com.googlecode.wicket.jquery.ui.JQueryIcon;
+
 /**
  * Provides a {@link FeedbackPanel} customized with the jQuery theme
  *
@@ -36,16 +38,16 @@ public class JQueryFeedbackPanel extends FeedbackPanel
 {
 	private static final long serialVersionUID = 1L;
 
-	public static final String INFO_ICO = "ui-icon ui-icon-info";
+	public static final String INFO_ICO = "ui-icon " + JQueryIcon.INFO;
 	public static final String INFO_CSS = "ui-state-highlight ui-corner-all";
 
-	public static final String WARN_ICO = "ui-icon ui-icon-alert";
+	public static final String WARN_ICO = "ui-icon" + JQueryIcon.ALERT;
 	public static final String WARN_CSS = "ui-state-highlight ui-corner-all";
 
-	public static final String LIGHT_ICO = "ui-icon ui-icon-lightbulb";
+	public static final String LIGHT_ICO = "ui-icon " + JQueryIcon.LIGHTBULB;
 	public static final String LIGHT_CSS = "ui-state-highlight ui-corner-all";
 
-	public static final String ERROR_ICO = "ui-icon ui-icon-alert"; //ui-icon-closethick
+	public static final String ERROR_ICO = "ui-icon" + JQueryIcon.ALERT; //ui-icon-closethick
 	public static final String ERROR_CSS = "ui-state-error ui-corner-all";
 
 	/**
@@ -109,29 +111,6 @@ public class JQueryFeedbackPanel extends FeedbackPanel
 	}
 
 	/**
-	 * Gets the CSS class for the given message.
-	 * @param message the {@link FeedbackMessage}
-	 * @return the label class
-	 */
-	protected String getMessageClass(FeedbackMessage message)
-	{
-		switch (message.getLevel())
-		{
-			case FeedbackMessage.INFO:
-				return INFO_CSS;
-
-			case FeedbackMessage.WARNING:
-				return WARN_CSS;
-
-			case FeedbackMessage.ERROR:
-				return ERROR_CSS;
-
-			default:
-				return this.getCSSClass(message);
-		}
-	}
-
-	/**
 	 * Gets the icon CSS class for the given message.
 	 * @param message the {@link FeedbackMessage}
 	 * @return the icon class
@@ -148,6 +127,29 @@ public class JQueryFeedbackPanel extends FeedbackPanel
 
 			case FeedbackMessage.ERROR:
 				return ERROR_ICO;
+
+			default:
+				return this.getCSSClass(message);
+		}
+	}
+
+	/**
+	 * Gets the CSS class for the given message.
+	 * @param message the {@link FeedbackMessage}
+	 * @return the label class
+	 */
+	protected String getMessageClass(FeedbackMessage message)
+	{
+		switch (message.getLevel())
+		{
+			case FeedbackMessage.INFO:
+				return INFO_CSS;
+
+			case FeedbackMessage.WARNING:
+				return WARN_CSS;
+
+			case FeedbackMessage.ERROR:
+				return ERROR_CSS;
 
 			default:
 				return this.getCSSClass(message);

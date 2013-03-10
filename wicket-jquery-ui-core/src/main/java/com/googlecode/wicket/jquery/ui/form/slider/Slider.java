@@ -57,7 +57,7 @@ public class Slider extends AbstractSlider<Integer>
 	private static final long serialVersionUID = 1L;
 
 	private IValidator<Integer> rangeValidator = null;
-	protected AbstractTextComponent<Integer> input = null; // will be accessed in AjaxSlider
+	protected AbstractTextComponent<Integer> input = null; // protected, will be accessed in AjaxSlider
 
 	/**
 	 * Constructor
@@ -108,27 +108,6 @@ public class Slider extends AbstractSlider<Integer>
 		this.input.add(this.newInputBehavior());
 
 		this.init();
-	}
-
-	@Override
-	protected Fragment newInputFragment(String id)
-	{
-		Fragment fragment;
-
-		// input TextField has not been specified in ctor //
-		if (this.input == null)
-		{
-			this.input = new HiddenField<Integer>("input", this.getModel(), Integer.class);
-
-			fragment = new Fragment(id, "input-fragment", this);
-			fragment.add(this.input.setOutputMarkupPlaceholderTag(true));
-		}
-		else
-		{
-			fragment = super.newInputFragment(id); //return empty fragment
-		}
-
-		return fragment;
 	}
 
 	@Override
@@ -189,7 +168,6 @@ public class Slider extends AbstractSlider<Integer>
 
 
 	// Options //
-
 	/**
 	 * Sets the {@link Range}
 	 * @param range
@@ -202,9 +180,30 @@ public class Slider extends AbstractSlider<Integer>
 	}
 
 	// Factory //
+	@Override
+	protected Fragment newInputFragment(String id)
+	{
+		Fragment fragment;
+
+		// no input TextField has been supplied in ctor //
+		if (this.input == null)
+		{
+			this.input = new HiddenField<Integer>("input", this.getModel(), Integer.class);
+
+			fragment = new Fragment(id, "input-fragment", this);
+			fragment.add(this.input.setOutputMarkupPlaceholderTag(true));
+		}
+		else
+		{
+			fragment = super.newInputFragment(id); //return empty fragment
+		}
+
+		return fragment;
+	}
+
 	/**
 	 * Gets a new behavior that will handle the change event triggered on provided input.<br/>
-	 * The behavior is added to the input that has been provided in the constructor (means it is visible and the user can interact with)
+	 * The behavior is added to the input that has been supplied in the constructor (means it is visible and the user can interact with)
 	 * @return a {@link JQueryAbstractBehavior}
 	 */
 	private JQueryAbstractBehavior newInputBehavior()

@@ -19,12 +19,14 @@ package com.googlecode.wicket.jquery.ui.form;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.IJQueryWidget;
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.ui.Options;
 
 /**
  * Provides jQuery check-buttons based on a {@link CheckBoxMultipleChoice}
@@ -35,7 +37,6 @@ import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 public class CheckChoice<T> extends CheckBoxMultipleChoice<T> implements IJQueryWidget
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "buttonset";
 
 	/**
 	 * Constructor
@@ -160,10 +161,48 @@ public class CheckChoice<T> extends CheckBoxMultipleChoice<T> implements IJQuery
 		this.add(JQueryWidget.newWidgetBehavior(this)); //cannot be in ctor as the markupId may be set manually afterward
 	}
 
+	/**
+	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
+	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
+	 *
+	 * @param behavior the {@link JQueryBehavior}
+	 */
+	protected void onConfigure(JQueryBehavior behavior)
+	{
+	}
+
 	// IJQueryWidget //
 	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
+	public CheckChoiceBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, METHOD);
+		return new CheckChoiceBehavior(selector) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onConfigure(Component component)
+			{
+				CheckChoice.this.onConfigure(this);
+			}
+		};
+	}
+
+	/**
+	 * TODO: javadoc
+	 */
+	public static class CheckChoiceBehavior extends JQueryBehavior
+	{
+		private static final long serialVersionUID = 1L;
+		private static final String METHOD = "buttonset";
+
+		public CheckChoiceBehavior(String selector)
+		{
+			super(selector, METHOD);
+		}
+
+		public CheckChoiceBehavior(String selector, Options options)
+		{
+			super(selector, METHOD, options);
+		}
 	}
 }

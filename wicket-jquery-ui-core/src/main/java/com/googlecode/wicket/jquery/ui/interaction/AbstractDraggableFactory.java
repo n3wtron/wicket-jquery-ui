@@ -23,7 +23,7 @@ import org.apache.wicket.util.io.IClusterable;
  * <br/>
  * The common use case is to have the ability to drag multiple {@link Draggable} object.<br/>
  * To achieve this, the role of the jQuery helper is important (see {@link #getHelper(String)} implementation in {@link SelectableDraggableFactory})<br/>
- * 
+ *
  * @author Sebastien Briquet - sebfz1
  *
  */
@@ -33,10 +33,10 @@ public abstract class AbstractDraggableFactory implements IClusterable
 
 	/**
 	 * Gets the helper that might be used by the {@link Draggable}.<br/>
-	 * The return value supplied to the {@link #create(String, String, String)} method. 
+	 * The returned value is supplied to the {@link #create(String, String, String)} method.
 	 */
 	protected abstract String getHelper(String selector);
-	
+
 	/**
 	 * Creates the new {@link Draggable} for the given selector
 	 * @param id the markup id
@@ -54,20 +54,20 @@ public abstract class AbstractDraggableFactory implements IClusterable
 	 * A typical implementation is:<br/>
 	 * <pre>
 	 * return new Draggable<String>(id) {
-	 * 
+	 *
 	 * 	protected void onConfigure(JQueryBehavior behavior)
 	 * 	{
 	 * 		super.onConfigure(behavior);
-	 * 
+	 *
 	 * 		behavior.setOption("helper", helper);
 	 * 	}
 	 * };
 	 * </pre>
-	 * 
+	 *
 	 * @param id the markup id
 	 * @param selector the related component's selector
 	 * @param helper the jQuery helper
-	 * 
+	 *
 	 * @return the {@link Draggable} object
 	 */
 	protected abstract Draggable<?> create(String id, String selector, final String helper);

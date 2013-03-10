@@ -27,11 +27,10 @@ import org.apache.wicket.model.IModel;
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.Options;
 import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxPostBehavior;
 
 /**
  * Provides a jQuery date-picker based on a {@link DateTextField}<br/>
- * This ajax version will post the {@link Component}, using a {@link OldJQueryAjaxPostBehavior}, when the 'onSelect' javascript method is called.
+ * This ajax version will post the {@link Component}, using a {@link JQueryAjaxPostBehavior}, when the 'onSelect' javascript method is called.
  *
  * @author Sebastien Briquet - sebfz1
  */
@@ -99,14 +98,14 @@ public class AjaxDatePicker extends DatePicker implements IValueChangedListener
 		super(id, model, pattern, options);
 	}
 
-
 	// Events //
 	@Override
 	protected void onConfigure(JQueryBehavior behavior)
 	{
 	}
 
-	protected final void onSelect(AjaxRequestTarget target, String date)
+	@Override
+	public final void onSelect(AjaxRequestTarget target, String date)
 	{
 		this.processInput();
 		this.onValueChanged(target, this.getForm());
@@ -133,9 +132,11 @@ public class AjaxDatePicker extends DatePicker implements IValueChangedListener
 			}
 
 			@Override
-			public void onConfigure(JQueryBehavior behavior)
+			public void onConfigure(Component component)
 			{
-				AjaxDatePicker.this.onConfigure(behavior);
+				super.onConfigure(component);
+
+				AjaxDatePicker.this.onConfigure(this);
 			}
 
 			@Override

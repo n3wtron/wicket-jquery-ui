@@ -20,17 +20,11 @@ import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.CallbackParameter;
-import org.apache.wicket.event.Broadcast;
-import org.apache.wicket.event.IEvent;
-import org.apache.wicket.event.IEventSink;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
 import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
 
 /**
  * Provides a jQuery draggable element based on a {@link JQueryContainer}
@@ -38,7 +32,7 @@ import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
  * @param <T> the object model type
  * @author Sebastien Briquet - sebfz1
  */
-public class Draggable<T> extends JQueryContainer
+public class Draggable<T> extends JQueryContainer implements IDraggableListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -79,9 +73,6 @@ public class Draggable<T> extends JQueryContainer
 		}
 	}
 
-
-	private OldJQueryAjaxBehavior onDragStartBehavior;
-	private OldJQueryAjaxBehavior onDragStopBehavior;
 	private Options options;
 
 	/**
@@ -91,6 +82,7 @@ public class Draggable<T> extends JQueryContainer
 	public Draggable(String id)
 	{
 		super(id);
+
 		this.init();
 	}
 
@@ -102,6 +94,7 @@ public class Draggable<T> extends JQueryContainer
 	public Draggable(String id, IModel<T> model)
 	{
 		super(id, model);
+
 		this.init();
 	}
 
@@ -114,7 +107,6 @@ public class Draggable<T> extends JQueryContainer
 	{
 		this.options = new Options();
 	}
-
 
 	// Getters / Setters //
 	/**
@@ -137,28 +129,13 @@ public class Draggable<T> extends JQueryContainer
 		return (T)this.getDefaultModelObject();
 	}
 
-	/**
-	 * Indicates whether the 'stop' event is enabled.<br />
-	 * If true, the {@link #onDragStop(AjaxRequestTarget)} event will be triggered.
-	 *
-	 * @return false by default
-	 */
-	protected boolean isStopEventEnabled()
+	@Override
+	public boolean isStopEventEnabled()
 	{
 		return false;
 	}
 
-
 	// Events //
-	@Override
-	protected void onInitialize()
-	{
-		super.onInitialize();
-
-		this.add(this.onDragStartBehavior = this.newOnDragStartBehavior());
-		this.add(this.onDragStopBehavior = this.newOnDragStopBehavior());
-	}
-
 	/**
 	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering
 	 * cycle has begun, the behavior can modify the configuration of the component (i.e. {@link Options})
@@ -170,65 +147,14 @@ public class Draggable<T> extends JQueryContainer
 	}
 
 	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		// dragStartBehavior is multicasted; need to check that 'this' is the expected source (in case of several Draggables)
-		if ((event.getPayload() instanceof OldJQueryEvent) && (event.getSource() == this))
-		{
-			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
-
-			if (payload instanceof Draggable.DragStartEvent)
-			{
-				this.onDragStart(payload.getTarget());
-			}
-
-			if (payload instanceof Draggable.DragStopEvent)
-			{
-				this.onDragStop(payload.getTarget());
-			}
-		}
-	}
-
-	/**
-	 * Triggered when the drag starts
-	 * @param target the {@link AjaxRequestTarget}
-	 */
-	protected void onDragStart(AjaxRequestTarget target)
+	public void onDragStart(AjaxRequestTarget target)
 	{
 	}
 
-	/**
-	 * Triggered when the drag stops<br />
-	 * @param target the {@link AjaxRequestTarget}
-	 * @see #isStopEventEnabled()
-	 */
-	protected void onDragStop(AjaxRequestTarget target)
-	{
-	}
-
-	// IJQueryWidget //
 	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
+	public void onDragStop(AjaxRequestTarget target)
 	{
-		return new JQueryBehavior(selector, "draggable", this.options) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onConfigure(Component component)
-			{
-				Draggable.this.onConfigure(this);
-
-				this.setOption("start", Draggable.this.onDragStartBehavior.getCallbackFunction());
-
-				if (Draggable.this.isStopEventEnabled())
-				{
-					this.setOption("stop", Draggable.this.onDragStopBehavior.getCallbackFunction());
-				}
-			}
-		};
 	}
-
 
 	// Options //
 	/**
@@ -300,89 +226,39 @@ public class Draggable<T> extends JQueryContainer
 		return this;
 	}
 
-
-	// Factories //
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'dragStart' javascript event
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newOnDragStartBehavior()
+	// IJQueryWidget //
+	@Override
+	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new OldJQueryAjaxBehavior(this) {
+		return new DraggableBehavior(selector, this.options) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected Broadcast getBroadcast()
+			public void onConfigure(Component component)
 			{
-				return Broadcast.BREADTH; //start from the page (see #getSink()) and go deeper, this is important for the Droppable to be notified
+				super.onConfigure(component);
+
+				Draggable.this.onConfigure(this);
 			}
 
 			@Override
-			protected IEventSink getSink()
+			public boolean isStopEventEnabled()
 			{
-				return Draggable.this.getPage();
+				return Draggable.this.isStopEventEnabled();
 			}
 
 			@Override
-			protected CallbackParameter[] getCallbackParameters()
+			public void onDragStart(AjaxRequestTarget target)
 			{
-				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui") };
+				Draggable.this.onDragStart(target);
 			}
 
 			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
+			public void onDragStop(AjaxRequestTarget target)
 			{
-				return new DragStartEvent(target);
+				Draggable.this.onDragStop(target);
 			}
 		};
-	}
-
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'dragStop' javascript event
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newOnDragStopBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui") };
-			}
-
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new DragStopEvent(target);
-			}
-		};
-	}
-
-
-	// Events classes //
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'start' callback
-	 */
-	public class DragStartEvent extends OldJQueryEvent
-	{
-		public DragStartEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
-	}
-
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'stop' callback
-	 */
-	public class DragStopEvent extends OldJQueryEvent
-	{
-		public DragStopEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
 	}
 }

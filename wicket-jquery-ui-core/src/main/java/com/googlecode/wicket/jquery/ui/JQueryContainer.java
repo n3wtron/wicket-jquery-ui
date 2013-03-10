@@ -34,7 +34,7 @@ public abstract class JQueryContainer extends WebMarkupContainer implements IJQu
 	/**
 	 * keep a reference of the behavior, in case of special needs (ie {@link ProgressBar#respond(org.apache.wicket.ajax.AjaxRequestTarget)}
 	 */
-	protected JQueryBehavior widgetBehavior = null; 
+	protected JQueryBehavior widgetBehavior = null; //TODO: to be removed?
 
 	/**
 	 * Constructor.
@@ -42,9 +42,9 @@ public abstract class JQueryContainer extends WebMarkupContainer implements IJQu
 	 */
 	public JQueryContainer(String id)
 	{
-		super(id);		
+		super(id);
 	}
-	
+
 	/**
 	 * Constructor.
 	 * @param id the markup id
@@ -54,14 +54,14 @@ public abstract class JQueryContainer extends WebMarkupContainer implements IJQu
 	{
 		super(id, model);
 	}
-	
-	
+
+
 	// Events //
 	@Override
 	protected void onInitialize()
 	{
 		super.onInitialize();
-		
+
 		this.add(this.widgetBehavior = JQueryWidget.newWidgetBehavior(this));
 	}
 }

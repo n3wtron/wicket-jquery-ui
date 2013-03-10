@@ -33,7 +33,7 @@ import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
  *
  * @author Sebastien Briquet - sebfz1
  */
-public class DatePickerBehavior extends JQueryBehavior implements IJQueryAjaxAware, IDatePickerListener
+public abstract class DatePickerBehavior extends JQueryBehavior implements IJQueryAjaxAware, IDatePickerListener
 {
 	private static final long serialVersionUID = 1L;
 	private static final String METHOD = "datepicker";
@@ -72,12 +72,6 @@ public class DatePickerBehavior extends JQueryBehavior implements IJQueryAjaxAwa
 	}
 
 	// Properties //
-	@Override
-	public boolean isOnSelectEventEnabled()
-	{
-		return false;
-	}
-
 	// Events //
 	@Override
 	public void onConfigure(Component component)
@@ -99,12 +93,6 @@ public class DatePickerBehavior extends JQueryBehavior implements IJQueryAjaxAwa
 		}
 	}
 
-	// IDatePickerListener //
-	@Override
-	public void onSelect(AjaxRequestTarget target, String date)
-	{
-	}
-
 	// Factories //
 	/**
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'select' javascript method
@@ -120,7 +108,7 @@ public class DatePickerBehavior extends JQueryBehavior implements IJQueryAjaxAwa
 			@Override
 			protected CallbackParameter[] getCallbackParameters()
 			{
-				//function( dateText, inst ) {  .. }
+				//function( dateText, inst ) { ... }
 				return new CallbackParameter[] { CallbackParameter.explicit("dateText"), CallbackParameter.context("inst") };
 			}
 

@@ -18,6 +18,8 @@ package com.googlecode.wicket.jquery.ui.form.datepicker;
 
 import java.util.Date;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.model.IModel;
 
@@ -30,7 +32,7 @@ import com.googlecode.wicket.jquery.ui.Options;
  *
  * @author Sebastien Briquet - sebfz1
  */
-public class DatePicker extends DateTextField implements IJQueryWidget
+public class DatePicker extends DateTextField implements IJQueryWidget, IDatePickerListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -108,6 +110,13 @@ public class DatePicker extends DateTextField implements IJQueryWidget
 		this.options = options;
 	}
 
+	// IResizableListener //
+	@Override
+	public boolean isOnSelectEventEnabled()
+	{
+		return false;
+	}
+
 	// Events //
 	@Override
 	protected void onInitialize()
@@ -127,6 +136,11 @@ public class DatePicker extends DateTextField implements IJQueryWidget
 	{
 	}
 
+	@Override
+	public void onSelect(AjaxRequestTarget target, String date)
+	{
+	}
+
 	// IJQueryWidget //
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
@@ -136,9 +150,23 @@ public class DatePicker extends DateTextField implements IJQueryWidget
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onConfigure(JQueryBehavior behavior)
+			public void onConfigure(Component component)
 			{
-				DatePicker.this.onConfigure(behavior);
+				super.onConfigure(component);
+
+				DatePicker.this.onConfigure(this);
+			}
+
+			@Override
+			public boolean isOnSelectEventEnabled()
+			{
+				return DatePicker.this.isOnSelectEventEnabled();
+			}
+
+			@Override
+			public void onSelect(AjaxRequestTarget target, String date)
+			{
+				DatePicker.this.onSelect(target, date);
 			}
 		};
 	}

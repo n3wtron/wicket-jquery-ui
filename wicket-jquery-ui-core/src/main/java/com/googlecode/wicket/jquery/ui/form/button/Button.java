@@ -88,8 +88,8 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 	@Override
 	public ButtonBehavior newWidgetBehavior(String selector)
 	{
-		return new ButtonBehavior(selector)
-		{
+		return new ButtonBehavior(selector) {
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -102,8 +102,6 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 
 	/**
 	 * TODO: javadoc
-	 * @author Sebastien Briquet - sebfz1
-	 *
 	 */
 	public static class ButtonBehavior extends JQueryBehavior
 	{

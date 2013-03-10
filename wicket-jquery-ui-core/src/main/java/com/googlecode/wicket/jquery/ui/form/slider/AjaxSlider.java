@@ -18,7 +18,6 @@ package com.googlecode.wicket.jquery.ui.form.slider;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
@@ -27,23 +26,22 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.ui.JQueryEvent;
+import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
 import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxPostBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior;
+import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery range slider based on a {@link FormComponentPanel}
- * This ajax version will post the {@link Component}, using a {@link OldJQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
+ * This ajax version will post the {@link Component}, using a {@link JQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
  *
  * @author Sebastien Briquet - sebfz1
  */
-public class AjaxSlider extends Slider implements IValueChangedListener
+public class AjaxSlider extends Slider implements IJQueryAjaxAware, IValueChangedListener
 {
 	private static final long serialVersionUID = 1L;
-
-	private OldJQueryAjaxBehavior onChangeBehavior;
 
 	/**
 	 * Constructor
@@ -88,39 +86,21 @@ public class AjaxSlider extends Slider implements IValueChangedListener
 
 	// Events //
 	@Override
-	protected void onInitialize()
+	public void onAjax(AjaxRequestTarget target, JQueryEvent event)
 	{
-		super.onInitialize();
-
-		this.add(this.onChangeBehavior = this.newOnChangeBehavior());
-	}
-
-	@Override
-	protected void onConfigure(JQueryBehavior behavior)
-	{
-		super.onConfigure(behavior);
-
-		behavior.setOption("change", this.onChangeBehavior.getCallbackFunction());
-	}
-
-	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof ChangeEvent)
+		if (event instanceof ChangeEvent)
 		{
-			ChangeEvent payload = (ChangeEvent) event.getPayload();
-
 			//In case of issue, consider copying code from AjaxFormComponentUpdatingBehavior.onEvent
-			this.input.processInput();
+			super.input.processInput();
 			this.validate();
 
-			if (this.isValid() && this.input.isValid())
+			if (this.isValid() && super.input.isValid())
 			{
-				this.onValueChanged(payload.getTarget(), this.getForm());
+				this.onValueChanged(target, this.getForm());
 			}
 			else
 			{
-				this.onError(payload.getTarget());
+				this.onError(target);
 			}
 		}
 	}
@@ -138,13 +118,33 @@ public class AjaxSlider extends Slider implements IValueChangedListener
 	{
 	}
 
-	// Factories //
-	/**
-	 * Gets a new {@link OldJQueryAjaxPostBehavior} that will be called on 'change' javascript event
-	 * @return the {@link OldJQueryAjaxPostBehavior}
-	 */
-	protected OldJQueryAjaxPostBehavior newOnChangeBehavior()
+	// IJQueryWidget //
+	@Override
+	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new OldJQueryAjaxChangeBehavior(this, this.input);
+		return new AjaxSliderBehavior(selector, super.options) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onConfigure(Component component)
+			{
+				super.onConfigure(component);
+
+				AjaxSlider.this.onConfigure(this); //important, should call Slider#onConfigure(JQueryBehavior)
+			}
+
+			@Override
+			public void onAjax(AjaxRequestTarget target, JQueryEvent event)
+			{
+				AjaxSlider.this.onAjax(target, event);
+			}
+
+			@Override
+			protected JQueryAjaxPostBehavior newOnChangeBehavior()
+			{
+				return new JQueryAjaxChangeBehavior(this, AjaxSlider.this.input);
+			}
+		};
 	}
 }

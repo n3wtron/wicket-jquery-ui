@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.form.TextField;
@@ -263,11 +264,13 @@ public abstract class AutoCompleteTextField<T extends Serializable> extends Text
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onConfigure(JQueryBehavior behavior)
+			public void onConfigure(Component component)
 			{
-				AutoCompleteTextField.this.onConfigure(behavior);
+				super.onConfigure(component);
 
 				this.setOption("source", Options.asString(AutoCompleteTextField.this.sourceBehavior.getCallbackUrl()));
+
+				AutoCompleteTextField.this.onConfigure(this);
 			}
 
 			@Override

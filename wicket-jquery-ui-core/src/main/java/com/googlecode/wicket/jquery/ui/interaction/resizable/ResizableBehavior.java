@@ -66,7 +66,7 @@ public abstract class ResizableBehavior extends JQueryBehavior implements IJQuer
 	{
 		super.bind(component);
 
-		// for Resizable, events are not enabled by default to prevent unnecessary server round trip.
+		// these events are not enabled by default to prevent unnecessary server round-trips.
 		if (this.isResizeStartEventEnabled())
 		{
 			component.add(this.onResizeStartBehavior = this.newOnResizeStartBehavior());
@@ -195,7 +195,7 @@ public abstract class ResizableBehavior extends JQueryBehavior implements IJQuer
 		 */
 		public ResizeEvent()
 		{
-			this.top = RequestCycleUtils.getQueryParameterValue("top").toInt(-1);
+			this.top = RequestCycleUtils.getQueryParameterValue("top").toInt(-1); //TODO: to double?
 			this.left = RequestCycleUtils.getQueryParameterValue("left").toInt(-1);
 			this.width = RequestCycleUtils.getQueryParameterValue("width").toInt(-1);
 			this.height = RequestCycleUtils.getQueryParameterValue("height").toInt(-1);

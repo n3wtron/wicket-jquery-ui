@@ -14,23 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui;
+package com.googlecode.wicket.jquery.ui.interaction;
 
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 
 /**
- * Base class for a jQuery event object that will be broadcasted by {@link JQueryAjaxBehavior}<code>s</code>.
- *
+ * TODO javadoc
  * @author Sebastien Briquet - sebfz1
  *
  */
-//TODO: check if all extended class are static!
-public class JQueryEvent
+interface IDraggableListener
 {
 	/**
-	 * Constructor.
+	 * Indicates whether the 'stop' event is enabled.<br />
+	 * If true, the {@link #onDragStop(AjaxRequestTarget)} event will be triggered.
+	 *
+	 * @return false by default
 	 */
-	public JQueryEvent()
-	{
-	}
+	boolean isStopEventEnabled();
+
+	/**
+	 * Triggered when the drag starts
+	 * @param target the {@link AjaxRequestTarget}
+	 */
+	void onDragStart(AjaxRequestTarget target);
+
+	/**
+	 * Triggered when the drag stops<br />
+	 * @param target the {@link AjaxRequestTarget}
+	 * @see #isStopEventEnabled()
+	 */
+	void onDragStop(AjaxRequestTarget target);
 }

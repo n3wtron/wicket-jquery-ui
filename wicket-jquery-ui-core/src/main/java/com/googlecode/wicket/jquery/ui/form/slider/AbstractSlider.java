@@ -37,7 +37,6 @@ import com.googlecode.wicket.jquery.ui.Options;
 public abstract class AbstractSlider<T> extends FormComponentPanel<T> implements IJQueryWidget
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "slider";
 
 	protected Options options;
 	protected Label label; // the div on which the slider behavior will be applied to //
@@ -121,17 +120,6 @@ public abstract class AbstractSlider<T> extends FormComponentPanel<T> implements
 		return this;
 	}
 
-	// Factory //
-	/**
-	 * Gets a new {@link Fragment} containing the input<br/>
-	 * Overridden methods should provide a {@link Fragment} containing input(s) when no input(s) has been specified in implementation constructors.
-	 * @return the empty-fragment by default
-	 */
-	protected Fragment newInputFragment(String id)
-	{
-		return new Fragment(id, "empty-fragment", this);
-	}
-
 	// Events //
 	@Override
 	protected void onInitialize()
@@ -157,7 +145,7 @@ public abstract class AbstractSlider<T> extends FormComponentPanel<T> implements
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, METHOD, this.options) {
+		return new SliderBehavior(selector, this.options) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -167,6 +155,17 @@ public abstract class AbstractSlider<T> extends FormComponentPanel<T> implements
 				AbstractSlider.this.onConfigure(this);
 			}
 		};
+	}
+
+	// Factory //
+	/**
+	 * Gets a new {@link Fragment} containing the input<br/>
+	 * Overridden methods should provide a {@link Fragment} containing input(s) when no input(s) has been specified in implementation constructors.
+	 * @return the empty-fragment by default
+	 */
+	protected Fragment newInputFragment(String id)
+	{
+		return new Fragment(id, "empty-fragment", this);
 	}
 
 	// Options //
@@ -220,5 +219,26 @@ public abstract class AbstractSlider<T> extends FormComponentPanel<T> implements
 	{
 		this.options.set("orientation", orientation);
 		return (W)this;
+	}
+
+	/**
+	 * TODO: javadoc
+	 * @author Sebastien Briquet - sebfz1
+	 *
+	 */
+	public static class SliderBehavior extends JQueryBehavior
+	{
+		private static final long serialVersionUID = 1L;
+		private static final String METHOD = "slider";
+
+		public SliderBehavior(String selector)
+		{
+			super(selector, METHOD);
+		}
+
+		public SliderBehavior(String selector, Options options)
+		{
+			super(selector, METHOD, options);
+		}
 	}
 }

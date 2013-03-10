@@ -27,7 +27,9 @@ import com.googlecode.wicket.jquery.ui.Options;
  *
  * @author Sebastien Briquet - sebfz1
  * @since 1.0
+ * @deprecated use {@link AccordionBehavior} or {@link AccordionPanel} instead
  */
+@Deprecated
 public class Accordion extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;

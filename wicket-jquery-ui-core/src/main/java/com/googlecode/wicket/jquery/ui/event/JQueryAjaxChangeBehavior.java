@@ -17,6 +17,7 @@
 package com.googlecode.wicket.jquery.ui.event;
 
 import org.apache.wicket.ajax.attributes.CallbackParameter;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.form.FormComponent;
 
 import com.googlecode.wicket.jquery.ui.JQueryEvent;
@@ -24,25 +25,26 @@ import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
 
 /**
- * Provides a new {@link JQueryAjaxPostBehavior} that will (should) be called on 'change' jQuery method
+ * Provides a new {@link JQueryAjaxPostBehavior} that is designed to be called on 'change' jQuery event
  */
 public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
 {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructor
-	 * @param component the the {@link FormComponent}
-	 */
-	@SuppressWarnings("javadoc")
-	public <A extends FormComponent<?> & IJQueryAjaxAware> JQueryAjaxChangeBehavior(A component)
-	{
-		super(component);
-	}
+	//TODO: to remove?
+//	/**
+//	 * Constructor
+//	 * @param component the the {@link FormComponent} to post
+//	 */
+//	@SuppressWarnings("javadoc")
+//	public <A extends FormComponent<?> & IJQueryAjaxAware> JQueryAjaxChangeBehavior(A component)
+//	{
+//		super(component);
+//	}
 
 	/**
 	 * Constructor
-	 * @param source the component that will broadcast the event.
+	 * @param source the {@link Behavior} that will broadcast the event.
 	 * @param components the form components to post
 	 */
 	public JQueryAjaxChangeBehavior(IJQueryAjaxAware source, FormComponent<?>... components)
@@ -70,12 +72,6 @@ public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
 	 */
 	public static class ChangeEvent extends JQueryEvent
 	{
-		/**
-		 * Constructor
-		 */
-		public ChangeEvent()
-		{
-		}
 	}
 }
 

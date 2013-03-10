@@ -33,6 +33,7 @@ import org.apache.wicket.util.string.StringValue;
 
 import com.googlecode.wicket.jquery.ui.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryContainer;
+import com.googlecode.wicket.jquery.ui.JQueryIcon;
 import com.googlecode.wicket.jquery.ui.Options;
 import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
@@ -294,7 +295,7 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 
 	// Default Draggable Factory //
 	/**
-	 * Default {@link SelectableDraggableFactory} implementation which will create a {@link Draggable} with a <code>ui-icon-arrow-4-diag</code> icon
+	 * Default {@link SelectableDraggableFactory} implementation which will create a {@link Draggable} with a {@link JQueryIcon#ARROW_4_DIAG} icon
 	 */
 	class DefaultDraggableFactory extends SelectableDraggableFactory
 	{
@@ -316,7 +317,7 @@ public class Selectable<T extends Serializable> extends JQueryContainer
 				}
 			};
 
-			draggable.add(AttributeModifier.append("class", "ui-icon ui-icon-arrow-4-diag"));
+			draggable.add(AttributeModifier.append("class", "ui-icon " + JQueryIcon.ARROW_4_DIAG));
 			draggable.add(AttributeModifier.append("style", "display: inline-block; background-position: -16px -80px !important;")); // The background position is the same as ui-icon-arrow-4-diag. It is marked as important for the icon to not disappear while selecting over it.
 
 			return draggable;
