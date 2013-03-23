@@ -14,39 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.form.slider;
+package com.googlecode.wicket.jquery.ui.widget.progressbar;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-
-import com.googlecode.wicket.jquery.core.JQueryEvent;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxPostBehavior;
-import com.googlecode.wicket.jquery.ui.form.slider.AbstractSlider.SliderBehavior;
+import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior;
 
 /**
- * TODO javadoc
- * {@link #onAjax(AjaxRequestTarget, JQueryEvent)}} is delegated to AjaxSlider (need to validate AjaxSlider as FormComponent)
+ * Provides a jQuery accordion behavior.
  *
  * @author Sebastien Briquet - sebfz1
- *
+ * @since 1.2.3
+ * @since 6.0.1
  */
-public abstract class AjaxSliderBehavior extends SliderBehavior implements IJQueryAjaxAware
+public abstract class ProgressBarBehavior extends JQueryBehavior implements IJQueryAjaxAware
 {
 	private static final long serialVersionUID = 1L;
+	private static final String METHOD = "progressbar";
 
-	private JQueryAjaxBehavior onChangeBehavior;
+	private JQueryAjaxBehavior onChangeBehavior = null;
 
-	public AjaxSliderBehavior(String selector)
+	/**
+	 * Constructor
+	 *
+	 * @param selector the html selector (ie: "#myId")
+	 */
+	public ProgressBarBehavior(String selector)
 	{
-		super(selector);
+		super(selector, METHOD);
 	}
 
-	public AjaxSliderBehavior(String selector, Options options)
+	/**
+	 * Constructor
+	 *
+	 * @param selector the html selector (ie: "#myId")
+	 * @param options the {@link Options}
+	 */
+	public ProgressBarBehavior(String selector, Options options)
 	{
-		super(selector, options);
+		super(selector, METHOD, options);
 	}
 
 	// Methods //
@@ -58,19 +67,24 @@ public abstract class AjaxSliderBehavior extends SliderBehavior implements IJQue
 		component.add(this.onChangeBehavior = this.newOnChangeBehavior());
 	}
 
+
 	// Events //
 	@Override
 	public void onConfigure(Component component)
 	{
 		super.onConfigure(component);
 
+		this.setOption("value", component.getDefaultModelObjectAsString()); //initial value
 		this.setOption("change", this.onChangeBehavior.getCallbackFunction());
 	}
 
 	// Factories //
 	/**
-	 * Gets a new {@link JQueryAjaxPostBehavior} that will be called on 'change' javascript event
-	 * @return the {@link JQueryAjaxPostBehavior}
+	 * Gets a new {@link JQueryAjaxChangeBehavior} that will be called on 'change' javascript event
+	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	protected abstract JQueryAjaxPostBehavior newOnChangeBehavior();
+	protected JQueryAjaxBehavior newOnChangeBehavior()
+	{
+		return new JQueryAjaxChangeBehavior(this);
+	}
 }

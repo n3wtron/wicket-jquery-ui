@@ -16,7 +16,12 @@
  */
 package com.googlecode.wicket.jquery.ui.widget.tabs;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.core.JQueryContainer;
@@ -74,9 +79,22 @@ public class Tabs extends JQueryContainer
 			private static final long serialVersionUID = 1L;
 
 			@Override
+			protected List<ITab> getTabs()
+			{
+				return Collections.emptyList();
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
+				super.onConfigure(component);
+
 				Tabs.this.onConfigure(this);
+			}
+
+			@Override
+			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
+			{
 			}
 		};
 	}

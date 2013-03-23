@@ -161,7 +161,7 @@ public class AccordionPanel extends JQueryPanel implements IAccordionListener
 			}
 		});
 
-		this.add(this.widgetBehavior = (AccordionBehavior) JQueryWidget.newWidgetBehavior(this));
+		this.add(this.widgetBehavior = this.newWidgetBehavior(JQueryWidget.getSelector(this)));
 	}
 
 	/**
@@ -181,14 +181,14 @@ public class AccordionPanel extends JQueryPanel implements IAccordionListener
 
 	// IJQueryWidget //
 	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
+	public AccordionBehavior newWidgetBehavior(String selector)
 	{
 		return new AccordionBehavior(selector, this.options) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected List<ITab> getTabList()
+			protected List<ITab> getTabs()
 			{
 				return AccordionPanel.this.getModelObject();
 			}

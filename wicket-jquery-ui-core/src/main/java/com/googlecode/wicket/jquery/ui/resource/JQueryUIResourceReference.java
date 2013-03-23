@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.core.resource;
+package com.googlecode.wicket.jquery.ui.resource;
 
 import org.apache.wicket.resource.JQueryPluginResourceReference;
 

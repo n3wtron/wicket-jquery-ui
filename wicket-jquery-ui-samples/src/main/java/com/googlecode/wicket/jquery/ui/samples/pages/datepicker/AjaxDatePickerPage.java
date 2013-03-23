@@ -34,7 +34,7 @@ public class AjaxDatePickerPage extends AbstractDatePickerPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onValueChanged(AjaxRequestTarget target, Form<?> unused)
+			public void onValueChanged(AjaxRequestTarget target)
 			{
 				info("Selected date: " + this.getModelObject());
 				target.add(feedback);

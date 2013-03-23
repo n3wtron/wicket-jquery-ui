@@ -16,21 +16,35 @@
  */
 package com.googlecode.wicket.jquery.ui.widget.tabs;
 
+import java.util.List;
+
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.attributes.CallbackParameter;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryEvent;
 import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.core.utils.RequestCycleUtils;
 
 /**
- * Provides a jQuery tabs behavior.
+ * Provides a jQuery tabs behavior.<br/>
+ * Note, this class has almost the same code as AccordionBehavior
  *
  * @author Sebastien Briquet - sebfz1
  * @since 1.2.1
  */
-public class TabsBehavior extends JQueryBehavior
+public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjaxAware, ITabsListener
 {
 	private static final long serialVersionUID = 1L;
 	private static final String METHOD = "tabs";
+
+	private JQueryAjaxBehavior activateEventBehavior;
+	//private JQueryAjaxBehavior beforeActivateEventBehavior = null;
 
 	/**
 	 * Constructor
@@ -54,6 +68,24 @@ public class TabsBehavior extends JQueryBehavior
 	}
 
 
+	// Properties //
+	/**
+	 * Gets the reference list of tabs.<br/>
+	 * Usually the model object of the component on which this {@link TabsBehavior} is bound to.
+	 *
+	 * @return a non-null {@link List}
+	 */
+	protected abstract List<ITab> getTabs();
+
+
+	// Methods //
+	@Override
+	public void bind(Component component)
+	{
+		super.bind(component);
+
+		component.add(this.activateEventBehavior = this.newActivateEventBehavior());
+	}
 	/**
 	 * Activates the selected tab, identified by the index
 	 * @param target the {@link AjaxRequestTarget}
@@ -62,5 +94,97 @@ public class TabsBehavior extends JQueryBehavior
 	public void activate(int index, AjaxRequestTarget target)
 	{
 		target.appendJavaScript(this.$("'option'", "'active'", index));
+	}
+
+
+	// Events //
+	@Override
+	public void onConfigure(Component component)
+	{
+		super.onConfigure(component);
+
+		this.setOption("create", activateEventBehavior.getCallbackFunction());
+		this.setOption("activate", activateEventBehavior.getCallbackFunction());
+
+//		if (this.isOnBeforeActivateEventEnabled())
+	}
+
+	@Override
+	public void onAjax(AjaxRequestTarget target, JQueryEvent event)
+	{
+		if (event instanceof ActivateEvent)
+		{
+			int index = ((ActivateEvent) event).getIndex();
+
+			if (index > -1) /* index could be not known depending on options / user action */
+			{
+				ITab tab = this.getTabs().get(index);
+
+				if (tab instanceof AjaxTab)
+				{
+					((AjaxTab)tab).load(target);
+				}
+
+				this.onActivate(target, index, tab);
+			}
+		}
+	}
+
+	// Factories //
+	/**
+	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'activate' javascript callback
+	 * @return the {@link JQueryAjaxBehavior}
+	 */
+	private JQueryAjaxBehavior newActivateEventBehavior()
+	{
+		return new JQueryAjaxBehavior(this) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected CallbackParameter[] getCallbackParameters()
+			{
+				return new CallbackParameter[] {
+						CallbackParameter.context("event"),
+						CallbackParameter.context("ui"),
+						CallbackParameter.resolved("index", "jQuery(event.target).tabs('option', 'active')")
+				};
+			}
+
+			@Override
+			protected JQueryEvent newEvent()
+			{
+				return new ActivateEvent();
+			}
+		};
+	}
+
+
+	// Event objects //
+	/**
+	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'activate' callback
+	 */
+	protected static class ActivateEvent extends JQueryEvent
+	{
+		private final int index;
+
+		/**
+		 * Constructor
+		 */
+		public ActivateEvent()
+		{
+			super();
+
+			this.index = RequestCycleUtils.getQueryParameterValue("index").toInt(-1);
+		}
+
+		/**
+		 * Gets the tab's index
+		 * @return the index
+		 */
+		public int getIndex()
+		{
+			return this.index;
+		}
 	}
 }

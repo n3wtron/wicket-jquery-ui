@@ -14,19 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.widget;
+package com.googlecode.wicket.jquery.ui.widget.progressbar;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.CallbackParameter;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.core.JQueryContainer;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.core.old.OldJQueryEvent;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.core.JQueryEvent;
+import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.core.event.IValueChangedListener;
+import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery progress-bar based on a {@link JQueryContainer}
@@ -34,14 +32,12 @@ import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxChangeBehavior.ChangeE
  * @author Sebastien Briquet - sebfz1
  * @since 1.0
  */
-public class ProgressBar extends JQueryContainer
+public class ProgressBar extends JQueryContainer implements IJQueryAjaxAware, IValueChangedListener
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "progressbar";
+
 	private static final int MIN = 0;
 	private static final int MAX = 100;
-
-	private OldJQueryAjaxBehavior onChangeBehavior = null;
 
 	/**
 	 * Constructor
@@ -151,7 +147,7 @@ public class ProgressBar extends JQueryContainer
 
 	/**
 	 * Re-attaches the widget behavior to the specified target, causing the progress-bar to refresh.<br/>
-	 * This method is needed to be called atfer the model object changed.<br/>
+	 * This method is needed to be called after the model object changed.<br/>
 	 * But It is not required to be called when calling forward or backward methods.
 	 * @param target the {@link AjaxRequestTarget}
 	 */
@@ -162,41 +158,25 @@ public class ProgressBar extends JQueryContainer
 
 	/* Events */
 	@Override
-	protected void onInitialize()
+	public void onAjax(AjaxRequestTarget target, JQueryEvent event)
 	{
-		super.onInitialize();
-
-		this.add(this.onChangeBehavior = this.newOnChangeBehavior());
-	}
-
-	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof ChangeEvent)
+		if (event instanceof ChangeEvent)
 		{
-			OldJQueryEvent payload = (OldJQueryEvent) event.getPayload();
-			AjaxRequestTarget target = payload.getTarget();
-
 			this.onValueChanged(target);
 
-			if(this.getModelObject() == MAX)
+			if(this.getModelObject() == ProgressBar.MAX)
 			{
 				this.onComplete(target);
 			}
 		}
 	}
 
-	@Override
-	protected void onModelChanged()
-	{
-		this.widgetBehavior.setOption("value", this.getModelObject()); //cannot be null?
-	}
-
 	/**
 	 * Triggered when the value changed
 	 * @param target the {@link AjaxRequestTarget}
 	 */
-	protected void onValueChanged(AjaxRequestTarget target)
+	@Override
+	public void onValueChanged(AjaxRequestTarget target)
 	{
 	}
 
@@ -208,44 +188,25 @@ public class ProgressBar extends JQueryContainer
 	{
 	}
 
+	@Override
+	protected void onModelChanged()
+	{
+		this.widgetBehavior.setOption("value", this.getModelObject()); //cannot be null?
+	}
+
 
 	// IJQueryWidget //
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, METHOD) {
+		return new ProgressBarBehavior(selector) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onConfigure(Component component)
+			public void onAjax(AjaxRequestTarget target, JQueryEvent event)
 			{
-				this.setOption("value", ProgressBar.this.getModelObject()); //initial value
-				this.setOption("change", ProgressBar.this.onChangeBehavior.getCallbackFunction());
-			}
-		};
-	}
-
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'change' javascript event
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newOnChangeBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] { CallbackParameter.context("event"), CallbackParameter.context("ui") };
-			}
-
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new ChangeEvent(target);
+				ProgressBar.this.onAjax(target, event);
 			}
 		};
 	}

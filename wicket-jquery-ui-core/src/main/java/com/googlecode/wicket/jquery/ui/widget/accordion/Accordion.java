@@ -82,7 +82,7 @@ public class Accordion extends JQueryContainer
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected List<ITab> getTabList()
+			protected List<ITab> getTabs()
 			{
 				return Collections.emptyList();
 			}

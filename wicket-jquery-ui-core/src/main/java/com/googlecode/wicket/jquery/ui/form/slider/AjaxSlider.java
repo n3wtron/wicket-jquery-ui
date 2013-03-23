@@ -19,7 +19,6 @@ package com.googlecode.wicket.jquery.ui.form.slider;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
@@ -96,7 +95,7 @@ public class AjaxSlider extends Slider implements IJQueryAjaxAware, IValueChange
 
 			if (this.isValid() && super.input.isValid())
 			{
-				this.onValueChanged(target, this.getForm());
+				this.onValueChanged(target);
 			}
 			else
 			{
@@ -106,7 +105,7 @@ public class AjaxSlider extends Slider implements IJQueryAjaxAware, IValueChange
 	}
 
 	@Override
-	public void onValueChanged(AjaxRequestTarget target, Form<?> form)
+	public void onValueChanged(AjaxRequestTarget target)
 	{
 	}
 

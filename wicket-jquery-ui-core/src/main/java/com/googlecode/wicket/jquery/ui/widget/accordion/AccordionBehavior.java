@@ -29,11 +29,11 @@ import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.core.utils.RequestCycleUtils;
-import com.googlecode.wicket.jquery.ui.interaction.selectable.SelectableBehavior;
 import com.googlecode.wicket.jquery.ui.widget.tabs.AjaxTab;
 
 /**
- * Provides a jQuery accordion behavior.
+ * Provides a jQuery accordion behavior.<br/>
+ * Note, this class has almost the same code as TabsBehavior
  *
  * @author Sebastien Briquet - sebfz1
  * @since 1.2.3
@@ -44,7 +44,7 @@ public abstract class AccordionBehavior extends JQueryBehavior implements IJQuer
 	private static final long serialVersionUID = 1L;
 	private static final String METHOD = "accordion";
 
-	private JQueryAjaxBehavior activateEventBehavior = null;
+	private JQueryAjaxBehavior activateEventBehavior;
 
 	/**
 	 * Constructor
@@ -67,14 +67,16 @@ public abstract class AccordionBehavior extends JQueryBehavior implements IJQuer
 		super(selector, METHOD, options);
 	}
 
+
 	// Properties //
 	/**
 	 * Gets the reference list of tabs.<br/>
-	 * Usually the model object of the component on which this {@link SelectableBehavior} is bound to.
+	 * Usually the model object of the component on which this {@link AccordionBehavior} is bound to.
 	 *
-	 * @return the non-null {@link List}
+	 * @return a non-null {@link List}
 	 */
-	protected abstract List<ITab> getTabList();
+	protected abstract List<ITab> getTabs();
+
 
 	// Methods //
 	@Override
@@ -114,7 +116,7 @@ public abstract class AccordionBehavior extends JQueryBehavior implements IJQuer
 
 			if (index > -1) /* index could be not known depending on options and user action */
 			{
-				ITab tab = this.getTabList().get(index);
+				ITab tab = this.getTabs().get(index);
 
 				if (tab instanceof AjaxTab)
 				{
@@ -132,7 +134,7 @@ public abstract class AccordionBehavior extends JQueryBehavior implements IJQuer
 	 *
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newActivateEventBehavior()
+	protected JQueryAjaxBehavior newActivateEventBehavior()
 	{
 		return new JQueryAjaxBehavior(this) {
 

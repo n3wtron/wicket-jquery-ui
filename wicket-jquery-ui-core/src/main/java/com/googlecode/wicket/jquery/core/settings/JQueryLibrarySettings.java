@@ -19,7 +19,7 @@ package com.googlecode.wicket.jquery.core.settings;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.settings.def.JavaScriptLibrarySettings;
 
-import com.googlecode.wicket.jquery.core.resource.JQueryUIResourceReference;
+import com.googlecode.wicket.jquery.ui.resource.JQueryUIResourceReference;
 
 /**
  * Default implementation of {@link IJQueryLibrarySettings}.<br/>

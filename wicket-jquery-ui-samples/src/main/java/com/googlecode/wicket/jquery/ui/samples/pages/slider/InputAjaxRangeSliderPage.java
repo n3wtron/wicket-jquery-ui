@@ -49,7 +49,7 @@ public class InputAjaxRangeSliderPage extends AbstractSliderPage
 			}
 
 			@Override
-			public void onValueChanged(AjaxRequestTarget target, Form<?> form)
+			public void onValueChanged(AjaxRequestTarget target)
 			{
 				InputAjaxRangeSliderPage.this.info(this, form);
 				target.add(feedback); //do never add 'this' or the form here!

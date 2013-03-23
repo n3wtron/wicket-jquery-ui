@@ -16,40 +16,33 @@
  */
 package com.googlecode.wicket.jquery.ui.widget.tabs;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.CallbackParameter;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.RepeatingView;
-import org.apache.wicket.model.util.ListModel;
-
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.core.JQueryPanel;
 import com.googlecode.wicket.jquery.core.Options;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.core.old.OldJQueryEvent;
-import com.googlecode.wicket.jquery.core.utils.RequestCycleUtils;
 
 /**
  * Provides jQuery tabs based on a {@link JQueryPanel}
  *
  * @author Sebastien Briquet - sebfz1
  */
-public class TabbedPanel extends JQueryPanel
+public class TabbedPanel extends JQueryPanel implements ITabsListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private final List<ITab> tabs;
-
 	private TabsBehavior widgetBehavior;
-	private OldJQueryAjaxBehavior activateEventBehavior;
 
 	/**
 	 * Constructor
@@ -67,75 +60,47 @@ public class TabbedPanel extends JQueryPanel
 	 * @param tabs the list of {@link ITab}<code>s</code>
 	 * @param options {@link Options}
 	 */
-	public TabbedPanel(String id, List<ITab> tabs, Options options)
+	public TabbedPanel(String id, List<? extends ITab> tabs, Options options)
 	{
-		super(id, options);
-
-		this.tabs = tabs;
-		this.init();
+		this(id, Model.ofList(tabs), options);
 	}
 
 	/**
-	 * Initialization
+	 * Constructor
+	 *
+	 * @param id the markup id
+	 * @param model the list model of {@link ITab}<code>s</code>
+	 * @param options {@link Options}
 	 */
-	private void init()
+	public TabbedPanel(String id, IModel<List<? extends ITab>> model, Options options)
 	{
-		final RepeatingView panels = new RepeatingView("panels") {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public String newChildId()
-			{
-				return String.format("tab-%s-%s", this.getMarkupId(), super.newChildId()); //fixes issue #14
-			}
-
-			@Override
-			protected void onConfigure()
-			{
-				super.onConfigure();
-
-				this.removeAll(); //fixes issue #7
-			}
-		};
-
-		this.add(panels);
-
-		this.add(new ListView<ITab>("tabs", new ListModel<ITab>(this.tabs)) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void populateItem(ListItem<ITab> item)
-			{
-				final ITab tab = item.getModelObject();
-
-				if (tab.isVisible())
-				{
-					final String newId = panels.newChildId();
-
-					// link (tab) //
-					Label link = new Label("link", tab.getTitle());
-					link.add(AttributeModifier.replace("href", "#" + newId));
-					item.add(link);
-
-					// panel //
-					panels.add(tab.getPanel(newId).setMarkupId(newId).setOutputMarkupId(true));
-				}
-			}
-		});
+		super(id, model, options);
 	}
-
 
 	// Properties //
-	/**
-	 * Gets the list of {@link ITab}<code>s</code>
-	 * @return the list of {@link ITab}<code>s</code>
-	 */
-	public List<ITab> getTabs()
+	@SuppressWarnings("unchecked")
+	public List<ITab> getModelObject()
 	{
-		return this.tabs;
+		List<ITab> list = (List<ITab>) this.getDefaultModelObject();
+
+		if (list != null)
+		{
+			return list;
+		}
+
+		return Collections.emptyList();
 	}
+
+
+	//XXX: report as changed - getTabs() > getModelObject()
+//	/**
+//	 * Gets the list of {@link ITab}<code>s</code>
+//	 * @return the list of {@link ITab}<code>s</code>
+//	 */
+//	public List<ITab> getTabs()
+//	{
+//		return this.tabs;
+//	}
 
 	/**
 	 * Activates the selected tab
@@ -160,6 +125,7 @@ public class TabbedPanel extends JQueryPanel
 		this.widgetBehavior.activate(index, target); //sets 'active' option, that fires 'activate' event (best would be that is also fires a 'show' event)
 	}
 
+
 	// Methods //
 	/**
 	 * Helper method. Adds an {@link ITab} to the list of tabs.
@@ -168,7 +134,7 @@ public class TabbedPanel extends JQueryPanel
 	 */
 	public boolean add(ITab tab)
 	{
-		return this.tabs.add(tab);
+		return this.getModelObject().add(tab); //will throw an UnsupportedOperationException if null is supplied to the constructor
 	}
 
 
@@ -178,8 +144,52 @@ public class TabbedPanel extends JQueryPanel
 	{
 		super.onInitialize();
 
-		this.add(this.activateEventBehavior = this.newActivateEventBehavior());
-		this.add(this.widgetBehavior = (TabsBehavior) JQueryWidget.newWidgetBehavior(this));
+		final RepeatingView panels = new RepeatingView("panels") {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public String newChildId()
+			{
+				return String.format("tab-%s-%s", this.getMarkupId(), super.newChildId()); //fixes issue #14
+			}
+
+			@Override
+			protected void onConfigure()
+			{
+				super.onConfigure();
+
+				this.removeAll(); //fixes issue #7
+			}
+		};
+
+		this.add(panels);
+
+		this.add(new ListView<ITab>("tabs", this.getModelObject()) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(ListItem<ITab> item)
+			{
+				final ITab tab = item.getModelObject();
+
+				if (tab.isVisible())
+				{
+					final String newId = panels.newChildId();
+
+					// link (tab) //
+					Label link = new Label("link", tab.getTitle());
+					link.add(AttributeModifier.replace("href", "#" + newId));
+					item.add(link);
+
+					// panel //
+					panels.add(tab.getPanel(newId).setMarkupId(newId).setOutputMarkupId(true));
+				}
+			}
+		});
+
+		this.add(this.widgetBehavior = this.newWidgetBehavior(JQueryWidget.getSelector(this)));
 	}
 
 	/**
@@ -193,117 +203,38 @@ public class TabbedPanel extends JQueryPanel
 	}
 
 	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof ActivateEvent)
-		{
-			ActivateEvent payload = (ActivateEvent) event.getPayload();
-			AjaxRequestTarget target = payload.getTarget();
-
-			int index = payload.getIndex();
-
-			if (index > -1) /* index could be not known depending on options / user action */
-			{
-				ITab tab = this.tabs.get(index);
-
-				if (tab instanceof AjaxTab)
-				{
-					((AjaxTab)tab).load(target);
-				}
-
-				this.onActivate(target, index, tab);
-			}
-		}
-	}
-
-	/**
-	 * Triggered when an accordion tab has been activated ('activate' event).<br/>
-	 *
-	 * @param target the {@link AjaxRequestTarget}
-	 * @param index the accordion header that triggered this event
-	 * @param tab the {@link ITab} that corresponds to the index
-	 */
-	protected void onActivate(AjaxRequestTarget target, int index, ITab tab)
+	public void onActivate(AjaxRequestTarget target, int index, ITab tab)
 	{
 	}
+
 
 	// IJQueryWidget //
 	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
+	public TabsBehavior newWidgetBehavior(String selector)
 	{
 		return new TabsBehavior(selector, this.options) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
+			protected List<ITab> getTabs()
+			{
+				return TabbedPanel.this.getModelObject();
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
+				super.onConfigure(component);
+
 				TabbedPanel.this.onConfigure(this);
-
-				this.setOption("create", activateEventBehavior.getCallbackFunction());
-				this.setOption("activate", activateEventBehavior.getCallbackFunction());
-			}
-		};
-	}
-
-
-	// Factories //
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that acts as the 'activate' javascript callback
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newActivateEventBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] {
-						CallbackParameter.context("event"),
-						CallbackParameter.context("ui"),
-						CallbackParameter.resolved("index", "jQuery(event.target).tabs('option', 'active')")
-				};
 			}
 
 			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
+			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
 			{
-				return new ActivateEvent(target);
+				TabbedPanel.this.onActivate(target, index, tab);
 			}
 		};
-	}
-
-
-	// Event objects //
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'activate' callback
-	 */
-	private class ActivateEvent extends OldJQueryEvent
-	{
-		private final int index;
-
-		/**
-		 * Constructor
-		 * @param target the {@link AjaxRequestTarget}
-		 * @param step the {@link Step} (Start or Stop)
-		 */
-		public ActivateEvent(AjaxRequestTarget target)
-		{
-			super(target);
-
-			this.index = RequestCycleUtils.getQueryParameterValue("index").toInt(-1);
-		}
-
-		/**
-		 * Gets the tab's index
-		 * @return the index
-		 */
-		public int getIndex()
-		{
-			return this.index;
-		}
 	}
 }

@@ -47,7 +47,7 @@ public class InputAjaxSliderPage extends AbstractSliderPage
 			}
 
 			@Override
-			public void onValueChanged(AjaxRequestTarget target, Form<?> form)
+			public void onValueChanged(AjaxRequestTarget target)
 			{
 				InputAjaxSliderPage.this.info(this);
 				target.add(feedback); //do never add 'this' or the form here!

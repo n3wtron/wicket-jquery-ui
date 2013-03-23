@@ -21,7 +21,6 @@ import java.util.Date;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
@@ -108,12 +107,12 @@ public class AjaxDatePicker extends DatePicker implements IValueChangedListener
 	public final void onSelect(AjaxRequestTarget target, String date)
 	{
 		this.processInput();
-		this.onValueChanged(target, this.getForm());
+		this.onValueChanged(target);
 	}
 
 	// IValueChangedListener //
 	@Override
-	public void onValueChanged(AjaxRequestTarget target, Form<?> form)
+	public void onValueChanged(AjaxRequestTarget target)
 	{
 	}
 

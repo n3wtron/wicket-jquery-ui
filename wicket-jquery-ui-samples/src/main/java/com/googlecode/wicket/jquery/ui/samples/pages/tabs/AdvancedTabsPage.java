@@ -60,7 +60,7 @@ public class AdvancedTabsPage extends AbstractTabsPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onActivate(AjaxRequestTarget target, int index, ITab tab)
+			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
 			{
 				tabIndex = index;
 				this.send(buttons, Broadcast.EXACT, new ChangeEvent(target));
@@ -110,7 +110,7 @@ public class AdvancedTabsPage extends AbstractTabsPage
 			{
 				super.onConfigure();
 
-				int max = tabPanel.getTabs().size() - 1;
+				int max = tabPanel.getModelObject().size() - 1;
 
 				this.getBackwardButton().setEnabled(tabIndex > 0);
 				this.getForwardButton().setEnabled(tabIndex < max);
@@ -128,7 +128,7 @@ public class AdvancedTabsPage extends AbstractTabsPage
 			@Override
 			protected void onForward(AjaxRequestTarget target, AjaxButton button)
 			{
-				int max = tabPanel.getTabs().size() - 1;
+				int max = tabPanel.getModelObject().size() - 1;
 
 				if (tabIndex < max)
 				{

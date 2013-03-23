@@ -17,7 +17,6 @@
 package com.googlecode.wicket.jquery.core.event;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.form.Form;
 
 /**
  * Specifies that a widget handles a value-changed AJAX behavior
@@ -29,7 +28,8 @@ public interface IValueChangedListener
 	/**
 	 * Triggers when the value has changed
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param form the {@link Form}
 	 */
-	void onValueChanged(AjaxRequestTarget target, Form<?> form);
+	void onValueChanged(AjaxRequestTarget target);
+
+	//XXX: report as change - public void onValueChanged(AjaxRequestTarget target, Form<?> unused) > public void onValueChanged(AjaxRequestTarget target)
 }

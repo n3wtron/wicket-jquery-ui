@@ -38,7 +38,7 @@ public class AjaxRangeSliderPage extends AbstractSliderPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onValueChanged(AjaxRequestTarget target, Form<?> form)
+			public void onValueChanged(AjaxRequestTarget target)
 			{
 				AjaxRangeSliderPage.this.info(this, form);
 				target.add(feedback); //do never add 'this' or the form here!

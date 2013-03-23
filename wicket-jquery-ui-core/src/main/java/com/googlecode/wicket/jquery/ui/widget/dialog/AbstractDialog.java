@@ -199,12 +199,12 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 
 	/**
 	 * Internal onClick method, fired by the behavior<br/>
-	 * The purpose of this method id to prevent the behavior to call {@link #onClick(AjaxRequestTarget, DialogButton)} directly
+	 * The purpose of this method is to prevent the behavior calling {@link #onClick(AjaxRequestTarget, DialogButton)} directly because <code>onClick</code> is implemented by default
 	 *
 	 * @param target the {@link AjaxRequestTarget}
 	 * @param button the {@link DialogButton}
 	 */
-	protected void internalOnClick(AjaxRequestTarget target, DialogButton button)
+	void internalOnClick(AjaxRequestTarget target, DialogButton button)
 	{
 		this.onClick(target, button);
 	}

@@ -19,7 +19,6 @@ package com.googlecode.wicket.jquery.ui.form.slider;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
@@ -41,8 +40,6 @@ import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior.ChangeEv
 public class AjaxRangeSlider extends RangeSlider implements IJQueryAjaxAware, IValueChangedListener
 {
 	private static final long serialVersionUID = 1L;
-
-	//private OldJQueryAjaxBehavior onChangeBehavior; //TODO remove
 
 	/**
 	 * Constructor
@@ -99,7 +96,7 @@ public class AjaxRangeSlider extends RangeSlider implements IJQueryAjaxAware, IV
 
 			if (this.isValid() && this.lower.isValid() && this.upper.isValid())
 			{
-				this.onValueChanged(target, this.getForm());
+				this.onValueChanged(target);
 			}
 			else
 			{
@@ -109,7 +106,7 @@ public class AjaxRangeSlider extends RangeSlider implements IJQueryAjaxAware, IV
 	}
 
 	@Override
-	public void onValueChanged(AjaxRequestTarget target, Form<?> form)
+	public void onValueChanged(AjaxRequestTarget target)
 	{
 	}
 
@@ -122,16 +119,6 @@ public class AjaxRangeSlider extends RangeSlider implements IJQueryAjaxAware, IV
 	}
 
 	// Factories //
-	//TODO: to remove
-//	/**
-//	 * Gets a new {@link OldJQueryAjaxPostBehavior} that will be called on 'change' javascript event
-//	 * @return the {@link OldJQueryAjaxPostBehavior}
-//	 */
-//	protected OldJQueryAjaxPostBehavior newOnChangeBehavior()
-//	{
-//		return new OldJQueryAjaxChangeBehavior(this, this.lower, this.upper);
-//	}
-
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{

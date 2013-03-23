@@ -177,7 +177,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	// Events //
 	@Override
-	protected void internalOnClick(AjaxRequestTarget target, DialogButton button)
+	void internalOnClick(AjaxRequestTarget target, DialogButton button)
 	{
 		final Form<?> form = this.getForm(button);
 

@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
@@ -116,7 +115,7 @@ public class RangeDatePickerTextField extends FormComponentPanel<DateRange> impl
 				RangeDatePickerTextField.this.input.modelChanged();
 				target.add(RangeDatePickerTextField.this.input);
 
-				RangeDatePickerTextField.this.onValueChanged(target, RangeDatePickerTextField.this.getForm());
+				RangeDatePickerTextField.this.onValueChanged(target);
 			}
 		};
 
@@ -151,7 +150,7 @@ public class RangeDatePickerTextField extends FormComponentPanel<DateRange> impl
 
 	// Events //
 	@Override
-	public void onValueChanged(AjaxRequestTarget target, Form<?> form)
+	public void onValueChanged(AjaxRequestTarget target)
 	{
 	}
 
