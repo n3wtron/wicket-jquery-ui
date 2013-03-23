@@ -27,13 +27,13 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.convert.IConverter;
 
-import com.googlecode.wicket.jquery.ui.IJQueryWidget;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.renderer.ITextRenderer;
-import com.googlecode.wicket.jquery.ui.renderer.TextRenderer;
-import com.googlecode.wicket.jquery.ui.template.IJQueryTemplate;
-import com.googlecode.wicket.jquery.ui.template.JQueryTemplateBehavior;
+import com.googlecode.wicket.jquery.core.IJQueryWidget;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.renderer.ITextRenderer;
+import com.googlecode.wicket.jquery.core.renderer.TextRenderer;
+import com.googlecode.wicket.jquery.core.template.IJQueryTemplate;
+import com.googlecode.wicket.jquery.core.template.JQueryTemplateBehavior;
 
 /**
  * Provides a jQuery auto-complete widget

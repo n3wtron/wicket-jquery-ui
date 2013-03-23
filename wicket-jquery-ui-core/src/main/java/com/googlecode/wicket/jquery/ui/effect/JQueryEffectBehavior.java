@@ -19,11 +19,11 @@ package com.googlecode.wicket.jquery.ui.effect;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-import com.googlecode.wicket.jquery.ui.JQueryAbstractBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.core.JQueryAbstractBehavior;
+import com.googlecode.wicket.jquery.core.JQueryEvent;
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
 
 /**
  * Provides a specific jQuery behavior for playing effects.
@@ -202,7 +202,7 @@ public class JQueryEffectBehavior extends JQueryAbstractBehavior implements IJQu
 	/**
 	 * Provides the event object that will be broadcasted by the {@link JQueryAjaxBehavior} callback
 	 */
-	public static class CallbackEvent extends JQueryEvent
+	protected static class CallbackEvent extends JQueryEvent
 	{
 	}
 }

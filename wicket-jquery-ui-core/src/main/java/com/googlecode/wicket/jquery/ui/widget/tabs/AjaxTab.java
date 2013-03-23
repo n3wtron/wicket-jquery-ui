@@ -23,7 +23,7 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 
-import com.googlecode.wicket.jquery.ui.panel.LoadingPanel;
+import com.googlecode.wicket.jquery.core.panel.LoadingPanel;
 
 /**
  * Provides an {@link AbstractTab} which loads the panel when the {@link ITab} is clicked.

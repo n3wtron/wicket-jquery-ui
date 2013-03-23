@@ -21,7 +21,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import com.googlecode.wicket.jquery.ui.panel.LabelPanel;
+import com.googlecode.wicket.jquery.core.panel.LabelPanel;
 
 /**
  * Provides a simple {@link AbstractTab} that embeds a {@link LabelPanel}

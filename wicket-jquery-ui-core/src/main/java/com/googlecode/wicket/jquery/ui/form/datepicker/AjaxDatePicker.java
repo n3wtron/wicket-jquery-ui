@@ -24,9 +24,9 @@ import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.event.IValueChangedListener;
 
 /**
  * Provides a jQuery date-picker based on a {@link DateTextField}<br/>

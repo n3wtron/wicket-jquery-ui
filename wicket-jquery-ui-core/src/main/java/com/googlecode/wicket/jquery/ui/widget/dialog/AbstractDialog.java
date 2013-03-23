@@ -22,17 +22,16 @@ import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import com.googlecode.wicket.jquery.ui.IJQueryWidget;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryPanel;
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.core.IJQueryWidget;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryPanel;
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.ui.interaction.behavior.DisplayNoneBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
+import com.googlecode.wicket.jquery.ui.widget.dialog.DialogBehavior.ButtonAjaxBehavior;
 
 /**
  * Base class for implementing jQuery dialogs
@@ -40,10 +39,9 @@ import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
  *
  * @param <T> the type of the model object
  */
-public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
+public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel implements IDialogListener
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "dialog";
 
 	/* Default Button labels */
 	public static final String LBL_OK = "OK";
@@ -59,7 +57,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	private IModel<String> title;
 	private boolean modal;
 	private JQueryBehavior widgetBehavior;
-	private OldJQueryAjaxBehavior onDefaultClose;
+
 
 	/** Default button */
 	private final DialogButton btnOk = new DialogButton(LBL_OK);
@@ -88,7 +86,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * Constructor
 	 * @param id the markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
-	 * @param model the model to be used in the dialog. It is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog. It is retransmitted to the {@link ClickEvent} object.
 	 */
 	public AbstractDialog(String id, String title, IModel<T> model)
 	{
@@ -99,7 +97,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * Constructor
 	 * @param id the markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
-	 * @param model the model to be used in the dialog. It is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog. It is retransmitted to the {@link ClickEvent} object.
 	 */
 	public AbstractDialog(String id, IModel<String> title, IModel<T> model)
 	{
@@ -133,7 +131,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * @param id markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
 	 * @param modal indicates whether the dialog is modal
-	 * @param model the model to be used in the dialog; it is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog; it is retransmitted to the {@link ClickEvent} object.
 	 */
 	public AbstractDialog(String id, String title, IModel<T> model, boolean modal)
 	{
@@ -145,7 +143,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * @param id markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
 	 * @param modal indicates whether the dialog is modal
-	 * @param model the model to be used in the dialog; it is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog; it is retransmitted to the {@link ClickEvent} object.
 	 */
 	public AbstractDialog(String id, IModel<String> title, IModel<T> model, boolean modal)
 	{
@@ -166,12 +164,6 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	{
 		super.onInitialize();
 
-		for (DialogButton button : this.getButtons())
-		{
-			this.add(this.newButtonAjaxBehavior(button));
-		}
-
-		this.add(this.onDefaultClose = this.newDefaultCloseBehavior());
 		this.add(this.widgetBehavior = JQueryWidget.newWidgetBehavior(this)); //warning: ButtonAjaxBehavior(s) should be set at this point!
 	}
 
@@ -186,26 +178,8 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	}
 
 	/**
-	 * DO NOT OVERRIDE UNLESS A VERY GOOD REASON
-	 */
-	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		if (event.getPayload() instanceof DialogEvent)
-		{
-			this.onClick((DialogEvent) event.getPayload());
-		}
-
-		else if (event.getPayload() instanceof AbstractDialog.CloseEvent)
-		{
-			AjaxRequestTarget target = ((AbstractDialog.CloseEvent) event.getPayload()).getTarget();
-			this.onClose(target, null);
-		}
-	}
-
-	/**
 	 * Triggered when the dialog opens
-	 * @param target
+	 * @param target the {@link AjaxRequestTarget}
 	 */
 	protected void onOpen(AjaxRequestTarget target)
 	{
@@ -215,20 +189,25 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	/**
 	 * Triggered when a button is clicked.
 	 * This method may be overridden to handle button behaviors, but the dialog will not been closed until <code>super.onClick(event)</code> or {@link #close(AjaxRequestTarget, DialogButton)} is called.
-	 * @param event {@link DialogEvent}
+	 * @param event {@link ClickEvent}
 	 */
-	protected void onClick(DialogEvent event)
+	@Override
+	public void onClick(AjaxRequestTarget target, DialogButton button)
 	{
-		this.close(event.getTarget(), event.getButton());
+		this.close(target, button);
 	}
 
 	/**
-	 * Triggered when the dialog closes.
+	 * Internal onClick method, fired by the behavior<br/>
+	 * The purpose of this method id to prevent the behavior to call {@link #onClick(AjaxRequestTarget, DialogButton)} directly
+	 *
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param button the button that closed the dialog
+	 * @param button the {@link DialogButton}
 	 */
-	protected abstract void onClose(AjaxRequestTarget target, DialogButton button);
-
+	protected void internalOnClick(AjaxRequestTarget target, DialogButton button)
+	{
+		this.onClick(target, button);
+	}
 
 	// Properties //
 	/**
@@ -292,13 +271,8 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 		return false;
 	}
 
-	/**
-	 * Indicates whether the default close event (the click on the X-icon) is enabled
-	 * If true, the {@link #onClose(AjaxRequestTarget, DialogButton)} event will be triggered, with a null {@link DialogButton}
-	 *
-	 * @return false by default
-	 */
-	protected boolean isDefaultCloseEventEnabled()
+	@Override
+	public boolean isDefaultCloseEventEnabled()
 	{
 		return false;
 	}
@@ -390,13 +364,27 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	@Override
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		return new JQueryBehavior(selector, METHOD) {
+		return new DialogBehavior(selector) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
+			public boolean isDefaultCloseEventEnabled()
+			{
+				return AbstractDialog.this.isDefaultCloseEventEnabled();
+			}
+
+			@Override
+			protected List<DialogButton> getButtons()
+			{
+				return AbstractDialog.this.getButtons();
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
+				super.onConfigure(component);
+
 				// lazy options //
 				AbstractDialog.this.onConfigure(this);
 
@@ -406,126 +394,38 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 				this.setOption("modal", AbstractDialog.this.modal);
 				this.setOption("resizable", AbstractDialog.this.isResizable());
 				this.setOption("width", AbstractDialog.this.getWidth());
+			}
 
-				// behaviors //
-				if (AbstractDialog.this.isDefaultCloseEventEnabled())
-				{
-					this.setOption("close", AbstractDialog.this.onDefaultClose.getCallbackFunction());
-				}
+			@Override
+			public void onClick(AjaxRequestTarget target, DialogButton button)
+			{
+				AbstractDialog.this.internalOnClick(target, button);
+			}
 
-				// buttons events //
-				StringBuffer buttons = new StringBuffer("[ ");
+			@Override
+			public void onClose(AjaxRequestTarget target, DialogButton button)
+			{
+				AbstractDialog.this.onClose(target, button);
+			}
 
-				int index = 0;
-				for(ButtonAjaxBehavior behavior : AbstractDialog.this.getBehaviors(ButtonAjaxBehavior.class))
-				{
-					DialogButton button = behavior.getButton();
-
-					if (index++ > 0) { buttons.append(", "); }
-					buttons.append("{");
-					buttons.append("'id': '").append(button.getMarkupId()).append("', ");
-					buttons.append("'text': '").append(button.toString()).append("', ");
-					if (!button.isEnabled()) { buttons.append("'disabled': true, "); }
-					buttons.append("'click': function() { ").append(behavior.getCallbackScript()).append(" }");
-					buttons.append("}");
-				}
-
-				buttons.append(" ]");
-
-				this.setOption("buttons", buttons);
+			@Override
+			protected ButtonAjaxBehavior newButtonAjaxBehavior(IJQueryAjaxAware source, DialogButton button)
+			{
+				return AbstractDialog.this.newButtonAjaxBehavior(source, button);
 			}
 		};
 	}
 
+
 	/**
+	 * TODO javadoc?
 	 * Gets a new ButtonAjaxBehavior that will be called by the corresponding dialog's button.<br/>
 	 * This method mays be overridden internally to provide another behavior; ButtonAjaxBehavior has package visibility
 	 *
-	 * @param button the button that is passed to the behavior so it can be retrieved via the {@link DialogEvent}
+	 * @param button the button that is passed to the behavior so it can be retrieved via the {@link ClickEvent}
 	 */
-	protected ButtonAjaxBehavior newButtonAjaxBehavior(DialogButton button)
+	protected ButtonAjaxBehavior newButtonAjaxBehavior(IJQueryAjaxAware source, DialogButton button)
 	{
-		return new ButtonAjaxBehavior(this, button);
-	}
-
-	/**
-	 * Gets the ajax behavior that will be triggered when the user clicks on the X-icon
-	 *
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	protected OldJQueryAjaxBehavior newDefaultCloseBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public String getCallbackFunction()
-			{
-				return "function(event, ui) { if (event.button == 0) { " + this.getCallbackScript() + " } }";
-			}
-
-			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-			{
-				return new CloseEvent(target);
-			}
-		};
-	}
-
-
-	// Ajax behaviors //
-	/**
-	 * Provides the {@link OldJQueryAjaxBehavior} being called by the button(s).
-	 */
-	class ButtonAjaxBehavior extends OldJQueryAjaxBehavior
-	{
-		private static final long serialVersionUID = 1L;
-
-		private final DialogButton button;
-
-		/**
-		 * Constructor
-		 * @param dialog the {@link AbstractDialog}
-		 * @param button the {@link DialogButton} to attach to the {@link DialogEvent}
-		 */
-		public ButtonAjaxBehavior(AbstractDialog<T> dialog, DialogButton button)
-		{
-			super(dialog);
-
-			this.button = button;
-		}
-
-		/**
-		 * Gets the {@link DialogButton}
-		 * @return the {@link DialogButton}
-		 */
-		public DialogButton getButton()
-		{
-			return this.button;
-		}
-
-		@Override
-		protected OldJQueryEvent newEvent(AjaxRequestTarget target)
-		{
-			return new DialogEvent(target, this.button);
-		}
-	}
-
-
-	// Event classes //
-	/**
-	 * An event object that will be broadcasted when the user clicks on the X-icon
-	 */
-	static class CloseEvent extends OldJQueryEvent
-	{
-		/**
-		 * Constructor
-		 * @param target the {@link AjaxRequestTarget}
-		 */
-		public CloseEvent(AjaxRequestTarget target)
-		{
-			super(target);
-		}
+		return new ButtonAjaxBehavior(source, button);
 	}
 }

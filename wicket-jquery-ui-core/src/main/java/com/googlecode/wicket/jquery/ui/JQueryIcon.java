@@ -28,6 +28,8 @@ public enum JQueryIcon
 {
 	NONE(""),
 
+	//TODO: BLANK
+
 	CARAT_1_N("ui-icon-carat-1-n"),
 	CARAT_1_NE("ui-icon-carat-1-ne"),
 	CARAT_1_E("ui-icon-carat-1-e"),

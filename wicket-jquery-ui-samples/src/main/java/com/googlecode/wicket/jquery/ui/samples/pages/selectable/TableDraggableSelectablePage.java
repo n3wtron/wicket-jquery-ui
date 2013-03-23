@@ -14,10 +14,10 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.io.IClusterable;
 
 import com.googlecode.wicket.jquery.ui.form.autocomplete.AutoCompleteUtils;
-import com.googlecode.wicket.jquery.ui.interaction.SelectableDraggableFactory;
 import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
 import com.googlecode.wicket.jquery.ui.interaction.droppable.Droppable;
 import com.googlecode.wicket.jquery.ui.interaction.selectable.Selectable;
+import com.googlecode.wicket.jquery.ui.interaction.selectable.SelectableDraggableFactory;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 
 public class TableDraggableSelectablePage extends AbstractSelectablePage

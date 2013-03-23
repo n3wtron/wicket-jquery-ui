@@ -22,11 +22,11 @@ import org.apache.wicket.ajax.attributes.CallbackParameter;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.model.IModel;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryContainer;
+import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.core.old.OldJQueryEvent;
+import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery progress-bar based on a {@link JQueryContainer}

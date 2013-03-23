@@ -24,8 +24,6 @@ import java.util.Map;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.CallbackParameter;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -35,31 +33,26 @@ import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryPanel;
-import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
-import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryPanel;
+import com.googlecode.wicket.jquery.core.Options;
 
 /**
  * Provides the jQuery menu based on a {@link JQueryPanel}
  *
  * @author Sebastien Briquet - sebfz1
  */
-public class Menu extends JQueryPanel
+public class Menu extends JQueryPanel implements IMenuListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private final List<IMenuItem> items; //root level items
+	private final List<IMenuItem> items; //first level
 	private WebMarkupContainer root;
 
 	/**
 	 * Keep a reference to the {@link MenuItem}<code>s</code> hash
 	 */
 	private Map<String, IMenuItem> map = new HashMap<String, IMenuItem>();
-
-	private OldJQueryAjaxBehavior onSelectBehavior;
 
 	/**
 	 * Constructor
@@ -118,13 +111,13 @@ public class Menu extends JQueryPanel
 		this.add(this.root);
 	}
 
+
 	// Events //
 	@Override
 	protected void onInitialize()
 	{
 		super.onInitialize();
 
-		this.add(this.onSelectBehavior = this.newOnSelectBehavior());
 		this.add(JQueryWidget.newWidgetBehavior(this, JQueryWidget.getSelector(this.root)));
 	}
 
@@ -139,33 +132,10 @@ public class Menu extends JQueryPanel
 	}
 
 	@Override
-	public void onEvent(IEvent<?> event)
-	{
-		super.onEvent(event);
-
-		if (event.getPayload() instanceof SelectEvent)
-		{
-			SelectEvent payload = (SelectEvent) event.getPayload();
-			AjaxRequestTarget target = payload.getTarget();
-
-			IMenuItem item = this.map.get(payload.getHash());
-
-			if (item != null)
-			{
-				item.onClick(target);
-				this.onClick(target, item);
-			}
-		}
-	}
-
-	/**
-	 * Triggered when a menu-item is clicked
-	 * @param target the {@link AjaxRequestTarget}
-	 * @param item the {@link IMenuItem}
-	 */
-	protected void onClick(AjaxRequestTarget target, IMenuItem item)
+	public void onClick(AjaxRequestTarget target, IMenuItem item)
 	{
 	}
+
 
 	// IJQueryWidget //
 	@Override
@@ -176,73 +146,25 @@ public class Menu extends JQueryPanel
 			private static final long serialVersionUID = 1L;
 
 			@Override
+			protected Map<String, IMenuItem> getMenuItemMap()
+			{
+				return Menu.this.map;
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
+				super.onConfigure(component);
+
 				Menu.this.onConfigure(this);
-
-				this.setOption("select", onSelectBehavior.getCallbackFunction());
-			}
-		};
-	}
-
-
-	// Factories //
-	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that acts as the 'select' javascript callback
-	 * @return the {@link OldJQueryAjaxBehavior}
-	 */
-	private OldJQueryAjaxBehavior newOnSelectBehavior()
-	{
-		return new OldJQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] {
-						CallbackParameter.context("event"),
-						CallbackParameter.context("ui"),
-						CallbackParameter.resolved("id", "ui.item.context.id")
-						};
 			}
 
 			@Override
-			protected OldJQueryEvent newEvent(AjaxRequestTarget target)
+			public void onClick(AjaxRequestTarget target, IMenuItem item)
 			{
-				return new SelectEvent(target);
+				Menu.this.onClick(target, item);
 			}
 		};
-	}
-
-
-	// Event objects //
-	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'select' callback
-	 */
-	private class SelectEvent extends OldJQueryEvent
-	{
-		private final String hash;
-
-		/**
-		 * Constructor
-		 * @param target the {@link AjaxRequestTarget}
-		 */
-		public SelectEvent(AjaxRequestTarget target)
-		{
-			super(target);
-
-			this.hash = RequestCycleUtils.getQueryParameterValue("id").toString();
-		}
-
-		/**
-		 * Gets the menu's id-hash
-		 * @return the id-hash
-		 */
-		public String getHash()
-		{
-			return this.hash;
-		}
 	}
 
 
@@ -284,9 +206,9 @@ public class Menu extends JQueryPanel
 					IMenuItem menuItem = item.getModelObject();
 					Menu.this.map.put(menuItem.getId(), menuItem);
 
-					item.add(AttributeModifier.replace("id", menuItem.getId()));
 					item.add(new ItemFragment("item", menuItem));
 					item.add(new MenuFragment("menu", menuItem.getItems()));
+					item.add(AttributeModifier.replace("id", menuItem.getId()));
 
 					if (!menuItem.isEnabled())
 					{

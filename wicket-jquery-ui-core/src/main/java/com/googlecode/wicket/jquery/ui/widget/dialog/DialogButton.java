@@ -22,7 +22,7 @@ import org.apache.wicket.util.io.IClusterable;
 
 /**
  * Provides the button object that can be used in dialogs
- *
+ * TODO: add button icons!
  * @author Sebastien Briquet - sebfz1
  */
 public class DialogButton implements IClusterable

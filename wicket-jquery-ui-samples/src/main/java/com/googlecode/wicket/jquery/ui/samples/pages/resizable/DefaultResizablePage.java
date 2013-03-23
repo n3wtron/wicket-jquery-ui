@@ -2,7 +2,7 @@ package com.googlecode.wicket.jquery.ui.samples.pages.resizable;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.ui.interaction.resizable.ResizableBehavior;
 
 public class DefaultResizablePage extends AbstractResizablePage

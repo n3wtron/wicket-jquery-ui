@@ -19,7 +19,7 @@ package com.googlecode.wicket.jquery.ui.plugins.datepicker;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
 
 /**
  * Provides the jQuery fullCalendar behavior

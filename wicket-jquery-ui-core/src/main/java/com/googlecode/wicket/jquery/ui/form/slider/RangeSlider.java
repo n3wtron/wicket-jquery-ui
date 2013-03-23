@@ -29,8 +29,8 @@ import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 import org.apache.wicket.validation.validator.RangeValidator;
 
-import com.googlecode.wicket.jquery.ui.JQueryAbstractBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryAbstractBehavior;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
 
 /**
  * Provides a jQuery range slider based on a {@link FormComponentPanel}

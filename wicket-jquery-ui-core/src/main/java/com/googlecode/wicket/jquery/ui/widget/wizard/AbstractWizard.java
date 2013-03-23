@@ -34,7 +34,6 @@ import org.apache.wicket.model.IModel;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 import com.googlecode.wicket.jquery.ui.widget.dialog.AbstractFormDialog;
 import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButton;
-import com.googlecode.wicket.jquery.ui.widget.dialog.DialogEvent;
 
 /**
  * Provides the base class for wizard-based dialogs
@@ -253,22 +252,21 @@ public abstract class AbstractWizard<T extends Serializable> extends AbstractFor
 	}
 
 	/**
+	 * TODO: javadoc
 	 * Triggered when a button is clicked.
 	 * If the button is a form-submitter button, the validation should have succeeded for this event to be triggered.
 	 * This implementation overrides the default implementation to not close the dialog.
 	 */
 	@Override
-	protected final void onClick(DialogEvent event)
+	public final void onClick(AjaxRequestTarget target, DialogButton button)
 	{
-		AjaxRequestTarget target = event.getTarget();
-
-		if (event.isClicked(this.getSubmitButton()))
+		if (button.equals(this.getSubmitButton()))
 		{
 			this.onFinish();
 			this.onFinish(target);
-			this.close(target, this.getSubmitButton());
+			this.close(target, button);
 		}
-		else if (event.isClicked(this.getCancelButton()))
+		else if (button.equals(this.getCancelButton()))
 		{
 			this.onCancel();
 			this.onCancel(target);
@@ -277,20 +275,20 @@ public abstract class AbstractWizard<T extends Serializable> extends AbstractFor
 		else
 		{
 			// will call onActiveStepChanged
-			if (event.isClicked(this.btnPrev))
+			if (button.equals(this.btnPrev))
 			{
 				this.getWizardModel().previous();
 			}
-			else if (event.isClicked(this.btnNext))
+			else if (button.equals(this.btnNext))
 			{
 				this.getWizardModel().next();
 			}
-			else if (event.isClicked(this.btnLast))
+			else if (button.equals(this.btnLast))
 			{
 				this.getWizardModel().last();
 			}
 
-			// re-configure buttons and refresh the form //
+			// reconfigure buttons and refresh the form //
 			AbstractWizard.this.onConfigure(target);
 		}
 	}
@@ -298,7 +296,7 @@ public abstract class AbstractWizard<T extends Serializable> extends AbstractFor
 	@Override
 	protected void onSubmit(AjaxRequestTarget target)
 	{
-		/* If the clicked button is a form-submitter, calls step#applyState() */
+		/* If the clicked button was a form-submitter, calls step#applyState() */
 		IWizardModel wizardModel = this.getWizardModel();
 		wizardModel.getActiveStep().applyState();
 	}

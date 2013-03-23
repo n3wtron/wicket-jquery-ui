@@ -4,10 +4,10 @@ import org.apache.wicket.ajax.attributes.CallbackParameter;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.html.basic.Label;
 
-import com.googlecode.wicket.jquery.ui.IJQueryWidget;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
+import com.googlecode.wicket.jquery.core.IJQueryWidget;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.core.old.OldJQueryEvent;
 
 public class MyJQueryLabel extends Label implements IJQueryWidget
 {

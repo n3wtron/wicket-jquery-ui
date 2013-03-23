@@ -19,10 +19,10 @@ package com.googlecode.wicket.jquery.ui.form.button;
 import org.apache.wicket.Component;
 import org.apache.wicket.model.IModel;
 
-import com.googlecode.wicket.jquery.ui.IJQueryWidget;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.IJQueryWidget;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.ui.JQueryIcon;
-import com.googlecode.wicket.jquery.ui.Options;
 
 /**
  * Provides a jQuery button based on the built-in Button

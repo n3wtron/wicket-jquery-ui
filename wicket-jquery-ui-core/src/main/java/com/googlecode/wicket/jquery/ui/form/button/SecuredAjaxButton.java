@@ -20,8 +20,8 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.WebSession;
 
-import com.googlecode.wicket.jquery.ui.IJQuerySecurityProvider;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.IJQuerySecurityProvider;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.JQueryIcon;
 
 /**

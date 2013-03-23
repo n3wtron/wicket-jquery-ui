@@ -18,9 +18,9 @@ package com.googlecode.wicket.jquery.ui.widget.tabs;
 
 import org.apache.wicket.Component;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryContainer;
+import com.googlecode.wicket.jquery.core.Options;
 
 /**
  * Provides jQuery tabs based on a {@link JQueryContainer}

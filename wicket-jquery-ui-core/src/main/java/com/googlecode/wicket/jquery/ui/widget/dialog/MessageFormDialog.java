@@ -117,7 +117,7 @@ public abstract class MessageFormDialog extends AbstractFormDialog<String>
 	}
 
 	@Override
-	protected void onClose(AjaxRequestTarget target, DialogButton button)
+	public void onClose(AjaxRequestTarget target, DialogButton button)
 	{
 		//not mandatory to override
 	}

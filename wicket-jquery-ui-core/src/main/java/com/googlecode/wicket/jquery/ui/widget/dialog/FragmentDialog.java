@@ -61,7 +61,7 @@ public abstract class FragmentDialog<T extends Serializable> extends AbstractDia
 	 * Constructor
 	 * @param id the markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
-	 * @param model the model to be used in the dialog. It is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog. It is retransmitted to the {@link ClickEvent} object.
 	 */
 	public FragmentDialog(String id, String title, Model<T> model)
 	{
@@ -74,7 +74,7 @@ public abstract class FragmentDialog<T extends Serializable> extends AbstractDia
 	 * Constructor
 	 * @param id the markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
-	 * @param model the model to be used in the dialog. It is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog. It is retransmitted to the {@link ClickEvent} object.
 	 */
 	public FragmentDialog(String id, IModel<String> title, Model<T> model)
 	{
@@ -114,7 +114,7 @@ public abstract class FragmentDialog<T extends Serializable> extends AbstractDia
 	 * @param id markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
 	 * @param modal indicates whether the dialog is modal
-	 * @param model the model to be used in the dialog; it is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog; it is retransmitted to the {@link ClickEvent} object.
 	 */
 	public FragmentDialog(String id, String title, IModel<T> model, boolean modal)
 	{
@@ -128,7 +128,7 @@ public abstract class FragmentDialog<T extends Serializable> extends AbstractDia
 	 * @param id markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
 	 * @param modal indicates whether the dialog is modal
-	 * @param model the model to be used in the dialog; it is retransmitted to the {@link DialogEvent} object.
+	 * @param model the model to be used in the dialog; it is retransmitted to the {@link ClickEvent} object.
 	 */
 	public FragmentDialog(String id, IModel<String> title, IModel<T> model, boolean modal)
 	{

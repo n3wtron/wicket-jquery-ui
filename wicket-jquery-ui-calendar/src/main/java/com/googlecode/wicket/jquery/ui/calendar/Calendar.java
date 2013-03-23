@@ -27,12 +27,12 @@ import org.apache.wicket.ajax.attributes.CallbackParameter;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.util.time.Duration;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryContainer;
-import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryEvent;
-import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryContainer;
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.core.old.OldJQueryEvent;
+import com.googlecode.wicket.jquery.core.utils.RequestCycleUtils;
 
 /**
  * Provides calendar widget, based on the jQuery fullcalendar plugin.

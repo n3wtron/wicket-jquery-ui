@@ -26,7 +26,8 @@ import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.WebResponse;
-import com.googlecode.wicket.jquery.ui.renderer.ITextRenderer;
+
+import com.googlecode.wicket.jquery.core.renderer.ITextRenderer;
 
 /**
  * Provides the {@link AbstractDefaultAjaxBehavior} for the {@link AutoCompleteTextField}

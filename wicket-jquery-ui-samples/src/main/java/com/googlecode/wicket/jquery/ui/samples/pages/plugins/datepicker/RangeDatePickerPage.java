@@ -2,11 +2,12 @@ package com.googlecode.wicket.jquery.ui.samples.pages.plugins.datepicker;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 import com.googlecode.wicket.jquery.ui.plugins.datepicker.DateRange;
 import com.googlecode.wicket.jquery.ui.plugins.datepicker.RangeDatePicker;

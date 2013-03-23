@@ -2,9 +2,9 @@
 **jQuery UI integration in Wicket 1.5.x &amp; Wicket 6.x**
 
 ## Artifacts
-- jQuery UI `jquery-ui-core`
-- Kendo UI `jquery-ui-kendo`
-- Calendar `jquery-ui-calendar`
+- jQuery UI `wicket-jquery-ui`
+- Calendar `wicket-jquery-ui-calendar`
+- Kendo UI `wicket-kendo-ui`
 
 ## Getting started
 In order to get started using this API, you may download appropriate jar(s) or set a maven dependency.
@@ -21,8 +21,8 @@ Once done, just include the jar(s) in your project's build path.
 ```xml
 <dependency>
     <groupId>com.googlecode.wicket-jquery-ui</groupId>
-    <artifactId>jquery-ui-core</artifactId>
-    <version>1.4.2</version> <!-- <version>6.2.2</version> -->
+    <artifactId>wicket-jquery-ui</artifactId>
+    <version>1.5.10</version> <!-- <version>6.7.0</version> -->
 </dependency>
 ```
 

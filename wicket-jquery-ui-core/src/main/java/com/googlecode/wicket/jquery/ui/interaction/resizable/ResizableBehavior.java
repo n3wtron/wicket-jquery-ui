@@ -20,13 +20,12 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.CallbackParameter;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.ui.utils.RequestCycleUtils;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryEvent;
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
+import com.googlecode.wicket.jquery.core.utils.RequestCycleUtils;
 
 /**
  * Provides a jQuery resizable behavior
@@ -147,8 +146,8 @@ public abstract class ResizableBehavior extends JQueryBehavior implements IJQuer
 	}
 
 	/**
-	 * Gets a new {@link OldJQueryAjaxBehavior} that will be called on 'stop' javascript event
-	 * @return the {@link OldJQueryAjaxBehavior}
+	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'stop' javascript event
+	 * @return the {@link JQueryAjaxBehavior}
 	 */
 	protected JQueryAjaxBehavior newOnResizeStopBehavior()
 	{
@@ -239,14 +238,14 @@ public abstract class ResizableBehavior extends JQueryBehavior implements IJQuer
 	}
 
 	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'start' callback
+	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'start' callback
 	 */
 	protected static class ResizeStartEvent extends ResizeEvent
 	{
 	}
 
 	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'stop' callback
+	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'stop' callback
 	 */
 	protected static class ResizeStopEvent extends ResizeEvent
 	{

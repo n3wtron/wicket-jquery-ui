@@ -65,7 +65,7 @@ public class UserDialogPage extends AbstractDialogPage
 			}
 
 			@Override
-			protected void onClose(AjaxRequestTarget target, DialogButton button)
+			public void onClose(AjaxRequestTarget target, DialogButton button)
 			{
 				target.add(form);
 			}

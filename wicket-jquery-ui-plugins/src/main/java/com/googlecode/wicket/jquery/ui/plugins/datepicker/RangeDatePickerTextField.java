@@ -30,9 +30,9 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.convert.ConversionException;
 import org.apache.wicket.util.convert.IConverter;
 
-import com.googlecode.wicket.jquery.ui.JQueryAbstractBehavior;
-import com.googlecode.wicket.jquery.ui.Options;
-import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
+import com.googlecode.wicket.jquery.core.JQueryAbstractBehavior;
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.core.event.IValueChangedListener;
 
 /**
  * Provides a {@link FormComponentPanel} based on a {@link TextField} and a {@link RangeDatePicker}

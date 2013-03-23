@@ -6,7 +6,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.ui.effect.Effect;
 import com.googlecode.wicket.jquery.ui.effect.JQueryEffectContainer;
 import com.googlecode.wicket.jquery.ui.form.button.AjaxButton;
@@ -22,7 +22,7 @@ public class ContainerEffectPage extends AbstractEffectPage
 
 			private static final long serialVersionUID = 1L;
 
-			//TODO: mark as changed: protected void onComplete(AjaxRequestTarget target) > public void onEffectComplete
+			//XXX: report as changed: protected void onComplete(AjaxRequestTarget target) > public void onEffectComplete
 			@Override
 			public void onEffectComplete(AjaxRequestTarget target)
 			{

@@ -19,7 +19,7 @@ package com.googlecode.wicket.jquery.ui.form.button;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.WebSession;
 
-import com.googlecode.wicket.jquery.ui.IJQuerySecurityProvider;
+import com.googlecode.wicket.jquery.core.IJQuerySecurityProvider;
 import com.googlecode.wicket.jquery.ui.JQueryIcon;
 
 /**

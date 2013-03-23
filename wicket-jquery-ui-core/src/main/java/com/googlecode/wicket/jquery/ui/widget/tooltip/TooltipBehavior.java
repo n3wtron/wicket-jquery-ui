@@ -16,8 +16,8 @@
  */
 package com.googlecode.wicket.jquery.ui.widget.tooltip;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.Options;
 
 /**
  * Provides the jQuery tooltip behavior.<br/>

@@ -23,9 +23,9 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.model.IModel;
 
-import com.googlecode.wicket.jquery.ui.IJQueryWidget;
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.core.IJQueryWidget;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.Options;
 
 /**
  * Provides a jQuery date-picker based on a {@link DateTextField}
@@ -150,17 +150,17 @@ public class DatePicker extends DateTextField implements IJQueryWidget, IDatePic
 			private static final long serialVersionUID = 1L;
 
 			@Override
+			public boolean isOnSelectEventEnabled()
+			{
+				return DatePicker.this.isOnSelectEventEnabled();
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
 				super.onConfigure(component);
 
 				DatePicker.this.onConfigure(this);
-			}
-
-			@Override
-			public boolean isOnSelectEventEnabled()
-			{
-				return DatePicker.this.isOnSelectEventEnabled();
 			}
 
 			@Override

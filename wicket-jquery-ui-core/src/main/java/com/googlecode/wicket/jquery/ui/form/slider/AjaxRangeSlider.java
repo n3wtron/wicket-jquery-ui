@@ -24,13 +24,13 @@ import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
-import com.googlecode.wicket.jquery.ui.JQueryBehavior;
-import com.googlecode.wicket.jquery.ui.JQueryEvent;
-import com.googlecode.wicket.jquery.ui.ajax.IJQueryAjaxAware;
-import com.googlecode.wicket.jquery.ui.ajax.JQueryAjaxPostBehavior;
-import com.googlecode.wicket.jquery.ui.event.IValueChangedListener;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior;
-import com.googlecode.wicket.jquery.ui.event.JQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryEvent;
+import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxPostBehavior;
+import com.googlecode.wicket.jquery.core.event.IValueChangedListener;
+import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior;
+import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior.ChangeEvent;
 
 /**
  * Provides a jQuery range slider based on a {@link FormComponentPanel}

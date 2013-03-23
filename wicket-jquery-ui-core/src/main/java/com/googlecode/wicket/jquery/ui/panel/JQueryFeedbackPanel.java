@@ -41,13 +41,13 @@ public class JQueryFeedbackPanel extends FeedbackPanel
 	public static final String INFO_ICO = "ui-icon " + JQueryIcon.INFO;
 	public static final String INFO_CSS = "ui-state-highlight ui-corner-all";
 
-	public static final String WARN_ICO = "ui-icon" + JQueryIcon.ALERT;
+	public static final String WARN_ICO = "ui-icon " + JQueryIcon.ALERT;
 	public static final String WARN_CSS = "ui-state-highlight ui-corner-all";
 
 	public static final String LIGHT_ICO = "ui-icon " + JQueryIcon.LIGHTBULB;
 	public static final String LIGHT_CSS = "ui-state-highlight ui-corner-all";
 
-	public static final String ERROR_ICO = "ui-icon" + JQueryIcon.ALERT; //ui-icon-closethick
+	public static final String ERROR_ICO = "ui-icon " + JQueryIcon.ALERT; //ui-icon-closethick
 	public static final String ERROR_CSS = "ui-state-error ui-corner-all";
 
 	/**

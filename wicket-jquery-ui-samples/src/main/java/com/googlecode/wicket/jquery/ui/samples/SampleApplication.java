@@ -6,7 +6,9 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 
-import com.googlecode.wicket.jquery.ui.resource.JQueryGlobalizeResourceReference;
+import com.googlecode.wicket.jquery.core.resource.JQueryGlobalizeResourceReference;
+import com.googlecode.wicket.jquery.core.settings.IJQueryLibrarySettings;
+import com.googlecode.wicket.jquery.core.settings.JQueryLibrarySettings;
 import com.googlecode.wicket.jquery.ui.samples.pages.accordion.DefaultAccordionPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.autocomplete.DefaultAutoCompletePage;
 import com.googlecode.wicket.jquery.ui.samples.pages.button.DefaultButtonPage;
@@ -32,8 +34,6 @@ import com.googlecode.wicket.jquery.ui.samples.pages.spinner.DefaultSpinnerPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.tabs.DefaultTabsPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.test.TestPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.wizard.DefaultWizardPage;
-import com.googlecode.wicket.jquery.ui.settings.IJQueryLibrarySettings;
-import com.googlecode.wicket.jquery.ui.settings.JQueryLibrarySettings;
 
 public class SampleApplication extends WebApplication
 {

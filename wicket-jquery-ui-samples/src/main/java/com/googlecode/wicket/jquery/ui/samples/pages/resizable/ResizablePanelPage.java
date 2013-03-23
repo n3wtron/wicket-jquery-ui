@@ -3,7 +3,7 @@ package com.googlecode.wicket.jquery.ui.samples.pages.resizable;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
-import com.googlecode.wicket.jquery.ui.Options;
+import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.ui.interaction.resizable.ResizablePanel;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 
