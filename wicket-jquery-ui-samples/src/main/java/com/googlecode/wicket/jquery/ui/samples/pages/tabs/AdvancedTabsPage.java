@@ -13,7 +13,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.Model;
 
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.core.JQueryEvent;
 import com.googlecode.wicket.jquery.ui.form.button.AjaxButton;
 import com.googlecode.wicket.jquery.ui.samples.component.NavigationAjaxButton;
 import com.googlecode.wicket.jquery.ui.samples.component.TabDialog;
@@ -195,5 +195,20 @@ public class AdvancedTabsPage extends AbstractTabsPage
 		});
 
 		return tabs;
+	}
+
+	public static class ChangeEvent extends JQueryEvent
+	{
+		private final AjaxRequestTarget target;
+
+		public ChangeEvent(AjaxRequestTarget target)
+		{
+			this.target = target;
+		}
+
+		public AjaxRequestTarget getTarget()
+		{
+			return this.target;
+		}
 	}
 }

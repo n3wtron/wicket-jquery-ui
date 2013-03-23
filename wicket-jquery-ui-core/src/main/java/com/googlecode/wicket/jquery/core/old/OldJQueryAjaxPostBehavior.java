@@ -31,6 +31,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
  * @author Sebastien Briquet - sebfz1
  *
  */
+@Deprecated
 public abstract class OldJQueryAjaxPostBehavior extends OldJQueryAjaxBehavior
 {
 	private static final long serialVersionUID = 1L;

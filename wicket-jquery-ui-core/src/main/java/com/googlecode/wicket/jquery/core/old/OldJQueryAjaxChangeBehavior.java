@@ -25,6 +25,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
 /**
  * Provides a new {@link OldJQueryAjaxPostBehavior} that will (should) be called on 'change' jQuery method
  */
+@Deprecated
 public class OldJQueryAjaxChangeBehavior extends OldJQueryAjaxPostBehavior
 {
 	private static final long serialVersionUID = 1L;

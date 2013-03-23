@@ -26,6 +26,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
  *
  */
 //TODO: to be removed
+@Deprecated
 public class OldJQueryEvent
 {
 	private final AjaxRequestTarget target;
