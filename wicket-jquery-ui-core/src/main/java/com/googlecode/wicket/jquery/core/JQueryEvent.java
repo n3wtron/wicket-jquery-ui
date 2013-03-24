@@ -24,7 +24,6 @@ import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
  * @author Sebastien Briquet - sebfz1
  *
  */
-//TODO: check if all extended class are static!
 public class JQueryEvent
 {
 	/**

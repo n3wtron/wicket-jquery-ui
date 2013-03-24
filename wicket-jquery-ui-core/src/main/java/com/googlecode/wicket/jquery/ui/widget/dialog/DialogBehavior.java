@@ -89,14 +89,21 @@ public abstract class DialogBehavior extends JQueryBehavior implements IJQueryAj
 	}
 
 	/**
-	 * Activates the selected tab, identified by the index
+	 * Opens the dialogs in ajax.<br/>
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param index the tab's index
 	 */
-	//TODO to implement
-	public void show(AjaxRequestTarget target)
+	public void open(AjaxRequestTarget target)
 	{
+		target.appendJavaScript(this.$("'open'"));
+	}
 
+	/**
+	 * Closes the dialogs in ajax.<br/>
+	 * @param target the {@link AjaxRequestTarget}
+	 */
+	public void close(AjaxRequestTarget target)
+	{
+		target.appendJavaScript(this.$("'close'"));
 	}
 
 	// Events //
@@ -123,6 +130,7 @@ public abstract class DialogBehavior extends JQueryBehavior implements IJQueryAj
 			buttons.append("'id': '").append(button.getMarkupId()).append("', ");
 			buttons.append("'text': '").append(button.toString()).append("', ");
 			if (!button.isEnabled()) { buttons.append("'disabled': true, "); }
+			if (button.getIcon() != null) { buttons.append("icons: { primary: '").append(button.getIcon()).append("' }, "); }
 			//TODO: implement icon
 			buttons.append("'click': function() { ").append(behavior.getCallbackScript()).append(" }");
 			buttons.append("}");

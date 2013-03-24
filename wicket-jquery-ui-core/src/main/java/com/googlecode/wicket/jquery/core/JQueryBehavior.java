@@ -147,12 +147,6 @@ public class JQueryBehavior extends JQueryAbstractBehavior
 	}
 
 	// Events //
-//	@Override
-//	public void onConfigure(Component component)
-//	{
-//		this.onConfigure(this);
-//	}
-
 //	XXX: report as changed - to remove, too confusing with #onConfigure(Component),
 //	/**
 //	 * Called immediately after the onConfigure method in a behavior. Since this is before the rendering

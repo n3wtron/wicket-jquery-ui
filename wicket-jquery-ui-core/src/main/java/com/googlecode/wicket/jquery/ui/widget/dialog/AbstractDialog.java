@@ -56,7 +56,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 
 	private IModel<String> title;
 	private boolean modal;
-	private JQueryBehavior widgetBehavior;
+	private DialogBehavior widgetBehavior;
 
 
 	/** Default button */
@@ -164,7 +164,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	{
 		super.onInitialize();
 
-		this.add(this.widgetBehavior = JQueryWidget.newWidgetBehavior(this)); //warning: ButtonAjaxBehavior(s) should be set at this point!
+		this.add(this.widgetBehavior = this.newWidgetBehavior(JQueryWidget.getSelector(this))); //warning: ButtonAjaxBehavior(s) should be set at this point!
 	}
 
 	/**
@@ -336,7 +336,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 
 		if (this.widgetBehavior != null)
 		{
-			target.appendJavaScript(this.widgetBehavior.$("'open'"));
+			this.widgetBehavior.open(target);
 		}
 	}
 
@@ -350,7 +350,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	{
 		if (this.widgetBehavior != null)
 		{
-			target.appendJavaScript(this.widgetBehavior.$("'close'"));
+			this.widgetBehavior.close(target);
 		}
 
 		this.onClose(target, button);
@@ -362,7 +362,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * @see IJQueryWidget#newWidgetBehavior(String)
 	 */
 	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
+	public DialogBehavior newWidgetBehavior(String selector)
 	{
 		return new DialogBehavior(selector) {
 
