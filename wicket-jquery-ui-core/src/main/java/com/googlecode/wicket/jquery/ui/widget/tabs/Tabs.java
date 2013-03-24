@@ -26,12 +26,19 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.core.JQueryContainer;
 import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.ui.widget.accordion.AccordionBehavior;
+import com.googlecode.wicket.jquery.ui.widget.accordion.AccordionPanel;
 
 /**
  * Provides jQuery tabs based on a {@link JQueryContainer}
  *
  * @author Sebastien Briquet - sebfz1
+ * @deprecated use <code>new JQueryBehavior("#myAccordion", "accordion")</code>, {@link AccordionBehavior} or {@link AccordionPanel} instead
+ *
+ * TODO: remove in next version (6.8.0?)
+ * XXX: report as deprecated
  */
+@Deprecated
 public class Tabs extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;
@@ -85,11 +92,22 @@ public class Tabs extends JQueryContainer
 			}
 
 			@Override
+			public boolean isOnActivatingEventEnabled()
+			{
+				return false;
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
 				super.onConfigure(component);
 
 				Tabs.this.onConfigure(this);
+			}
+
+			@Override
+			public void onActivating(AjaxRequestTarget target, int index, ITab tab)
+			{
 			}
 
 			@Override

@@ -38,6 +38,7 @@ import com.googlecode.wicket.jquery.core.Options;
  *
  * @author Sebastien Briquet - sebfz1
  */
+//XXX: report as changed - getTabs() > getModelObject()
 public class TabbedPanel extends JQueryPanel implements ITabsListener
 {
 	private static final long serialVersionUID = 1L;
@@ -77,6 +78,7 @@ public class TabbedPanel extends JQueryPanel implements ITabsListener
 		super(id, model, options);
 	}
 
+
 	// Properties //
 	@SuppressWarnings("unchecked")
 	public List<ITab> getModelObject()
@@ -90,17 +92,6 @@ public class TabbedPanel extends JQueryPanel implements ITabsListener
 
 		return Collections.emptyList();
 	}
-
-
-	//XXX: report as changed - getTabs() > getModelObject()
-//	/**
-//	 * Gets the list of {@link ITab}<code>s</code>
-//	 * @return the list of {@link ITab}<code>s</code>
-//	 */
-//	public List<ITab> getTabs()
-//	{
-//		return this.tabs;
-//	}
 
 	/**
 	 * Activates the selected tab
@@ -123,6 +114,12 @@ public class TabbedPanel extends JQueryPanel implements ITabsListener
 	public void setActiveTab(int index, AjaxRequestTarget target)
 	{
 		this.widgetBehavior.activate(index, target); //sets 'active' option, that fires 'activate' event (best would be that is also fires a 'show' event)
+	}
+
+	@Override
+	public boolean isOnActivatingEventEnabled()
+	{
+		return false;
 	}
 
 
@@ -203,6 +200,10 @@ public class TabbedPanel extends JQueryPanel implements ITabsListener
 	}
 
 	@Override
+	public void onActivating(AjaxRequestTarget target, int index, ITab tab)
+	{
+	}
+	@Override
 	public void onActivate(AjaxRequestTarget target, int index, ITab tab)
 	{
 	}
@@ -223,11 +224,23 @@ public class TabbedPanel extends JQueryPanel implements ITabsListener
 			}
 
 			@Override
+			public boolean isOnActivatingEventEnabled()
+			{
+				return TabbedPanel.this.isOnActivatingEventEnabled();
+			}
+
+			@Override
 			public void onConfigure(Component component)
 			{
 				super.onConfigure(component);
 
 				TabbedPanel.this.onConfigure(this);
+			}
+
+			@Override
+			public void onActivating(AjaxRequestTarget target, int index, ITab tab)
+			{
+				TabbedPanel.this.onActivating(target, index, tab);
 			}
 
 			@Override

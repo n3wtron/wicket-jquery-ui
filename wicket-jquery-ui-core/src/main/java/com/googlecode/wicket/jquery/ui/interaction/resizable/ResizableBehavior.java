@@ -194,7 +194,7 @@ public abstract class ResizableBehavior extends JQueryBehavior implements IJQuer
 		 */
 		public ResizeEvent()
 		{
-			this.top = RequestCycleUtils.getQueryParameterValue("top").toInt(-1); //TODO: to double?
+			this.top = RequestCycleUtils.getQueryParameterValue("top").toInt(-1);
 			this.left = RequestCycleUtils.getQueryParameterValue("left").toInt(-1);
 			this.width = RequestCycleUtils.getQueryParameterValue("width").toInt(-1);
 			this.height = RequestCycleUtils.getQueryParameterValue("height").toInt(-1);

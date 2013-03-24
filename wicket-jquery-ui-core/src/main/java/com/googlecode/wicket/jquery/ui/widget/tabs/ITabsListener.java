@@ -26,12 +26,23 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  */
 interface ITabsListener
 {
-	//TODO: onBeforeActivate
+	//TODO javadoc
+	boolean isOnActivatingEventEnabled();
+
+	/**
+	 * Triggered when a tab is being activated ('beforeActivate' event).<br/>
+	 *
+	 * @param target the {@link AjaxRequestTarget}
+	 * @param index the previously selected tab index
+	 * @param tab the {@link ITab} that corresponds to the index
+	 */
+	void onActivating(AjaxRequestTarget target, int index, ITab tab);
+
 	/**
 	 * Triggered when a tab has been activated ('activate' event).<br/>
 	 *
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param index the accordion header that triggered this event
+	 * @param index the tab index that triggered this event
 	 * @param tab the {@link ITab} that corresponds to the index
 	 */
 	void onActivate(AjaxRequestTarget target, int index, ITab tab);

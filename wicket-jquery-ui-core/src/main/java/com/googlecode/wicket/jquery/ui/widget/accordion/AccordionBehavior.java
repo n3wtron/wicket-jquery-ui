@@ -114,7 +114,7 @@ public abstract class AccordionBehavior extends JQueryBehavior implements IJQuer
 		{
 			int index = ((ActivateEvent)event).getIndex();
 
-			if (-1 < index && index < this.getTabs().size()) /* index could be not known depending on options and user action */
+			if (-1 < index && index < this.getTabs().size()) /* index could be unknown depending on options and user action */
 			{
 				ITab tab = this.getTabs().get(index);
 

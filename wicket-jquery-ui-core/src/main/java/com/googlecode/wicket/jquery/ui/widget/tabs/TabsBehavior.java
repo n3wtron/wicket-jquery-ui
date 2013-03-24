@@ -43,7 +43,7 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 	private static final String METHOD = "tabs";
 
 	private JQueryAjaxBehavior activateEventBehavior;
-	//private JQueryAjaxBehavior beforeActivateEventBehavior = null;
+	private JQueryAjaxBehavior activatingEventBehavior = null;
 
 	/**
 	 * Constructor
@@ -84,7 +84,14 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 		super.bind(component);
 
 		component.add(this.activateEventBehavior = this.newActivateEventBehavior());
+
+		if (this.isOnActivatingEventEnabled())
+		{
+			component.add(this.activatingEventBehavior = this.newActivatingEventBehavior());
+		}
+
 	}
+
 	/**
 	 * Activates the selected tab, identified by the index
 	 * @param target the {@link AjaxRequestTarget}
@@ -102,10 +109,13 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 	{
 		super.onConfigure(component);
 
-		this.setOption("create", activateEventBehavior.getCallbackFunction());
-		this.setOption("activate", activateEventBehavior.getCallbackFunction());
+		this.setOption("create", this.activateEventBehavior.getCallbackFunction());
+		this.setOption("activate", this.activateEventBehavior.getCallbackFunction());
 
-//		if (this.isOnBeforeActivateEventEnabled())
+		if (this.activatingEventBehavior != null)
+		{
+			this.setOption("beforeActivate", this.activatingEventBehavior.getCallbackFunction());
+		}
 	}
 
 	@Override
@@ -115,7 +125,7 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 		{
 			int index = ((ActivateEvent) event).getIndex();
 
-			if (-1 < index && index < this.getTabs().size()) /* index could be not known depending on options and user action */
+			if (-1 < index && index < this.getTabs().size()) /* index could be unknown depending on options and user action */
 			{
 				ITab tab = this.getTabs().get(index);
 
@@ -129,12 +139,41 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 		}
 	}
 
+
 	// Factories //
+	/**
+	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'beforeActivate' javascript callback
+	 * @return the {@link JQueryAjaxBehavior}
+	 */
+	protected JQueryAjaxBehavior newActivatingEventBehavior()
+	{
+		return new JQueryAjaxBehavior(this) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected CallbackParameter[] getCallbackParameters()
+			{
+				return new CallbackParameter[] {
+						CallbackParameter.context("event"),
+						CallbackParameter.context("ui"),
+						CallbackParameter.resolved("index", "jQuery(event.target).tabs('option', 'active')"),
+				};
+			}
+
+			@Override
+			protected JQueryEvent newEvent()
+			{
+				return new ActivateEvent();
+			}
+		};
+	}
+
 	/**
 	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'activate' javascript callback
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
-	private JQueryAjaxBehavior newActivateEventBehavior()
+	protected JQueryAjaxBehavior newActivateEventBehavior()
 	{
 		return new JQueryAjaxBehavior(this) {
 
