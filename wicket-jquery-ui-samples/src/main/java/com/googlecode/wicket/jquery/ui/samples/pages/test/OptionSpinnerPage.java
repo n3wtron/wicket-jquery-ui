@@ -55,7 +55,7 @@ public class OptionSpinnerPage extends AbstractKendoPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onSelectionChanged(AjaxRequestTarget target, Form<?> unused)
+			public void onSelectionChanged(AjaxRequestTarget target)
 			{
 				spinner.setCulture(this.getModelObject());
 				target.add(form);

@@ -31,5 +31,5 @@ public interface IValueChangedListener
 	 */
 	void onValueChanged(AjaxRequestTarget target);
 
-	//XXX: report as change - public void onValueChanged(AjaxRequestTarget target, Form<?> unused) > public void onValueChanged(AjaxRequestTarget target)
+	//XXX: report as changed - public void onValueChanged(AjaxRequestTarget target, Form<?> unused) > public void onValueChanged(AjaxRequestTarget target)
 }

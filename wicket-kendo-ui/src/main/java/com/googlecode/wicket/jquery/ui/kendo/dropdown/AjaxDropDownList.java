@@ -18,21 +18,23 @@ package com.googlecode.wicket.jquery.ui.kendo.dropdown;
 
 import java.util.List;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.event.IEvent;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
+import com.googlecode.wicket.jquery.core.JQueryEvent;
+import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
+import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.core.event.ISelectionChangedListener;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxChangeBehavior;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior;
+import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior.ChangeEvent;
+import com.googlecode.wicket.jquery.ui.kendo.KendoAbstractBehavior;
 
 /**
  * Provides a Kendo UI DropDownList widget.<br/>
- * This ajax version will post the component, using a {@link OldJQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
+ * This ajax version will post the component, using a {@link JQueryAjaxChangeBehavior}, when the 'change' javascript method is called.
  *
  * @author Sebastien Briquet - sebfz1
  *
@@ -41,8 +43,6 @@ import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxChangeBehavior.ChangeE
 public class AjaxDropDownList<T> extends DropDownList<T> implements ISelectionChangedListener
 {
 	private static final long serialVersionUID = 1L;
-
-	private OldJQueryAjaxBehavior changeBehavior;
 
 	/**
 	 * Constructor
@@ -143,35 +143,72 @@ public class AjaxDropDownList<T> extends DropDownList<T> implements ISelectionCh
 
 	// Events //
 	@Override
-	protected void onInitialize()
+	public void onSelectionChanged(AjaxRequestTarget target)
 	{
-		super.onInitialize();
-
-		this.add(this.changeBehavior = new OldJQueryAjaxChangeBehavior(this));
 	}
 
 	@Override
-	protected void onConfigure(JQueryBehavior behavior)
+	public JQueryBehavior newWidgetBehavior(String selector)
 	{
-		super.onConfigure(behavior);
+		return new AjaxDropDownListBehavior(selector, DropDownList.METHOD) {
 
-		behavior.setOption("change", "function( event, ui ) { " + this.changeBehavior.getCallbackScript() + "}");
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onConfigure(Component component)
+			{
+				super.onConfigure(component);
+
+				AjaxDropDownList.this.onConfigure(this);
+			}
+
+			@Override
+			public void onSelectionChanged(AjaxRequestTarget target)
+			{
+				AjaxDropDownList.this.onSelectionChanged();
+				AjaxDropDownList.this.onSelectionChanged(target);
+			}
+		};
 	}
 
-	@Override
-	public void onEvent(IEvent<?> event)
+
+	/**
+	 * TODO javadoc
+	 */
+	protected static abstract class AjaxDropDownListBehavior extends KendoAbstractBehavior implements IJQueryAjaxAware, ISelectionChangedListener
 	{
-		if (event.getPayload() instanceof ChangeEvent)
+		private static final long serialVersionUID = 1L;
+
+		private JQueryAjaxBehavior onChangeBehavior;
+
+		public AjaxDropDownListBehavior(String selector, String method)
 		{
-			ChangeEvent payload = (ChangeEvent) event.getPayload();
-
-			this.onSelectionChanged();
-			this.onSelectionChanged(payload.getTarget(), this.getForm());
+			super(selector, method);
 		}
-	}
 
-	@Override
-	public void onSelectionChanged(AjaxRequestTarget target, Form<?> form)
-	{
+		@Override
+		public void bind(Component component)
+		{
+			super.bind(component);
+
+			component.add(this.onChangeBehavior = new JQueryAjaxChangeBehavior(this));
+		}
+
+		@Override
+		public void onConfigure(Component component)
+		{
+			super.onConfigure(component);
+
+			this.setOption("change", "function( event, ui ) { " + this.onChangeBehavior.getCallbackScript() + "}");
+		}
+
+		@Override
+		public void onAjax(AjaxRequestTarget target, JQueryEvent event)
+		{
+			if (event instanceof ChangeEvent)
+			{
+				this.onSelectionChanged(target);
+			}
+		}
 	}
 }

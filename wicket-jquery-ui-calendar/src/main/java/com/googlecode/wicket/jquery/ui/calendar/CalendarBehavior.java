@@ -36,7 +36,6 @@ import com.googlecode.wicket.jquery.core.JQueryEvent;
 import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.core.utils.RequestCycleUtils;
 
 /**
@@ -325,7 +324,7 @@ public abstract class CalendarBehavior extends JQueryBehavior implements IJQuery
 
 	// Behavior classes //
 	/**
-	 * Base class for {@link OldJQueryAjaxBehavior} that will broadcast delta-based events
+	 * Base class for {@link JQueryAjaxBehavior} that will broadcast delta-based events
 	 */
 	protected abstract class EventDeltaBehavior extends JQueryAjaxBehavior
 	{

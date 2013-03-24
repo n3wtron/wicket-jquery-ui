@@ -38,7 +38,7 @@ import com.googlecode.wicket.jquery.ui.kendo.KendoAbstractBehavior;
 public class DropDownList<T> extends DropDownChoice<T> implements IJQueryWidget
 {
 	private static final long serialVersionUID = 1L;
-	private static final String METHOD = "kendoDropDownList";
+	protected static final String METHOD = "kendoDropDownList";
 
 	/**
 	 * Constructor
@@ -165,6 +165,7 @@ public class DropDownList<T> extends DropDownChoice<T> implements IJQueryWidget
 		//TODO: to implement:
 //		behavior.setOption("open", String.format("function(e) { e.sender.list.width(%d); }", DROPDOWN_WIDTH));
 	}
+
 
 	// IJQueryWidget //
 	@Override

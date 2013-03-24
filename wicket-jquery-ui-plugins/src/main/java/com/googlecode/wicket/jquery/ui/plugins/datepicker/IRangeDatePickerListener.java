@@ -14,23 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.core.event;
+package com.googlecode.wicket.jquery.ui.plugins.datepicker;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.form.Form;
 
 /**
- * Specifies that a widget handles a selection-changed AJAX behavior
+ * TODO: javadoc
  *
  * @author Sebastien Briquet - sebfz1
  */
-public interface ISelectionChangedListener
+public interface IRangeDatePickerListener
 {
 	/**
-	 * Triggers when the selection has changed
+	/**
+	 * Triggered when the date(s) changed
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param form the {@link Form}
+	 * @param range the {@link DateRange}
 	 */
-	//XXX: report as changed - onSelectionChanged(AjaxRequestTarget target, Form<?> form) - onSelectionChanged(AjaxRequestTarget target)
-	void onSelectionChanged(AjaxRequestTarget target);
+	void onValueChanged(AjaxRequestTarget target, DateRange range);
 }

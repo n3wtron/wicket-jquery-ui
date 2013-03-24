@@ -36,19 +36,6 @@ public abstract class JQueryAjaxPostBehavior extends JQueryAjaxBehavior
 	private static final long serialVersionUID = 1L;
 	private final FormComponent<?>[] components;
 
-	//TODO: to remove?
-//	/**
-//	 * Constructor
-//	 * @param component the {@link FormComponent} that will be posted. It will also receive the event broadcast.
-//	 */
-//	@SuppressWarnings("javadoc")
-//	public <A extends FormComponent<?> & IJQueryAjaxAware> JQueryAjaxPostBehavior(A component)
-//	{
-//		super(component);
-//
-//		this.components = new  FormComponent<?>[] { component };
-//	}
-
 	/**
 	 * Constructor
 	 * @param source {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.

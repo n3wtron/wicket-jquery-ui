@@ -160,7 +160,7 @@ public abstract class SecuredAjaxButton extends AjaxButton
 		return !this.provider.hasRole(this.roles);
 	}
 
-	//TODO: report as change
+	//XXX: report as changed
 	@Override
 	protected JQueryIcon getIcon()
 	{
@@ -180,9 +180,5 @@ public abstract class SecuredAjaxButton extends AjaxButton
 	protected void onConfigure(JQueryBehavior behavior)
 	{
 		super.onConfigure(behavior);
-
-		//old: (TODO: to be removed)
-		//do not call super//
-//		behavior.setOption("icons", String.format("{ primary: '%s' }", isLocked() ? JQueryIcon.LOCKED : JQueryIcon.UNLOCKED));
 	}
 }

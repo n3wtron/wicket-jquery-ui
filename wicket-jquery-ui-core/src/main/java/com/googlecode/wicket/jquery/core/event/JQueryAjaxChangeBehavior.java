@@ -25,22 +25,12 @@ import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxPostBehavior;
 
 /**
- * Provides a new {@link JQueryAjaxPostBehavior} that is designed to be called on 'change' jQuery event
+ * Provides a new {@link JQueryAjaxPostBehavior} that is designed to be called on 'change' jQuery event<br/>
+ * It will broadcast a {@link ChangeEvent} (by default)
  */
 public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
 {
 	private static final long serialVersionUID = 1L;
-
-	//TODO: to remove?
-//	/**
-//	 * Constructor
-//	 * @param component the the {@link FormComponent} to post
-//	 */
-//	@SuppressWarnings("javadoc")
-//	public <A extends FormComponent<?> & IJQueryAjaxAware> JQueryAjaxChangeBehavior(A component)
-//	{
-//		super(component);
-//	}
 
 	/**
 	 * Constructor
@@ -65,6 +55,7 @@ public class JQueryAjaxChangeBehavior extends JQueryAjaxPostBehavior
 	{
 		return new ChangeEvent();
 	}
+
 
 	// Event Object //
 	/**

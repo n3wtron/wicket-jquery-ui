@@ -24,7 +24,7 @@ import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.core.event.JQueryAjaxChangeBehavior;
 
 /**
- * Provides a jQuery accordion behavior.
+ * Provides a jQuery progress-bar behavior.
  *
  * @author Sebastien Briquet - sebfz1
  * @since 1.2.3

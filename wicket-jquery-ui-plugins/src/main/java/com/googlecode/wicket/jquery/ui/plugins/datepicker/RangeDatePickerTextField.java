@@ -110,7 +110,7 @@ public class RangeDatePickerTextField extends FormComponentPanel<DateRange> impl
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onValueChanged(AjaxRequestTarget target)
+			public void onValueChanged(AjaxRequestTarget target, DateRange range)
 			{
 				RangeDatePickerTextField.this.input.modelChanged();
 				target.add(RangeDatePickerTextField.this.input);

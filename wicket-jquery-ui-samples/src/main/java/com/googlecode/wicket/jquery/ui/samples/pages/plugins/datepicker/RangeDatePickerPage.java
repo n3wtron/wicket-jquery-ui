@@ -33,12 +33,11 @@ public class RangeDatePickerPage extends AbstractRangeDatePickerPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onValueChanged(AjaxRequestTarget target)
+			public void onValueChanged(AjaxRequestTarget target, DateRange range)
 			{
-				DateRange dateRange = this.getModelObject();
+				//DateRange dateRange = this.getModelObject(); //also available
 				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
-
-				info(String.format("%s - %s", df.format(dateRange.getStart()), df.format(dateRange.getEnd())));
+				info(String.format("%s - %s", df.format(range.getStart()), df.format(range.getEnd())));
 
 				target.add(feedback);
 			}

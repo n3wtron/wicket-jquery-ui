@@ -28,7 +28,6 @@ import com.googlecode.wicket.jquery.core.JQueryEvent;
 import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
 import com.googlecode.wicket.jquery.core.ajax.JQueryAjaxBehavior;
-import com.googlecode.wicket.jquery.core.old.OldJQueryAjaxBehavior;
 import com.googlecode.wicket.jquery.core.utils.RequestCycleUtils;
 
 /**
@@ -162,7 +161,7 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 
 	// Event objects //
 	/**
-	 * Provides an event object that will be broadcasted by the {@link OldJQueryAjaxBehavior} 'activate' callback
+	 * Provides an event object that will be broadcasted by the {@link JQueryAjaxBehavior} 'activate' callback
 	 */
 	protected static class ActivateEvent extends JQueryEvent
 	{
