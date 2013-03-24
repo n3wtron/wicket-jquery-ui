@@ -67,7 +67,7 @@ public class TemplateComboBoxPage extends AbstractComboBoxPage
 			}
 		};
 
-		form.add(combobox);
+		form.add(combobox.setListWidth(200));
 
 		// Buttons //
 		form.add(new Button("submit") {

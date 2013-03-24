@@ -48,6 +48,9 @@ public class ComboBox<T> extends TextField<String> implements IJQueryWidget
 	private final IJQueryTemplate template;
 	private KendoTemplateBehavior templateBehavior = null;
 
+	/** inner list width. 0 means that it will not be handled */
+	private int width = 0;
+
 	/**
 	 * Constructor
 	 * @param id the markup id
@@ -145,6 +148,30 @@ public class ComboBox<T> extends TextField<String> implements IJQueryWidget
 	}
 
 
+	// Properties //
+	/**
+	 * Gets the (inner) list width.
+	 * @return the list width
+	 */
+	//XXX: report as new feature
+	public int getListWidth()
+	{
+		return this.width;
+	}
+
+	/**
+	 * Sets the (inner) list width.
+	 * @param width the list width
+	 * @return this, for chaining
+	 */
+	public ComboBox<?> setListWidth(int width)
+	{
+		this.width = width;
+
+		return this;
+	}
+
+
 	// Events //
 	@Override
 	protected void onInitialize()
@@ -227,6 +254,11 @@ public class ComboBox<T> extends TextField<String> implements IJQueryWidget
 			public void onConfigure(Component component)
 			{
 				ComboBox.this.onConfigure(this);
+
+				if (ComboBox.this.getListWidth() > 0)
+				{
+					this.setOption("open", String.format("function(e) { e.sender.list.width(%d); }", ComboBox.this.getListWidth()));
+				}
 			}
 		};
 	}

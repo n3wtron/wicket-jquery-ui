@@ -40,6 +40,9 @@ public class DropDownList<T> extends DropDownChoice<T> implements IJQueryWidget
 	private static final long serialVersionUID = 1L;
 	protected static final String METHOD = "kendoDropDownList";
 
+	/** inner list width. 0 means that it will not be handled */
+	private int width = 0;
+
 	/**
 	 * Constructor
 	 * @param id the markup id
@@ -137,11 +140,28 @@ public class DropDownList<T> extends DropDownChoice<T> implements IJQueryWidget
 		super(id, model, choices, renderer);
 	}
 
-	// Properties //
-	//TODO: to implement:
-	public void setListWidth(int width)
-	{
 
+	// Properties //
+	/**
+	 * Gets the (inner) list width.
+	 * @return the list width
+	 */
+	//XXX: report as new feature
+	public int getListWidth()
+	{
+		return this.width;
+	}
+
+	/**
+	 * Sets the (inner) list width.
+	 * @param width the list width
+	 * @return this, for chaining
+	 */
+	public DropDownList<?> setListWidth(int width)
+	{
+		this.width = width;
+
+		return this;
 	}
 
 
@@ -162,8 +182,6 @@ public class DropDownList<T> extends DropDownChoice<T> implements IJQueryWidget
 	 */
 	protected void onConfigure(JQueryBehavior behavior)
 	{
-		//TODO: to implement:
-//		behavior.setOption("open", String.format("function(e) { e.sender.list.width(%d); }", DROPDOWN_WIDTH));
 	}
 
 
@@ -179,6 +197,11 @@ public class DropDownList<T> extends DropDownChoice<T> implements IJQueryWidget
 			public void onConfigure(Component component)
 			{
 				DropDownList.this.onConfigure(this);
+
+				if (DropDownList.this.getListWidth() > 0)
+				{
+					this.setOption("open", String.format("function(e) { e.sender.list.width(%d); }", DropDownList.this.getListWidth()));
+				}
 			}
 		};
 	}
