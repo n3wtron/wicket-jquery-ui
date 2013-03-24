@@ -115,7 +115,7 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 		{
 			int index = ((ActivateEvent) event).getIndex();
 
-			if (index > -1) /* index could be not known depending on options / user action */
+			if (-1 < index && index < this.getTabs().size()) /* index could be not known depending on options and user action */
 			{
 				ITab tab = this.getTabs().get(index);
 
