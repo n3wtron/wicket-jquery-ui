@@ -34,7 +34,6 @@ import com.googlecode.wicket.jquery.core.Options;
  * @author Martin Grigorov - martin-g
  *
  */
-//TODO: upgrade to fullcalendar 1.5.4!
 public class Calendar extends JQueryContainer implements ICalendarListener
 {
 	private static final long serialVersionUID = 1L;
