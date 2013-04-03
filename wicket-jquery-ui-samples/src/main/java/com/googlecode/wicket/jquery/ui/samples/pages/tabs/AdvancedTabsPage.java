@@ -60,22 +60,10 @@ public class AdvancedTabsPage extends AbstractTabsPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public boolean isOnActivatingEventEnabled()
-			{
-				return true;  //TODO: to remove
-			}
-
-			@Override
 			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
 			{
 				tabIndex = index;
 				this.send(buttons, Broadcast.EXACT, new ChangeEvent(target));
-			}
-
-			@Override
-			public void onActivating(AjaxRequestTarget target, int index, ITab tab)
-			{
-				System.out.println("onActivating"); //TODO: to remove
 			}
 		};
 
@@ -209,7 +197,7 @@ public class AdvancedTabsPage extends AbstractTabsPage
 		return tabs;
 	}
 
-	public static class ChangeEvent extends JQueryEvent
+	static class ChangeEvent extends JQueryEvent
 	{
 		private final AjaxRequestTarget target;
 

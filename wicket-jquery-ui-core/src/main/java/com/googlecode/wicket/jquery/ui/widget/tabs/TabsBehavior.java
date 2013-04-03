@@ -134,41 +134,20 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 					((AjaxTab)tab).load(target);
 				}
 
-				this.onActivate(target, index, tab);
+				if (event instanceof ActivatingEvent)
+				{
+					this.onActivating(target, index, tab);
+				}
+				else
+				{
+					this.onActivate(target, index, tab);
+				}
 			}
 		}
 	}
 
 
 	// Factories //
-	/**
-	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'beforeActivate' javascript callback
-	 * @return the {@link JQueryAjaxBehavior}
-	 */
-	protected JQueryAjaxBehavior newActivatingEventBehavior()
-	{
-		return new JQueryAjaxBehavior(this) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected CallbackParameter[] getCallbackParameters()
-			{
-				return new CallbackParameter[] {
-						CallbackParameter.context("event"),
-						CallbackParameter.context("ui"),
-						CallbackParameter.resolved("index", "jQuery(event.target).tabs('option', 'active')"),
-				};
-			}
-
-			@Override
-			protected JQueryEvent newEvent()
-			{
-				return new ActivateEvent();
-			}
-		};
-	}
-
 	/**
 	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'activate' javascript callback
 	 * @return the {@link JQueryAjaxBehavior}
@@ -193,6 +172,34 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 			protected JQueryEvent newEvent()
 			{
 				return new ActivateEvent();
+			}
+		};
+	}
+
+	/**
+	 * Gets a new {@link JQueryAjaxBehavior} that acts as the 'beforeActivate' javascript callback
+	 * @return the {@link JQueryAjaxBehavior}
+	 */
+	protected JQueryAjaxBehavior newActivatingEventBehavior()
+	{
+		return new JQueryAjaxBehavior(this) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected CallbackParameter[] getCallbackParameters()
+			{
+				return new CallbackParameter[] {
+						CallbackParameter.context("event"),
+						CallbackParameter.context("ui"),
+						CallbackParameter.resolved("index", "jQuery(event.target).tabs('option', 'active')"),
+				};
+			}
+
+			@Override
+			protected JQueryEvent newEvent()
+			{
+				return new ActivatingEvent();
 			}
 		};
 	}
@@ -224,5 +231,9 @@ public abstract class TabsBehavior extends JQueryBehavior implements IJQueryAjax
 		{
 			return this.index;
 		}
+	}
+
+	protected static class ActivatingEvent extends ActivateEvent
+	{
 	}
 }

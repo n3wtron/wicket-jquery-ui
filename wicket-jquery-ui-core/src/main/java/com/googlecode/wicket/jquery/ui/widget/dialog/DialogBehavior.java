@@ -131,7 +131,6 @@ public abstract class DialogBehavior extends JQueryBehavior implements IJQueryAj
 			buttons.append("'text': '").append(button.toString()).append("', ");
 			if (!button.isEnabled()) { buttons.append("'disabled': true, "); }
 			if (button.getIcon() != null) { buttons.append("icons: { primary: '").append(button.getIcon()).append("' }, "); }
-			//TODO: implement icon
 			buttons.append("'click': function() { ").append(behavior.getCallbackScript()).append(" }");
 			buttons.append("}");
 		}
