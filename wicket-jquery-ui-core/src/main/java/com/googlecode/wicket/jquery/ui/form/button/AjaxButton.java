@@ -24,7 +24,6 @@ import org.apache.wicket.model.IModel;
 import com.googlecode.wicket.jquery.core.IJQueryWidget;
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.core.Options;
-import com.googlecode.wicket.jquery.ui.JQueryIcon;
 
 /**
  * Provides a jQuery button based on the built-in AjaxButton
@@ -81,7 +80,7 @@ public abstract class AjaxButton extends org.apache.wicket.ajax.markup.html.form
 	 * Gets the icon being displayed in the button
 	 * @return null by default
 	 */
-	protected JQueryIcon getIcon()
+	protected String getIcon()
 	{
 		return null;
 	}

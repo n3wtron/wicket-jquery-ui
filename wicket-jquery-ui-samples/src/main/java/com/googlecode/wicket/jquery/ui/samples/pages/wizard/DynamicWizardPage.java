@@ -76,7 +76,7 @@ public class DynamicWizardPage extends AbstractWizardPage
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected JQueryIcon getIcon()
+			protected String getIcon()
 			{
 				return JQueryIcon.GEAR;
 			}

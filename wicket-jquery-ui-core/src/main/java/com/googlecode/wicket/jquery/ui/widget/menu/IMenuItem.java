@@ -49,7 +49,7 @@ public interface IMenuItem extends IClusterable
 	 * Gets the icon css class being displayed in the {@link Menu}
 	 * @return the icon css class
 	 */
-	String getIconClass();
+	String getIcon();
 
 	/**
 	 * Indicates whether the menu-item is enabled

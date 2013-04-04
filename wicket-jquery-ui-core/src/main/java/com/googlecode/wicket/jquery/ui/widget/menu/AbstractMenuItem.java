@@ -33,7 +33,7 @@ public abstract class AbstractMenuItem implements IMenuItem
 	private static final long serialVersionUID = 1L;
 
 	private IModel<String> title;
-	private String iconCss;
+	private String icon;
 	private boolean enabled = true;
 
 	/**
@@ -48,12 +48,12 @@ public abstract class AbstractMenuItem implements IMenuItem
 	/**
 	 * Constructor
 	 * @param title {@link IModel} that represent the title of the menu-item
-	 * @param iconCss the icon css class (ie: my-ui-icon-custom)
+	 * @param icon the icon css class (ie: ui-my-icon)
 	 */
-	public AbstractMenuItem(IModel<String> title, String iconCss)
+	public AbstractMenuItem(IModel<String> title, String icon)
 	{
 		this.title = title;
-		this.iconCss = iconCss;
+		this.icon = icon;
 	}
 
 	@Override
@@ -77,19 +77,21 @@ public abstract class AbstractMenuItem implements IMenuItem
 		this.title = title;
 	}
 
+	//XXX: report as changed: getIconClass > getIcon
 	@Override
-	public String getIconClass()
+	public String getIcon()
 	{
-		return this.iconCss;
+		return this.icon;
 	}
 
 	/**
-	 * Sets the icon css class being displayed in the {@link Menu} (ie: my-ui-icon-custom)
-	 * @param iconClass the icon css class
+	 * Sets the icon css class being displayed in the {@link Menu} (ie: ui-my-icon)
+	 * @param icon the icon css class
 	 */
-	public void setIconClass(String iconClass)
+	//XXX: report as changed: setIconClass > getIcon
+	public void setIcon(String icon)
 	{
-		this.iconCss = iconClass;
+		this.icon = icon;
 	}
 
 	@Override

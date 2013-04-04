@@ -56,9 +56,9 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 	/**
 	 * Gets the icon being displayed in the button
 	 */
-	protected JQueryIcon getIcon()
+	protected String getIcon()
 	{
-		return JQueryIcon.NONE;
+		return JQueryIcon.NONE; // used in #onConfigure
 	}
 
 	// Events //
@@ -78,7 +78,7 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 	 */
 	protected void onConfigure(ButtonBehavior behavior)
 	{
-		if (this.getIcon() != JQueryIcon.NONE)
+		if (!JQueryIcon.NONE.equals(this.getIcon()))
 		{
 			behavior.setOption("icons", String.format("{ primary: '%s' }", this.getIcon()));
 		}
@@ -118,7 +118,7 @@ public class Button extends org.apache.wicket.markup.html.form.Button implements
 			super(selector, METHOD, options);
 		}
 
-		public ButtonBehavior(String selector, JQueryIcon icon)
+		public ButtonBehavior(String selector, String icon)
 		{
 			super(selector, METHOD, new Options("icons", String.format("{ primary: '%s' }", icon)));
 		}

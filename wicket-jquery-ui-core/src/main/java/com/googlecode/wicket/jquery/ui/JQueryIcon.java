@@ -24,195 +24,189 @@ import com.googlecode.wicket.jquery.ui.form.button.Button;
  * @author Sebastien Briquet - sebfz1
  *
  */
-public enum JQueryIcon
+public class JQueryIcon
 {
-	NONE(""),
+	public static final String NONE = "";
 
-	BLANK("ui-icon-blank"), //XXX: report as new
-	CARAT_1_N("ui-icon-carat-1-n"),
-	CARAT_1_NE("ui-icon-carat-1-ne"),
-	CARAT_1_E("ui-icon-carat-1-e"),
-	CARAT_1_SE("ui-icon-carat-1-se"),
-	CARAT_1_S("ui-icon-carat-1-s"),
-	CARAT_1_SW("ui-icon-carat-1-sw"),
-	CARAT_1_W("ui-icon-carat-1-w"),
-	CARAT_1_NW("ui-icon-carat-1-nw"),
-	CARAT_2_N_S("ui-icon-carat-2-n-s"),
-	CARAT_2_E_W("ui-icon-carat-2-e-w"),
-	TRIANGLE_1_N("ui-icon-triangle-1-n"),
-	TRIANGLE_1_NE("ui-icon-triangle-1-ne"),
-	TRIANGLE_1_E("ui-icon-triangle-1-e"),
-	TRIANGLE_1_SE("ui-icon-triangle-1-se"),
-	TRIANGLE_1_S("ui-icon-triangle-1-s"),
-	TRIANGLE_1_SW("ui-icon-triangle-1-sw"),
-	TRIANGLE_1_W("ui-icon-triangle-1-w"),
-	TRIANGLE_1_NW("ui-icon-triangle-1-nw"),
-	TRIANGLE_2_N_S("ui-icon-triangle-2-n-s"),
-	TRIANGLE_2_E_W("ui-icon-triangle-2-e-w"),
-	ARROW_1_N("ui-icon-arrow-1-n"),
-	ARROW_1_NE("ui-icon-arrow-1-ne"),
-	ARROW_1_E("ui-icon-arrow-1-e"),
-	ARROW_1_SE("ui-icon-arrow-1-se"),
-	ARROW_1_S("ui-icon-arrow-1-s"),
-	ARROW_1_SW("ui-icon-arrow-1-sw"),
-	ARROW_1_W("ui-icon-arrow-1-w"),
-	ARROW_1_NW("ui-icon-arrow-1-nw"),
-	ARROW_2_N_S("ui-icon-arrow-2-n-s"),
-	ARROW_2_NE_SW("ui-icon-arrow-2-ne-sw"),
-	ARROW_2_E_W("ui-icon-arrow-2-e-w"),
-	ARROW_2_SE_NW("ui-icon-arrow-2-se-nw"),
-	ARROWSTOP_1_N("ui-icon-arrowstop-1-n"),
-	ARROWSTOP_1_E("ui-icon-arrowstop-1-e"),
-	ARROWSTOP_1_S("ui-icon-arrowstop-1-s"),
-	ARROWSTOP_1_W("ui-icon-arrowstop-1-w"),
-	ARROWTHICK_1_N("ui-icon-arrowthick-1-n"),
-	ARROWTHICK_1_NE("ui-icon-arrowthick-1-ne"),
-	ARROWTHICK_1_E("ui-icon-arrowthick-1-e"),
-	ARROWTHICK_1_SE("ui-icon-arrowthick-1-se"),
-	ARROWTHICK_1_S("ui-icon-arrowthick-1-s"),
-	ARROWTHICK_1_SW("ui-icon-arrowthick-1-sw"),
-	ARROWTHICK_1_W("ui-icon-arrowthick-1-w"),
-	ARROWTHICK_1_NW("ui-icon-arrowthick-1-nw"),
-	ARROWTHICK_2_N_S("ui-icon-arrowthick-2-n-s"),
-	ARROWTHICK_2_NE_SW("ui-icon-arrowthick-2-ne-sw"),
-	ARROWTHICK_2_E_W("ui-icon-arrowthick-2-e-w"),
-	ARROWTHICK_2_SE_NW("ui-icon-arrowthick-2-se-nw"),
-	ARROWTHICKSTOP_1_N("ui-icon-arrowthickstop-1-n"),
-	ARROWTHICKSTOP_1_E("ui-icon-arrowthickstop-1-e"),
-	ARROWTHICKSTOP_1_S("ui-icon-arrowthickstop-1-s"),
-	ARROWTHICKSTOP_1_W("ui-icon-arrowthickstop-1-w"),
-	ARROWRETURNTHICK_1_W("ui-icon-arrowreturnthick-1-w"),
-	ARROWRETURNTHICK_1_N("ui-icon-arrowreturnthick-1-n"),
-	ARROWRETURNTHICK_1_E("ui-icon-arrowreturnthick-1-e"),
-	ARROWRETURNTHICK_1_S("ui-icon-arrowreturnthick-1-s"),
-	ARROWRETURN_1_W("ui-icon-arrowreturn-1-w"),
-	ARROWRETURN_1_N("ui-icon-arrowreturn-1-n"),
-	ARROWRETURN_1_E("ui-icon-arrowreturn-1-e"),
-	ARROWRETURN_1_S("ui-icon-arrowreturn-1-s"),
-	ARROWREFRESH_1_W("ui-icon-arrowrefresh-1-w"),
-	ARROWREFRESH_1_N("ui-icon-arrowrefresh-1-n"),
-	ARROWREFRESH_1_E("ui-icon-arrowrefresh-1-e"),
-	ARROWREFRESH_1_S("ui-icon-arrowrefresh-1-s"),
-	ARROW_4("ui-icon-arrow-4"),
-	ARROW_4_DIAG("ui-icon-arrow-4-diag"),
-	EXTLINK("ui-icon-extlink"),
-	NEWWIN("ui-icon-newwin"),
-	REFRESH("ui-icon-refresh"),
-	SHUFFLE("ui-icon-shuffle"),
-	TRANSFER_E_W("ui-icon-transfer-e-w"),
-	TRANSFERTHICK_E_W("ui-icon-transferthick-e-w"),
-	FOLDER_COLLAPSED("ui-icon-folder-collapsed"),
-	FOLDER_OPEN("ui-icon-folder-open"),
-	DOCUMENT("ui-icon-document"),
-	DOCUMENT_B("ui-icon-document-b"),
-	NOTE("ui-icon-note"),
-	MAIL_CLOSED("ui-icon-mail-closed"),
-	MAIL_OPEN("ui-icon-mail-open"),
-	SUITCASE("ui-icon-suitcase"),
-	COMMENT("ui-icon-comment"),
-	PERSON("ui-icon-person"),
-	PRINT("ui-icon-print"),
-	TRASH("ui-icon-trash"),
-	LOCKED("ui-icon-locked"),
-	UNLOCKED("ui-icon-unlocked"),
-	BOOKMARK("ui-icon-bookmark"),
-	TAG("ui-icon-tag"),
-	HOME("ui-icon-home"),
-	FLAG("ui-icon-flag"),
-	CALCULATOR("ui-icon-calculator"),
-	CART("ui-icon-cart"),
-	PENCIL("ui-icon-pencil"),
-	CLOCK("ui-icon-clock"),
-	DISK("ui-icon-disk"),
-	CALENDAR("ui-icon-calendar"),
-	ZOOMIN("ui-icon-zoomin"),
-	ZOOMOUT("ui-icon-zoomout"),
-	SEARCH("ui-icon-search"),
-	WRENCH("ui-icon-wrench"),
-	GEAR("ui-icon-gear"),
-	HEART("ui-icon-heart"),
-	STAR("ui-icon-star"),
-	LINK("ui-icon-link"),
-	CANCEL("ui-icon-cancel"),
-	PLUS("ui-icon-plus"),
-	PLUSTHICK("ui-icon-plusthick"),
-	MINUS("ui-icon-minus"),
-	MINUSTHICK("ui-icon-minusthick"),
-	CLOSE("ui-icon-close"),
-	CLOSETHICK("ui-icon-closethick"),
-	KEY("ui-icon-key"),
-	LIGHTBULB("ui-icon-lightbulb"),
-	SCISSORS("ui-icon-scissors"),
-	CLIPBOARD("ui-icon-clipboard"),
-	COPY("ui-icon-copy"),
-	CONTACT("ui-icon-contact"),
-	IMAGE("ui-icon-image"),
-	VIDEO("ui-icon-video"),
-	SCRIPT("ui-icon-script"),
-	ALERT("ui-icon-alert"),
-	INFO("ui-icon-info"),
-	NOTICE("ui-icon-notice"),
-	HELP("ui-icon-help"),
-	CHECK("ui-icon-check"),
-	BULLET("ui-icon-bullet"),
-	RADIO_OFF("ui-icon-radio-off"),
-	RADIO_ON("ui-icon-radio-on"),
-	PIN_W("ui-icon-pin-w"),
-	PIN_S("ui-icon-pin-s"),
-	PLAY("ui-icon-play"),
-	PAUSE("ui-icon-pause"),
-	SEEK_NEXT("ui-icon-seek-next"),
-	SEEK_PREV("ui-icon-seek-prev"),
-	SEEK_END("ui-icon-seek-end"),
-	SEEK_FIRST("ui-icon-seek-first"),
-	STOP("ui-icon-stop"),
-	EJECT("ui-icon-eject"),
-	VOLUME_OFF("ui-icon-volume-off"),
-	VOLUME_ON("ui-icon-volume-on"),
-	POWER("ui-icon-power"),
-	SIGNAL_DIAG("ui-icon-signal-diag"),
-	SIGNAL("ui-icon-signal"),
-	BATTERY_0("ui-icon-battery-0"),
-	BATTERY_1("ui-icon-battery-1"),
-	BATTERY_2("ui-icon-battery-2"),
-	BATTERY_3("ui-icon-battery-3"),
-	CIRCLE_PLUS("ui-icon-circle-plus"),
-	CIRCLE_MINUS("ui-icon-circle-minus"),
-	CIRCLE_CLOSE("ui-icon-circle-close"),
-	CIRCLE_TRIANGLE_E("ui-icon-circle-triangle-e"),
-	CIRCLE_TRIANGLE_S("ui-icon-circle-triangle-s"),
-	CIRCLE_TRIANGLE_W("ui-icon-circle-triangle-w"),
-	CIRCLE_TRIANGLE_N("ui-icon-circle-triangle-n"),
-	CIRCLE_ARROW_E("ui-icon-circle-arrow-e"),
-	CIRCLE_ARROW_S("ui-icon-circle-arrow-s"),
-	CIRCLE_ARROW_W("ui-icon-circle-arrow-w"),
-	CIRCLE_ARROW_N("ui-icon-circle-arrow-n"),
-	CIRCLE_ZOOMIN("ui-icon-circle-zoomin"),
-	CIRCLE_ZOOMOUT("ui-icon-circle-zoomout"),
-	CIRCLE_CHECK("ui-icon-circle-check"),
-	CIRCLESMALL_PLUS("ui-icon-circlesmall-plus"),
-	CIRCLESMALL_MINUS("ui-icon-circlesmall-minus"),
-	CIRCLESMALL_CLOSE("ui-icon-circlesmall-close"),
-	SQUARESMALL_PLUS("ui-icon-squaresmall-plus"),
-	SQUARESMALL_MINUS("ui-icon-squaresmall-minus"),
-	SQUARESMALL_CLOSE("ui-icon-squaresmall-close"),
-	GRIP_DOTTED_VERTICAL("ui-icon-grip-dotted-vertical"),
-	GRIP_DOTTED_HORIZONTAL("ui-icon-grip-dotted-horizontal"),
-	GRIP_SOLID_VERTICAL("ui-icon-grip-solid-vertical"),
-	GRIP_SOLID_HORIZONTAL("ui-icon-grip-solid-horizontal"),
-	GRIPSMALL_DIAGONAL_SE("ui-icon-gripsmall-diagonal-se"),
-	GRIP_DIAGONAL_SE("ui-icon-grip-diagonal-se");
+	public static final String BLANK = "ui-icon-blank"; //XXX: report as new
+	public static final String CARAT_1_N = "ui-icon-carat-1-n";
+	public static final String CARAT_1_NE = "ui-icon-carat-1-ne";
+	public static final String CARAT_1_E = "ui-icon-carat-1-e";
+	public static final String CARAT_1_SE = "ui-icon-carat-1-se";
+	public static final String CARAT_1_S = "ui-icon-carat-1-s";
+	public static final String CARAT_1_SW = "ui-icon-carat-1-sw";
+	public static final String CARAT_1_W = "ui-icon-carat-1-w";
+	public static final String CARAT_1_NW = "ui-icon-carat-1-nw";
+	public static final String CARAT_2_N_S = "ui-icon-carat-2-n-s";
+	public static final String CARAT_2_E_W = "ui-icon-carat-2-e-w";
+	public static final String TRIANGLE_1_N = "ui-icon-triangle-1-n";
+	public static final String TRIANGLE_1_NE = "ui-icon-triangle-1-ne";
+	public static final String TRIANGLE_1_E = "ui-icon-triangle-1-e";
+	public static final String TRIANGLE_1_SE = "ui-icon-triangle-1-se";
+	public static final String TRIANGLE_1_S = "ui-icon-triangle-1-s";
+	public static final String TRIANGLE_1_SW = "ui-icon-triangle-1-sw";
+	public static final String TRIANGLE_1_W = "ui-icon-triangle-1-w";
+	public static final String TRIANGLE_1_NW = "ui-icon-triangle-1-nw";
+	public static final String TRIANGLE_2_N_S = "ui-icon-triangle-2-n-s";
+	public static final String TRIANGLE_2_E_W = "ui-icon-triangle-2-e-w";
+	public static final String ARROW_1_N = "ui-icon-arrow-1-n";
+	public static final String ARROW_1_NE = "ui-icon-arrow-1-ne";
+	public static final String ARROW_1_E = "ui-icon-arrow-1-e";
+	public static final String ARROW_1_SE = "ui-icon-arrow-1-se";
+	public static final String ARROW_1_S = "ui-icon-arrow-1-s";
+	public static final String ARROW_1_SW = "ui-icon-arrow-1-sw";
+	public static final String ARROW_1_W = "ui-icon-arrow-1-w";
+	public static final String ARROW_1_NW = "ui-icon-arrow-1-nw";
+	public static final String ARROW_2_N_S = "ui-icon-arrow-2-n-s";
+	public static final String ARROW_2_NE_SW = "ui-icon-arrow-2-ne-sw";
+	public static final String ARROW_2_E_W = "ui-icon-arrow-2-e-w";
+	public static final String ARROW_2_SE_NW = "ui-icon-arrow-2-se-nw";
+	public static final String ARROWSTOP_1_N = "ui-icon-arrowstop-1-n";
+	public static final String ARROWSTOP_1_E = "ui-icon-arrowstop-1-e";
+	public static final String ARROWSTOP_1_S = "ui-icon-arrowstop-1-s";
+	public static final String ARROWSTOP_1_W = "ui-icon-arrowstop-1-w";
+	public static final String ARROWTHICK_1_N = "ui-icon-arrowthick-1-n";
+	public static final String ARROWTHICK_1_NE = "ui-icon-arrowthick-1-ne";
+	public static final String ARROWTHICK_1_E = "ui-icon-arrowthick-1-e";
+	public static final String ARROWTHICK_1_SE = "ui-icon-arrowthick-1-se";
+	public static final String ARROWTHICK_1_S = "ui-icon-arrowthick-1-s";
+	public static final String ARROWTHICK_1_SW = "ui-icon-arrowthick-1-sw";
+	public static final String ARROWTHICK_1_W = "ui-icon-arrowthick-1-w";
+	public static final String ARROWTHICK_1_NW = "ui-icon-arrowthick-1-nw";
+	public static final String ARROWTHICK_2_N_S = "ui-icon-arrowthick-2-n-s";
+	public static final String ARROWTHICK_2_NE_SW = "ui-icon-arrowthick-2-ne-sw";
+	public static final String ARROWTHICK_2_E_W = "ui-icon-arrowthick-2-e-w";
+	public static final String ARROWTHICK_2_SE_NW = "ui-icon-arrowthick-2-se-nw";
+	public static final String ARROWTHICKSTOP_1_N = "ui-icon-arrowthickstop-1-n";
+	public static final String ARROWTHICKSTOP_1_E = "ui-icon-arrowthickstop-1-e";
+	public static final String ARROWTHICKSTOP_1_S = "ui-icon-arrowthickstop-1-s";
+	public static final String ARROWTHICKSTOP_1_W = "ui-icon-arrowthickstop-1-w";
+	public static final String ARROWRETURNTHICK_1_W = "ui-icon-arrowreturnthick-1-w";
+	public static final String ARROWRETURNTHICK_1_N = "ui-icon-arrowreturnthick-1-n";
+	public static final String ARROWRETURNTHICK_1_E = "ui-icon-arrowreturnthick-1-e";
+	public static final String ARROWRETURNTHICK_1_S = "ui-icon-arrowreturnthick-1-s";
+	public static final String ARROWRETURN_1_W = "ui-icon-arrowreturn-1-w";
+	public static final String ARROWRETURN_1_N = "ui-icon-arrowreturn-1-n";
+	public static final String ARROWRETURN_1_E = "ui-icon-arrowreturn-1-e";
+	public static final String ARROWRETURN_1_S = "ui-icon-arrowreturn-1-s";
+	public static final String ARROWREFRESH_1_W = "ui-icon-arrowrefresh-1-w";
+	public static final String ARROWREFRESH_1_N = "ui-icon-arrowrefresh-1-n";
+	public static final String ARROWREFRESH_1_E = "ui-icon-arrowrefresh-1-e";
+	public static final String ARROWREFRESH_1_S = "ui-icon-arrowrefresh-1-s";
+	public static final String ARROW_4 = "ui-icon-arrow-4";
+	public static final String ARROW_4_DIAG = "ui-icon-arrow-4-diag";
+	public static final String EXTLINK = "ui-icon-extlink";
+	public static final String NEWWIN = "ui-icon-newwin";
+	public static final String REFRESH = "ui-icon-refresh";
+	public static final String SHUFFLE = "ui-icon-shuffle";
+	public static final String TRANSFER_E_W = "ui-icon-transfer-e-w";
+	public static final String TRANSFERTHICK_E_W = "ui-icon-transferthick-e-w";
+	public static final String FOLDER_COLLAPSED = "ui-icon-folder-collapsed";
+	public static final String FOLDER_OPEN = "ui-icon-folder-open";
+	public static final String DOCUMENT = "ui-icon-document";
+	public static final String DOCUMENT_B = "ui-icon-document-b";
+	public static final String NOTE = "ui-icon-note";
+	public static final String MAIL_CLOSED = "ui-icon-mail-closed";
+	public static final String MAIL_OPEN = "ui-icon-mail-open";
+	public static final String SUITCASE = "ui-icon-suitcase";
+	public static final String COMMENT = "ui-icon-comment";
+	public static final String PERSON = "ui-icon-person";
+	public static final String PRINT = "ui-icon-print";
+	public static final String TRASH = "ui-icon-trash";
+	public static final String LOCKED = "ui-icon-locked";
+	public static final String UNLOCKED = "ui-icon-unlocked";
+	public static final String BOOKMARK = "ui-icon-bookmark";
+	public static final String TAG = "ui-icon-tag";
+	public static final String HOME = "ui-icon-home";
+	public static final String FLAG = "ui-icon-flag";
+	public static final String CALCULATOR = "ui-icon-calculator";
+	public static final String CART = "ui-icon-cart";
+	public static final String PENCIL = "ui-icon-pencil";
+	public static final String CLOCK = "ui-icon-clock";
+	public static final String DISK = "ui-icon-disk";
+	public static final String CALENDAR = "ui-icon-calendar";
+	public static final String ZOOMIN = "ui-icon-zoomin";
+	public static final String ZOOMOUT = "ui-icon-zoomout";
+	public static final String SEARCH = "ui-icon-search";
+	public static final String WRENCH = "ui-icon-wrench";
+	public static final String GEAR = "ui-icon-gear";
+	public static final String HEART = "ui-icon-heart";
+	public static final String STAR = "ui-icon-star";
+	public static final String LINK = "ui-icon-link";
+	public static final String CANCEL = "ui-icon-cancel";
+	public static final String PLUS = "ui-icon-plus";
+	public static final String PLUSTHICK = "ui-icon-plusthick";
+	public static final String MINUS = "ui-icon-minus";
+	public static final String MINUSTHICK = "ui-icon-minusthick";
+	public static final String CLOSE = "ui-icon-close";
+	public static final String CLOSETHICK = "ui-icon-closethick";
+	public static final String KEY = "ui-icon-key";
+	public static final String LIGHTBULB = "ui-icon-lightbulb";
+	public static final String SCISSORS = "ui-icon-scissors";
+	public static final String CLIPBOARD = "ui-icon-clipboard";
+	public static final String COPY = "ui-icon-copy";
+	public static final String CONTACT = "ui-icon-contact";
+	public static final String IMAGE = "ui-icon-image";
+	public static final String VIDEO = "ui-icon-video";
+	public static final String SCRIPT = "ui-icon-script";
+	public static final String ALERT = "ui-icon-alert";
+	public static final String INFO = "ui-icon-info";
+	public static final String NOTICE = "ui-icon-notice";
+	public static final String HELP = "ui-icon-help";
+	public static final String CHECK = "ui-icon-check";
+	public static final String BULLET = "ui-icon-bullet";
+	public static final String RADIO_OFF = "ui-icon-radio-off";
+	public static final String RADIO_ON = "ui-icon-radio-on";
+	public static final String PIN_W = "ui-icon-pin-w";
+	public static final String PIN_S = "ui-icon-pin-s";
+	public static final String PLAY = "ui-icon-play";
+	public static final String PAUSE = "ui-icon-pause";
+	public static final String SEEK_NEXT = "ui-icon-seek-next";
+	public static final String SEEK_PREV = "ui-icon-seek-prev";
+	public static final String SEEK_END = "ui-icon-seek-end";
+	public static final String SEEK_FIRST = "ui-icon-seek-first";
+	public static final String STOP = "ui-icon-stop";
+	public static final String EJECT = "ui-icon-eject";
+	public static final String VOLUME_OFF = "ui-icon-volume-off";
+	public static final String VOLUME_ON = "ui-icon-volume-on";
+	public static final String POWER = "ui-icon-power";
+	public static final String SIGNAL_DIAG = "ui-icon-signal-diag";
+	public static final String SIGNAL = "ui-icon-signal";
+	public static final String BATTERY_0 = "ui-icon-battery-0";
+	public static final String BATTERY_1 = "ui-icon-battery-1";
+	public static final String BATTERY_2 = "ui-icon-battery-2";
+	public static final String BATTERY_3 = "ui-icon-battery-3";
+	public static final String CIRCLE_PLUS = "ui-icon-circle-plus";
+	public static final String CIRCLE_MINUS = "ui-icon-circle-minus";
+	public static final String CIRCLE_CLOSE = "ui-icon-circle-close";
+	public static final String CIRCLE_TRIANGLE_E = "ui-icon-circle-triangle-e";
+	public static final String CIRCLE_TRIANGLE_S = "ui-icon-circle-triangle-s";
+	public static final String CIRCLE_TRIANGLE_W = "ui-icon-circle-triangle-w";
+	public static final String CIRCLE_TRIANGLE_N = "ui-icon-circle-triangle-n";
+	public static final String CIRCLE_ARROW_E = "ui-icon-circle-arrow-e";
+	public static final String CIRCLE_ARROW_S = "ui-icon-circle-arrow-s";
+	public static final String CIRCLE_ARROW_W = "ui-icon-circle-arrow-w";
+	public static final String CIRCLE_ARROW_N = "ui-icon-circle-arrow-n";
+	public static final String CIRCLE_ZOOMIN = "ui-icon-circle-zoomin";
+	public static final String CIRCLE_ZOOMOUT = "ui-icon-circle-zoomout";
+	public static final String CIRCLE_CHECK = "ui-icon-circle-check";
+	public static final String CIRCLESMALL_PLUS = "ui-icon-circlesmall-plus";
+	public static final String CIRCLESMALL_MINUS = "ui-icon-circlesmall-minus";
+	public static final String CIRCLESMALL_CLOSE = "ui-icon-circlesmall-close";
+	public static final String SQUARESMALL_PLUS = "ui-icon-squaresmall-plus";
+	public static final String SQUARESMALL_MINUS = "ui-icon-squaresmall-minus";
+	public static final String SQUARESMALL_CLOSE = "ui-icon-squaresmall-close";
+	public static final String GRIP_DOTTED_VERTICAL = "ui-icon-grip-dotted-vertical";
+	public static final String GRIP_DOTTED_HORIZONTAL = "ui-icon-grip-dotted-horizontal";
+	public static final String GRIP_SOLID_VERTICAL = "ui-icon-grip-solid-vertical";
+	public static final String GRIP_SOLID_HORIZONTAL = "ui-icon-grip-solid-horizontal";
+	public static final String GRIPSMALL_DIAGONAL_SE = "ui-icon-gripsmall-diagonal-se";
+	public static final String GRIP_DIAGONAL_SE = "ui-icon-grip-diagonal-se";
 
-	private String cssClass;
-
-	private JQueryIcon(String cssClass)
+	/**
+	 * Contants class
+	 */
+	private JQueryIcon()
 	{
-		this.cssClass = cssClass;
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.cssClass;
 	}
 }

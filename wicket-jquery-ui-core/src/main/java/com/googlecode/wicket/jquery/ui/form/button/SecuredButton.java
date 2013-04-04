@@ -108,7 +108,7 @@ public abstract class SecuredButton extends Button
 
 	//XXX: report as changed
 	@Override
-	protected JQueryIcon getIcon()
+	protected String getIcon()
 	{
 		return this.isLocked() ? JQueryIcon.LOCKED : JQueryIcon.UNLOCKED;
 	}

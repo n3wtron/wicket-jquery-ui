@@ -162,7 +162,7 @@ public abstract class SecuredAjaxButton extends AjaxButton
 
 	//XXX: report as changed
 	@Override
-	protected JQueryIcon getIcon()
+	protected String getIcon()
 	{
 		return this.isLocked() ? JQueryIcon.LOCKED : JQueryIcon.UNLOCKED;
 	}

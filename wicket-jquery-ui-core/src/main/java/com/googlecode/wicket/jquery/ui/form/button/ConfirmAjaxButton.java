@@ -75,7 +75,7 @@ public abstract class ConfirmAjaxButton extends GenericPanel<String>
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected JQueryIcon getIcon()
+			protected String getIcon()
 			{
 				return ConfirmAjaxButton.this.getIcon();
 			}
@@ -98,7 +98,7 @@ public abstract class ConfirmAjaxButton extends GenericPanel<String>
 	 * Gets the icon being displayed in the button
 	 * @return the {@link JQueryIcon}
 	 */
-	protected JQueryIcon getIcon()
+	protected String getIcon()
 	{
 		return JQueryIcon.ALERT;
 	}

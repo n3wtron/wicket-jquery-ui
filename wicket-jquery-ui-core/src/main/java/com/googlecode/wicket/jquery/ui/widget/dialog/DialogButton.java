@@ -20,8 +20,6 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.io.IClusterable;
 
-import com.googlecode.wicket.jquery.ui.JQueryIcon;
-
 /**
  * Provides the button object that can be used in dialogs
  *
@@ -55,7 +53,7 @@ public class DialogButton implements IClusterable
 	 */
 	public DialogButton(String text)
 	{
-		this(text, (String)null, true);
+		this(text, null, true);
 	}
 
 	/**
@@ -72,22 +70,11 @@ public class DialogButton implements IClusterable
 	/**
 	 * Constructor
 	 * @param text the button's text
-	 * @param icon the button's icon
-	 */
-	//XXX: report as new
-	public DialogButton(String text, JQueryIcon icon)
-	{
-		this(text, icon.toString(), true);
-	}
-
-	/**
-	 * Constructor
-	 * @param text the button's text
 	 * @param enabled indicates whether the button is enabled
 	 */
 	public DialogButton(String text, boolean enabled)
 	{
-		this(text, (String)null, enabled);
+		this(text, null, enabled);
 	}
 
 	/**
@@ -106,22 +93,11 @@ public class DialogButton implements IClusterable
 
 	/**
 	 * Constructor
-	 * @param text the button's text
-	 * @param icon the button's icon
-	 * @param enabled indicates whether the button is enabled
-	 */
-	public DialogButton(String text, JQueryIcon icon, boolean enabled)
-	{
-		this(text, icon.toString(), enabled);
-	}
-
-	/**
-	 * Constructor
 	 * @param model the button's text model
 	 */
 	public DialogButton(final IModel<String> model)
 	{
-		this(model.getObject(), (String)null, true);
+		this(model.getObject(), null, true);
 	}
 
 	/**
@@ -137,21 +113,11 @@ public class DialogButton implements IClusterable
 	/**
 	 * Constructor
 	 * @param model the button's text model
-	 * @param icon the button's icon
-	 */
-	public DialogButton(final IModel<String> model, JQueryIcon icon)
-	{
-		this(model.getObject(), icon.toString(), true);
-	}
-
-	/**
-	 * Constructor
-	 * @param model the button's text model
 	 * @param enabled indicates whether the button is enabled
 	 */
 	public DialogButton(final IModel<String> model, boolean enabled)
 	{
-		this(model.getObject(), (String)null, enabled);
+		this(model.getObject(), null, enabled);
 	}
 
 	/**
@@ -165,37 +131,8 @@ public class DialogButton implements IClusterable
 		this(model.getObject(), icon, enabled);
 	}
 
-	/**
-	 * Constructor
-	 * @param model the button's text model
-	 * @param icon the button's icon
-	 * @param enabled indicates whether the button is enabled
-	 */
-	public DialogButton(final IModel<String> model, JQueryIcon icon, boolean enabled)
-	{
-		this(model.getObject(), icon.toString(), enabled);
-	}
-
 
 	// Properties //
-//	/**
-//	 * Sets the button's icon
-//	 * @param icon the {@link JQueryIcon}
-//	 */
-//	public void setIcon(JQueryIcon icon)
-//	{
-//		this.setIcon(icon.toString());
-//	}
-//
-//	/**
-//	 * Sets the button's icon
-//	 * @param icon the css class (ie: ui-my-icon)
-//	 */
-//	public void setIcon(String icon)
-//	{
-//		this.icon = icon;
-//	}
-
 	/**
 	 * Gets the button's icon
 	 * @return the button's icon
@@ -203,6 +140,15 @@ public class DialogButton implements IClusterable
 	public String getIcon()
 	{
 		return this.icon;
+	}
+
+	/**
+	 * Sets the button's icon
+	 * @param icon the css class (ie: ui-my-icon)
+	 */
+	public void setIcon(String icon)
+	{
+		this.icon = icon;
 	}
 
 	/**

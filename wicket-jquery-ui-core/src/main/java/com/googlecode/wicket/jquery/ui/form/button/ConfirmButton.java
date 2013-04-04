@@ -74,7 +74,7 @@ public abstract class ConfirmButton extends FormSubmittingPanel<String>
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected JQueryIcon getIcon()
+			protected String getIcon()
 			{
 				return ConfirmButton.this.getIcon();
 			}
@@ -96,7 +96,7 @@ public abstract class ConfirmButton extends FormSubmittingPanel<String>
 	 * Gets the icon being displayed in the button
 	 * @return the {@link JQueryIcon}
 	 */
-	protected JQueryIcon getIcon()
+	protected String getIcon()
 	{
 		return JQueryIcon.ALERT;
 	}

@@ -23,8 +23,6 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import com.googlecode.wicket.jquery.ui.JQueryIcon;
-
 /**
  * Provides a standard menu-item that supports sub-menus
  *
@@ -51,21 +49,11 @@ public class MenuItem extends AbstractMenuItem
 	/**
 	 * Constructor
 	 * @param title the title of the menu-item
-	 * @param icon the {@link JQueryIcon} to display
+	 * @param icon the icon css class (ie: ui-my-icon)
 	 */
-	public MenuItem(String title, JQueryIcon icon)
+	public MenuItem(String title, String icon)
 	{
-		this(Model.of(title), icon.toString());
-	}
-
-	/**
-	 * Constructor
-	 * @param title the title of the menu-item
-	 * @param iconCss the icon css class (ie: my-ui-icon-custom)
-	 */
-	public MenuItem(String title, String iconCss)
-	{
-		this(Model.of(title), iconCss);
+		this(Model.of(title), icon);
 	}
 
 	/**
@@ -79,22 +67,12 @@ public class MenuItem extends AbstractMenuItem
 
 	/**
 	 * Constructor
-	 * @param title {@link IModel} that represent the title of the menu-item
-	 * @param icon the {@link JQueryIcon} to display
-	 */
-	public MenuItem(IModel<String> title, JQueryIcon icon)
-	{
-		this(title, icon.toString());
-	}
-
-	/**
-	 * Constructor
 	 * @param title IModel that represent the title of the menu-item
-	 * @param iconCss the icon css class (ie: my-ui-icon-custom)
+	 * @param icon the icon css class (ie: ui-my-icon)
 	 */
-	public MenuItem(IModel<String> title, String iconCss)
+	public MenuItem(IModel<String> title, String icon)
 	{
-		super(title, iconCss);
+		super(title, icon);
 
 		this.items = new ArrayList<IMenuItem>();
 	}
@@ -113,23 +91,12 @@ public class MenuItem extends AbstractMenuItem
 	/**
 	 * Constructor
 	 * @param title the title of the menu-item
-	 * @param icon the {@link JQueryIcon} to display
+	 * @param icon the icon css class (ie: ui-my-icon)
 	 * @param items the sub-menu items
 	 */
-	public MenuItem(String title, JQueryIcon icon, List<IMenuItem> items)
+	public MenuItem(String title, String icon, List<IMenuItem> items)
 	{
-		this(Model.of(title), icon.toString(), items);
-	}
-
-	/**
-	 * Constructor
-	 * @param title the title of the menu-item
-	 * @param iconCss the icon css class (ie: my-ui-icon-custom)
-	 * @param items the sub-menu items
-	 */
-	public MenuItem(String title, String iconCss, List<IMenuItem> items)
-	{
-		this(Model.of(title), iconCss, items);
+		this(Model.of(title), icon, items);
 	}
 
 	/**
@@ -145,23 +112,12 @@ public class MenuItem extends AbstractMenuItem
 	/**
 	 * Constructor
 	 * @param title IModel that represent the title of the menu-item
-	 * @param icon the {@link JQueryIcon} to display
+	 * @param icon the icon css class (ie: ui-my-icon)
 	 * @param items the sub-menu items
 	 */
-	public MenuItem(IModel<String> title, JQueryIcon icon, List<IMenuItem> items)
+	public MenuItem(IModel<String> title, String icon, List<IMenuItem> items)
 	{
-		this(title, icon.toString(), items);
-	}
-
-	/**
-	 * Constructor
-	 * @param title IModel that represent the title of the menu-item
-	 * @param iconCss the icon css class (ie: my-ui-icon-custom)
-	 * @param items the sub-menu items
-	 */
-	public MenuItem(IModel<String> title, String iconCss, List<IMenuItem> items)
-	{
-		super(title, iconCss);
+		super(title, icon);
 
 		this.items = items;
 	}
@@ -171,15 +127,6 @@ public class MenuItem extends AbstractMenuItem
 	public List<IMenuItem> getItems()
 	{
 		return this.items;
-	}
-
-	/**
-	 * Sets the icon being displayed in the menu
-	 * @param icon the {@link JQueryIcon}
-	 */
-	public void setIcon(JQueryIcon icon)
-	{
-		this.setIconClass(icon.toString());
 	}
 
 	// Methods //
