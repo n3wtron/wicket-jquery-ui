@@ -108,7 +108,7 @@ public class CustomComboBoxPage extends AbstractComboBoxPage
 
 		/**
 		 * toString needs to be overridden: it is used by the suggestion display
-		 * and by {@link AutoCompleteUtils#contains(List, String)} method
+		 * and by {@link AutoCompleteUtils#contains(String, List)} method
 		 */
 		@Override
 		public String toString()

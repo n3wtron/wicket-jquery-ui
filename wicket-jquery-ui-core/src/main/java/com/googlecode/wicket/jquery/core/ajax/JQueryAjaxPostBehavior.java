@@ -19,14 +19,13 @@ package com.googlecode.wicket.jquery.core.ajax;
 import java.util.List;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes.Method;
 import org.apache.wicket.markup.html.form.FormComponent;
 
 /**
  * Base class for implementing AJAX POST calls on JQuery {@link Component}<br/>
- * The difference with {@link JQueryAjaxFormBehavior} is that this behavior post a {@link FormComponent} so the receiver of the event can get the component back.
+ * This behavior post a {@link FormComponent} so the receiver of the event can get the component back.
  *
  * @author Sebastien Briquet - sebfz1
  *
@@ -38,7 +37,7 @@ public abstract class JQueryAjaxPostBehavior extends JQueryAjaxBehavior
 
 	/**
 	 * Constructor
-	 * @param source {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.
+	 * @param source {@link Component} to which the event returned by {@link #newEvent()} will be broadcasted.
 	 * @param components the form components to post.
 	 */
 	public JQueryAjaxPostBehavior(IJQueryAjaxAware source, FormComponent<?>... components)

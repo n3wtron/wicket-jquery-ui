@@ -30,7 +30,7 @@ import com.googlecode.wicket.jquery.core.JQueryEvent;
 /**
  * TODO: change javadoc
  * Base class for implementing AJAX GET calls on JQuery components<br />
- * The 'source' constructor argument is the {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.<br/>
+ * The 'source' constructor argument is the {@link Component} to which the event returned by {@link #newEvent()} will be broadcasted.<br/>
  * <pre>
 public class MyJQueryLabel extends Label implements IJQueryWidget
 {
@@ -145,7 +145,7 @@ public abstract class JQueryAjaxBehavior extends AbstractDefaultAjaxBehavior
 	}
 
 	/**
-	 * @param target the {@link AjaxRequestTarget}
+	 * TODO: javadoc
 	 * @return the {@link JQueryEvent} to be broadcasted to the source when the behavior will respond
 	 */
 	protected abstract JQueryEvent newEvent();

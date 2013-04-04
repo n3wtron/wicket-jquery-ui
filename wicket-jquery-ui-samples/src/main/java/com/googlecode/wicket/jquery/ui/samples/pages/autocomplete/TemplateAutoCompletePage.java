@@ -143,7 +143,7 @@ public class TemplateAutoCompletePage extends AbstractAutoCompletePage
 
 		/**
 		 * #toString() needs to be overridden if no renderer is provided.
-		 * #toString() is also used by {@link AutoCompleteUtils#contains(List, String)} method.
+		 * #toString() is also used by {@link AutoCompleteUtils#contains(String, List)} method.
 		 */
 		@Override
 		public String toString()

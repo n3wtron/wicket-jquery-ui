@@ -248,7 +248,6 @@ public abstract class AutoCompleteTextField<T extends Serializable> extends Text
 	/**
 	 * Triggered when the user selects an item from results that matched its input
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param index the index of the selected item
 	 */
 	protected void onSelected(AjaxRequestTarget target)
 	{

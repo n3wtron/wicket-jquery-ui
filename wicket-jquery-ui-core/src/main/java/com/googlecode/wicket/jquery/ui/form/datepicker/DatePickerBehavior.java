@@ -96,7 +96,7 @@ public abstract class DatePickerBehavior extends JQueryBehavior implements IJQue
 	// Factories //
 	/**
 	 * Gets a new {@link JQueryAjaxBehavior} that will be called on 'select' javascript method
-	 * @param source {@link Component} to which the event returned by {@link #newEvent(AjaxRequestTarget)} will be broadcasted.
+	 *
 	 * @return the {@link JQueryAjaxBehavior}
 	 */
 	protected JQueryAjaxBehavior newOnSelectBehavior()

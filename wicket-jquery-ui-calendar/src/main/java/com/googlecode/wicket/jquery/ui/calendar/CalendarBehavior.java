@@ -364,7 +364,6 @@ public abstract class CalendarBehavior extends JQueryBehavior implements IJQuery
 
 		/**
 		 * Constructor
-		 * @param target the {@link AjaxRequestTarget}
 		 */
 		public DayClickEvent()
 		{
@@ -439,7 +438,6 @@ public abstract class CalendarBehavior extends JQueryBehavior implements IJQuery
 
 		/**
 		 * Constructor
-		 * @param target the {@link AjaxRequestTarget}
 		 */
 		public ClickEvent()
 		{
@@ -466,7 +464,6 @@ public abstract class CalendarBehavior extends JQueryBehavior implements IJQuery
 
 		/**
 		 * Constructor
-		 * @param target the {@link AjaxRequestTarget}
 		 */
 		public DeltaEvent()
 		{
@@ -505,7 +502,6 @@ public abstract class CalendarBehavior extends JQueryBehavior implements IJQuery
 
 		/**
 		 * Constructor
-		 * @param target the {@link AjaxRequestTarget}
 		 */
 		public DropEvent()
 		{

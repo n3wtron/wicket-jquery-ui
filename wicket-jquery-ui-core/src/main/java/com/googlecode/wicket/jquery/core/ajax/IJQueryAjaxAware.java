@@ -21,8 +21,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import com.googlecode.wicket.jquery.core.JQueryEvent;
 
 /**
- *
- * @param <T> the type of {@link JQueryEvent}
+ * TODO: javadoc
  *
  * @author Sebastien Briquet - sebfz1
  */

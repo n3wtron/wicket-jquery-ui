@@ -190,7 +190,6 @@ public abstract class ResizableBehavior extends JQueryBehavior implements IJQuer
 
 		/**
 		 * Constructor.
-		 * @param target the {@link AjaxRequestTarget}
 		 */
 		public ResizeEvent()
 		{

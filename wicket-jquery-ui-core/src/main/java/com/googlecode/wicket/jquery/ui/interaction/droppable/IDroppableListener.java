@@ -19,7 +19,6 @@ package com.googlecode.wicket.jquery.ui.interaction.droppable;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 
-import com.googlecode.wicket.jquery.ui.interaction.draggable.Draggable;
 import com.googlecode.wicket.jquery.ui.interaction.draggable.DraggableBehavior;
 
 /**
@@ -31,14 +30,14 @@ interface IDroppableListener
 {
 	/**
 	 * Indicates whether the 'over' event is enabled.<br />
-	 * If true, the {@link #onOver(AjaxRequestTarget, Draggable)} event will be triggered.
+	 * If true, the {@link #onOver(AjaxRequestTarget, Component)} event will be triggered.
 	 * @return false by default
 	 */
 	boolean isOverEventEnabled();
 
 	/**
 	 * Indicates whether the 'exit' (or 'out') event is enabled.<br />
-	 * If true, the {@link #onExit(AjaxRequestTarget, Draggable)} event will be triggered.
+	 * If true, the {@link #onExit(AjaxRequestTarget, Component)} event will be triggered.
 	 * @return false by default
 	 */
 	boolean isExitEventEnabled();

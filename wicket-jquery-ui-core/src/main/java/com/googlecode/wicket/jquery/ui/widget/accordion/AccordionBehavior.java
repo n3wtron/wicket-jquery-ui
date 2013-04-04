@@ -169,8 +169,6 @@ public abstract class AccordionBehavior extends JQueryBehavior implements IJQuer
 
 		/**
 		 * Constructor
-		 *
-		 * @param target the {@link AjaxRequestTarget}
 		 */
 		public ActivateEvent()
 		{

@@ -17,7 +17,6 @@
 package com.googlecode.wicket.jquery.core.event;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.form.Form;
 
 /**
  * Specifies that a widget handles a selection-changed AJAX behavior
@@ -29,7 +28,6 @@ public interface ISelectionChangedListener
 	/**
 	 * Triggers when the selection has changed
 	 * @param target the {@link AjaxRequestTarget}
-	 * @param form the {@link Form}
 	 */
 	//XXX: report as changed - onSelectionChanged(AjaxRequestTarget target, Form<?> form) - onSelectionChanged(AjaxRequestTarget target)
 	void onSelectionChanged(AjaxRequestTarget target);

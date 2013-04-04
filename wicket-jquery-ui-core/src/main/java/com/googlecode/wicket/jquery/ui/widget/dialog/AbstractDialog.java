@@ -86,7 +86,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * Constructor
 	 * @param id the markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
-	 * @param model the model to be used in the dialog. It is retransmitted to the {@link ClickEvent} object.
+	 * @param model the model to be used in the dialog.
 	 */
 	public AbstractDialog(String id, String title, IModel<T> model)
 	{
@@ -97,7 +97,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * Constructor
 	 * @param id the markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
-	 * @param model the model to be used in the dialog. It is retransmitted to the {@link ClickEvent} object.
+	 * @param model the model to be used in the dialog.
 	 */
 	public AbstractDialog(String id, IModel<String> title, IModel<T> model)
 	{
@@ -131,7 +131,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * @param id markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
 	 * @param modal indicates whether the dialog is modal
-	 * @param model the model to be used in the dialog; it is retransmitted to the {@link ClickEvent} object.
+	 * @param model the model to be used in the dialog
 	 */
 	public AbstractDialog(String id, String title, IModel<T> model, boolean modal)
 	{
@@ -143,7 +143,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	 * @param id markupId, an html div suffice to host a dialog.
 	 * @param title the title of the dialog
 	 * @param modal indicates whether the dialog is modal
-	 * @param model the model to be used in the dialog; it is retransmitted to the {@link ClickEvent} object.
+	 * @param model the model to be used in the dialog
 	 */
 	public AbstractDialog(String id, IModel<String> title, IModel<T> model, boolean modal)
 	{
@@ -189,7 +189,6 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	/**
 	 * Triggered when a button is clicked.
 	 * This method may be overridden to handle button behaviors, but the dialog will not been closed until <code>super.onClick(event)</code> or {@link #close(AjaxRequestTarget, DialogButton)} is called.
-	 * @param event {@link ClickEvent}
 	 */
 	@Override
 	public void onClick(AjaxRequestTarget target, DialogButton button)
@@ -199,7 +198,7 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 
 	/**
 	 * Internal onClick method, fired by the behavior<br/>
-	 * The purpose of this method is to prevent the behavior calling {@link #onClick(AjaxRequestTarget, DialogButton)} directly because <code>onClick</code> is implemented by default
+	 * The purpose of this method is to prevent the behavior calling {@link #onClick(AjaxRequestTarget, DialogButton)} directly, as <code>onClick</code> is implemented by default
 	 *
 	 * @param target the {@link AjaxRequestTarget}
 	 * @param button the {@link DialogButton}
@@ -420,9 +419,9 @@ public abstract class AbstractDialog<T extends Serializable> extends JQueryPanel
 	/**
 	 * TODO javadoc?
 	 * Gets a new ButtonAjaxBehavior that will be called by the corresponding dialog's button.<br/>
-	 * This method mays be overridden internally to provide another behavior; ButtonAjaxBehavior has package visibility
+	 * This method mays be overridden internally to provide another behavior
 	 *
-	 * @param button the button that is passed to the behavior so it can be retrieved via the {@link ClickEvent}
+	 * @param button the button that is passed to the behavior so it can be retrieved via the <code>DialogBehavior#ClickEvent</code>
 	 */
 	protected ButtonAjaxBehavior newButtonAjaxBehavior(IJQueryAjaxAware source, DialogButton button)
 	{
