@@ -1,10 +1,21 @@
 package com.googlecode.wicket.jquery.ui.samples.pages.calendar;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.PriorityHeaderItem;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.resource.TextTemplateResourceReference;
 
 import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.ui.calendar.Calendar;
@@ -92,6 +103,14 @@ public class ExtendedCalendarPage extends AbstractCalendarPage
 			}
 
 			@Override
+			protected void onInitialize()
+			{
+				super.onInitialize();
+
+				this.add(new CalendarFunctionsBehavior(this.getMarkupId()));
+			}
+
+			@Override
 			public void onDayClick(AjaxRequestTarget target, CalendarView view, Date date)
 			{
 				DemoCalendarEvent event = DemoCalendarDAO.emptyEvent(date);
@@ -150,6 +169,39 @@ public class ExtendedCalendarPage extends AbstractCalendarPage
 
 					this.info(String.format("%s now ends the %s", event.getTitle(), event.getEnd()));
 					target.add(feedback);
+				}
+			}
+
+			class CalendarFunctionsBehavior extends Behavior
+			{
+				private static final long serialVersionUID = 1L;
+
+				private final String markupId;
+
+				public CalendarFunctionsBehavior(String markupId)
+				{
+					this.markupId = markupId;
+				}
+
+				private IModel<Map<String, Object>> newResourceModel()
+				{
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("markupId", this.markupId);
+
+					return Model.ofMap(map);
+				}
+
+				private ResourceReference newResourceReference()
+				{
+					return new TextTemplateResourceReference(CalendarFunctionsBehavior.class, "calendar-functions.js", this.newResourceModel());
+				}
+
+				@Override
+				public void renderHead(Component component, IHeaderResponse response)
+				{
+					super.renderHead(component, response);
+
+					response.render(new PriorityHeaderItem(JavaScriptHeaderItem.forReference(this.newResourceReference(), "calendar-functions")));
 				}
 			}
 		};
