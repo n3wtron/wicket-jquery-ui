@@ -65,13 +65,36 @@ public class PropertyColumn<T> extends AbstractColumn<T>
 	 * Constructor
 	 * @param title the text of the column header
 	 * @param property the object property name
+	 * @param renderer the property renderer
+	 */
+	public PropertyColumn(String title, String property,ITextRenderer<T> renderer)
+	{
+		this(title, property, AbstractColumn.WIDTH,renderer);
+	}
+	
+	/**
+	 * Constructor
+	 * @param title the text of the column header
+	 * @param property the object property name
 	 * @param width the desired width of the column
 	 */
 	public PropertyColumn(String title, String property, int width)
 	{
+		this(title, property, AbstractColumn.WIDTH,new TextRenderer<T>(property));
+	}
+	
+	
+	/**
+	 * Constructor
+	 * @param title the text of the column header
+	 * @param property the object property name
+	 * @param width the desired width of the column
+	 * @param renderer the property renderer
+	 */
+	public PropertyColumn(String title, String property, int width,ITextRenderer<T> renderer)
+	{
 		super(title, property, width);
-
-		this.renderer = new TextRenderer<T>(property);
+		this.renderer = renderer;
 	}
 
 	/**
@@ -83,7 +106,11 @@ public class PropertyColumn<T> extends AbstractColumn<T>
 	 */
 	public final String getValue(T object)
 	{
-		return this.renderer.getText(object);
+		if (getField()!=null){
+			return this.renderer.getText(object,getField());
+		}else{
+			return this.renderer.getText(object);
+		}
 	}
 
 }
